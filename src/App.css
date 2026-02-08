@@ -59,7 +59,7 @@ main, #root > div:first-child {
     flex: 1 0 auto;
 }
 
-/* 2. NAVBAR DESKTOP (PRESERVADA) */
+/* 2. NAVBAR DESKTOP */
 #barrasup {
     position: sticky;
     top: 20px;
@@ -72,7 +72,6 @@ main, #root > div:first-child {
     border-radius: 100px;
     padding: 0.6rem 2.5rem;
     z-index: 1000;
-    /* Animação suave de entrada para a nav */
     animation: fadeInDown 0.8s ease-out;
 }
 
@@ -96,6 +95,11 @@ main, #root > div:first-child {
     text-shadow: 0 0 10px var(--accent-glow);
 }
 
+/* ESCONDER NAV MOBILE POR PADRÃO (DESKTOP) */
+#rodanav {
+    display: none;
+}
+
 /* 3. CARDS COM ANIMAÇÃO DE REVELAÇÃO */
 #cabelho, #sobre, .cont {
     margin: 40px auto;
@@ -108,13 +112,10 @@ main, #root > div:first-child {
     text-align: center;
     width: 90%;
     max-width: 800px;
-    
-    /* Animação de Surgimento */
     animation: slideUpReveal 0.8s cubic-bezier(0.2, 1, 0.3, 1) backwards;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Delay para efeito cascata nas seções */
 .cont:nth-of-type(1) { animation-delay: 0.1s; }
 .cont:nth-of-type(2) { animation-delay: 0.2s; }
 
@@ -161,7 +162,7 @@ main, #root > div:first-child {
     width: 100%;
 }
 
-/* 6. ADAPTAÇÃO MOBILE (PRESERVADA) */
+/* 6. ADAPTAÇÃO MOBILE */
 @media (max-width: 768px) {
     #barrasup { display: none; }
 
@@ -182,7 +183,6 @@ main, #root > div:first-child {
         border: 1px solid var(--glass-border);
         z-index: 2000;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        /* Entrada suave da nav mobile */
         animation: fadeInUp 0.8s ease-out;
     }
 
@@ -207,10 +207,9 @@ main, #root > div:first-child {
     }
 }
 
-/* GRID DE HABILIDADES */
+/* 7. GRID DE HABILIDADES */
 .habilidades-grid {
     display: grid;
-    /* Cria colunas responsivas que se ajustam sozinhas */
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 20px;
     padding: 20px 0;
@@ -230,9 +229,8 @@ main, #root > div:first-child {
     animation: reveal 0.5s ease backwards;
 }
 
-/* Estilo para as imagens DENTRO do skill-card (sobrescreve o estilo geral de imagens) */
 .skill-card img {
-    width: 45px !important; /* Tamanho fixo para os ícones não crescerem */
+    width: 45px !important;
     height: 45px !important;
     margin: 0 !important;
     box-shadow: none !important;
@@ -248,7 +246,44 @@ main, #root > div:first-child {
     color: #bbb;
 }
 
-/* Efeito Hover no Card de Skill */
+/* 8. CODE DISPLAY */
+.code-display {
+    background: #05070a;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    border: 1px solid var(--glass-border);
+    margin: 20px 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: var(--accent);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+.code-display pre {
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+.pagina-boton {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--glass);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.pagina-boton:hover {
+    background: var(--accent);
+    color: #000;
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
 .skill-card:hover {
     background: rgba(79, 193, 233, 0.1);
     border-color: var(--accent);
@@ -260,7 +295,6 @@ main, #root > div:first-child {
     filter: drop-shadow(0 0 8px var(--accent-glow));
 }
 
-/* Estilo para "Próximos Estudos" (opcional: deixa os ícones pb até o hover) */
 .skill-card.learning img {
     filter: grayscale(1) opacity(0.5);
 }
@@ -269,10 +303,10 @@ main, #root > div:first-child {
     filter: grayscale(0) opacity(1);
 }
 
-/* Ajuste para telas muito pequenas */
+/* 9. ADAPTAÇÃO TELAS MUITO PEQUENAS */
 @media (max-width: 480px) {
     .habilidades-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 colunas em celulares pequenos */
+        grid-template-columns: repeat(3, 1fr);
         gap: 10px;
     }
     
@@ -281,7 +315,7 @@ main, #root > div:first-child {
     }
 }
 
-/* KEYFRAMES DAS ANIMAÇÕES */
+/* 10. KEYFRAMES */
 @keyframes fadeInDown {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -295,4 +329,9 @@ main, #root > div:first-child {
 @keyframes slideUpReveal {
     from { opacity: 0; transform: translateY(40px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes reveal {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
