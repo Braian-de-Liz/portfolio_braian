@@ -1,0 +1,311 @@
+:root {
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --accent: #4FC1E9;
+    --text-main: #e0e0e0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: radial-gradient(circle at top right, #1a2a3a, #0a0f14);
+    background-attachment: fixed;
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Fundo Animado mais sutil */
+#fundo-animado {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+#fundo-animado span {
+    position: absolute;
+    animation: flutuar 25s linear infinite;
+    filter: blur(2px);
+    opacity: 0.15;
+}
+
+@keyframes flutuar {
+    0% { transform: translateY(110vh) rotate(0deg); }
+    100% { transform: translateY(-20vh) rotate(360deg); }
+}
+
+/* Navbar Moderna (Floating Glass) */
+#barrasup {
+    position: sticky;
+    top: 15px;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px; /* Mais moderno/arredondado */
+    padding: 0.8rem 2rem;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(79, 193, 233, 0.4);
+}
+
+/* Cards com Glassmorphism Realista */
+#cabelho, #sobre, .cont {
+    margin: 40px auto;
+    padding: 40px;
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+}
+
+/* Hero Section */
+.titulo {
+    font-size: 3rem;
+    letter-spacing: -1px;
+    background: linear-gradient(to right, #fff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitulo {
+    color: #888;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+}
+
+/* Avatar Section */
+.eu img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 24px;
+    border: 2px solid var(--glass-border);
+    transition: 0.5s ease;
+}
+
+.eu img:hover {
+    transform: scale(1.05);
+    border-color: var(--accent);
+}
+
+/* Botões modernos */
+.pagina-boton {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: 12px 24px;
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pagina-boton:hover {
+    background: var(--accent);
+    color: #000;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(79, 193, 233, 0.3);
+}
+
+/* Rodapé Mobile */
+@media (max-width: 768px) {
+    #barrasup { display: none; }
+    
+    #rodanav {
+        display: flex;
+        justify-content: space-around;
+        position: fixed;
+        bottom: 20px;
+        left: 5%;
+        width: 90%;
+        background: rgba(15, 20, 25, 0.8);
+        backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 15px;
+        border: 1px solid var(--glass-border);
+    }
+
+    #sobre { max-width: 90%; }
+}
+
+/* Animação suave de entrada */
+[data-anime] {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#fot {
+    /* Glassmorphism sutil */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    
+    padding: 60px 20px;
+    margin-top: 100px; /* Espaço para não grudar no conteúdo acima */
+    text-align: center;
+    color: #888; /* Texto mais discreto */
+    position: relative;
+    width: 100%;
+    height: 10%;
+}
+
+/* Container interno para organizar os links */
+.footer-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Estilo dos Links/Redes Sociais */
+#fot a {
+    color: var(--accent, #4FC1E9);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 8px 15px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+#fot a:hover {
+    color: #fff;
+    background: rgba(79, 193, 233, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Texto de Copyright */
+#fot p {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
+
+/* Ajuste para o seu "rodanav" (o menu mobile que você criou) */
+@media (max-width: 768px) {
+    #fot {
+        padding-bottom: 100px; /* Espaço extra para não ficar atrás da barra mobile */
+    }
+}
+
+.habilidades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+/* Container que envolve cada item de formação */
+.exibir-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05); /* Efeito Glass */
+    border-radius: 15px;
+}
+
+/* Estilização das imagens dos certificados */
+.exibir-form img {
+    width: 100%;
+    max-width: 500px; /* Limita o tamanho horizontal */
+    height: auto;     /* Mantém a proporção */
+    border-radius: 10px;
+    margin: 15px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.exibir-form img:hover {
+    transform: scale(1.02); /* Leve zoom ao passar o mouse */
+}
+
+.skill-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.skill-card img {
+    width: 50px;
+    height: 50px;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+}
+
+.skill-card span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #eee;
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+    background: rgba(79, 193, 233, 0.1);
+    border-color: #4FC1E9;
+}
+
+.skill-card.learning {
+    opacity: 0.7;
+    border-style: dashed;
+}
