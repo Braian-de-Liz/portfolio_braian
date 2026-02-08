@@ -1,4 +1,3 @@
-
 function Habilidades() {
     const stackAtual = [
         { name: "TypeScript", icon: "typescript-plain" },
@@ -30,7 +29,7 @@ function Habilidades() {
             <main>
                 <section className="cont">
                     <div className="titulo">
-                        <h2>🛠️ Caixa de Ferramentas (Atual)</h2>
+                        <h2>Caixa de Ferramentas (Atual)</h2>
                     </div>
                     <div className="habilidades-grid">
                         {stackAtual.map((skill) => (
@@ -47,7 +46,7 @@ function Habilidades() {
 
                 <section className="cont">
                     <div className="titulo">
-                        <h2>📚 Próximos Estudos</h2>
+                        <h2>Próximos Estudos</h2>
                     </div>
                     <div className="habilidades-grid">
                         {proximosEstudos.map((skill) => (

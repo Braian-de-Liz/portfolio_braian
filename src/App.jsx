@@ -16,7 +16,7 @@ function Home() {
             <main>
                 <section id="sobre">
                     <div className="eu">
-                        <img src="/ASSETS/imagens/Braian-Terno.jpg" alt="Braian" />
+                        <img src="/ASSETS/imagens/Braian-Terno.jpg" alt="Braian" className='imge'/>
                         <div>
                             <h2 className="subtitulo">Sobre Mim</h2>
                             <p>Eu sou Braian de Liz da Silva, estudante da Escola SESI de Referência Joinville...</p>
