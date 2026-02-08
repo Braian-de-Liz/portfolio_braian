@@ -24,7 +24,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Fundo Animado mais sutil */
+/* Fundo Animado */
 #fundo-animado {
     position: fixed;
     inset: 0;
@@ -44,7 +44,7 @@ body {
     100% { transform: translateY(-20vh) rotate(360deg); }
 }
 
-/* Navbar Moderna (Floating Glass) */
+/* Navbar Moderna */
 #barrasup {
     position: sticky;
     top: 15px;
@@ -57,7 +57,7 @@ body {
     -webkit-backdrop-filter: blur(12px);
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--glass-border);
-    border-radius: 50px; /* Mais moderno/arredondado */
+    border-radius: 50px;
     padding: 0.8rem 2rem;
     z-index: 1000;
     transition: all 0.3s ease;
@@ -82,7 +82,7 @@ body {
     text-shadow: 0 0 10px rgba(79, 193, 233, 0.4);
 }
 
-/* Cards com Glassmorphism Realista */
+/* Cards com Glassmorphism */
 #cabelho, #sobre, .cont {
     margin: 40px auto;
     padding: 40px;
@@ -106,15 +106,7 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-.subtitulo {
-    color: #888;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 3px;
-}
-
-/* Avatar Section */
+/* Avatar */
 .eu img {
     width: 140px;
     height: 140px;
@@ -124,13 +116,9 @@ body {
     transition: 0.5s ease;
 }
 
-.eu img:hover {
-    transform: scale(1.05);
-    border-color: var(--accent);
-}
-
-/* Botões modernos */
+/* Botões */
 .pagina-boton {
+    display: inline-block; /* Garante que padding funcione bem */
     background: var(--glass);
     border: 1px solid var(--glass-border);
     padding: 12px 24px;
@@ -141,171 +129,97 @@ body {
     transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.pagina-boton:hover {
-    background: var(--accent);
-    color: #000;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(79, 193, 233, 0.3);
-}
-
-/* Rodapé Mobile */
-@media (max-width: 768px) {
-    #barrasup { display: none; }
-    
-    #rodanav {
-        display: flex;
-        justify-content: space-around;
-        position: fixed;
-        bottom: 20px;
-        left: 5%;
-        width: 90%;
-        background: rgba(15, 20, 25, 0.8);
-        backdrop-filter: blur(15px);
-        border-radius: 25px;
-        padding: 15px;
-        border: 1px solid var(--glass-border);
-    }
-
-    #sobre { max-width: 90%; }
-}
-
-/* Animação suave de entrada */
-[data-anime] {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.8s forwards;
-}
-
-@keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* RODAPÉ (Corrigido para não sumir e respeitar o design) */
 #fot {
-    /* Glassmorphism sutil */
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    
-    padding: 60px 20px;
-    margin-top: 100px; /* Espaço para não grudar no conteúdo acima */
+    border-top: 1px solid var(--glass-border);
+    padding: 40px 20px;
+    margin-top: 80px;
     text-align: center;
-    color: #888; /* Texto mais discreto */
-    position: relative;
+    color: #888;
     width: 100%;
-    height: 10%;
 }
 
-/* Container interno para organizar os links */
 .footer-content {
     max-width: 1000px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     align-items: center;
 }
 
-/* Estilo dos Links/Redes Sociais */
 #fot a {
-    color: var(--accent, #4FC1E9);
+    color: var(--accent);
     text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    padding: 8px 15px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.02);
+    transition: 0.3s;
 }
 
-#fot a:hover {
-    color: #fff;
-    background: rgba(79, 193, 233, 0.2);
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Texto de Copyright */
-#fot p {
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    margin-top: 20px;
-}
-
-/* Ajuste para o seu "rodanav" (o menu mobile que você criou) */
-@media (max-width: 768px) {
-    #fot {
-        padding-bottom: 100px; /* Espaço extra para não ficar atrás da barra mobile */
-    }
-}
-
+/* Habilidades Grid */
 .habilidades-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 20px;
-    padding: 30px;
-}
-
-/* Container que envolve cada item de formação */
-.exibir-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 40px;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.05); /* Efeito Glass */
-    border-radius: 15px;
-}
-
-/* Estilização das imagens dos certificados */
-.exibir-form img {
-    width: 100%;
-    max-width: 500px; /* Limita o tamanho horizontal */
-    height: auto;     /* Mantém a proporção */
-    border-radius: 10px;
-    margin: 15px 0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.exibir-form img:hover {
-    transform: scale(1.02); /* Leve zoom ao passar o mouse */
 }
 
 .skill-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
     border-radius: 12px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    transition: all 0.3s ease;
 }
 
-.skill-card img {
-    width: 50px;
-    height: 50px;
-    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
-}
+/* --- ADAPTAÇÕES PARA CELULAR (Media Queries) --- */
 
-.skill-card span {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #eee;
-}
+@media (max-width: 768px) {
+    /* Navbar Superior */
+    #barrasup { 
+        display: none; 
+    }
 
-.skill-card:hover {
-    transform: translateY(-5px);
-    background: rgba(79, 193, 233, 0.1);
-    border-color: #4FC1E9;
-}
+    /* Menu Mobile Inferior (Respeitando seu estilo original) */
+    #rodanav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        bottom: 20px;
+        left: 5%;
+        width: 90%;
+        height: 60px; /* Definindo altura fixa */
+        background: rgba(15, 20, 25, 0.9);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 0 15px;
+        border: 1px solid var(--glass-border);
+        z-index: 2000;
+    }
 
-.skill-card.learning {
-    opacity: 0.7;
-    border-style: dashed;
+    /* Ajuste de tamanhos para telas pequenas */
+    .titulo {
+        font-size: 2.2rem;
+    }
+
+    #cabelho, #sobre, .cont {
+        padding: 25px 15px;
+        margin: 20px auto;
+    }
+
+    /* Garante que o footer não fique escondido pela nav mobile */
+    #fot {
+        padding-bottom: 110px; 
+    }
+
+    /* Certificados e Imagens no Celular */
+    .exibir-form img {
+        max-width: 100%;
+    }
 }
