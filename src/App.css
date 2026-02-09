@@ -14,12 +14,13 @@
 }
 
 /* 1. LAYOUT E FUNDO DINÂMICO */
-html, body {
+html,
+body {
     height: 100%;
 }
 
 body {
-    background: 
+    background:
         radial-gradient(at 0% 0%, rgba(79, 193, 233, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 0%, rgba(26, 42, 58, 1) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(79, 193, 233, 0.05) 0px, transparent 50%),
@@ -51,11 +52,17 @@ body::before {
 }
 
 @keyframes pulsar {
-    from { transform: translate(0, 0) scale(1); }
-    to { transform: translate(100px, 50px) scale(1.2); }
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(100px, 50px) scale(1.2);
+    }
 }
 
-main, #root > div:first-child {
+main,
+#root>div:first-child {
     flex: 1 0 auto;
 }
 
@@ -101,7 +108,9 @@ main, #root > div:first-child {
 }
 
 /* 3. CARDS COM ANIMAÇÃO DE REVELAÇÃO */
-#cabelho, #sobre, .cont {
+#cabelho,
+#sobre,
+.cont {
     margin: 40px auto;
     padding: 40px;
     background: var(--glass);
@@ -116,13 +125,20 @@ main, #root > div:first-child {
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.cont:nth-of-type(1) { animation-delay: 0.1s; }
-.cont:nth-of-type(2) { animation-delay: 0.2s; }
+.cont:nth-of-type(1) {
+    animation-delay: 0.1s;
+}
 
-#cabelho:hover, #sobre:hover, .cont:hover {
+.cont:nth-of-type(2) {
+    animation-delay: 0.2s;
+}
+
+#cabelho:hover,
+#sobre:hover,
+.cont:hover {
     transform: translateY(-5px);
     border-color: rgba(79, 193, 233, 0.3);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .titulo {
@@ -134,7 +150,8 @@ main, #root > div:first-child {
 }
 
 /* 4. IMAGENS COM HOVER MODERNO */
-.imge, .exibir-form img {
+.imge,
+.exibir-form img {
     width: 100%;
     max-width: 550px;
     height: auto;
@@ -145,7 +162,8 @@ main, #root > div:first-child {
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.imge:hover, .exibir-form img:hover {
+.imge:hover,
+.exibir-form img:hover {
     transform: scale(1.02) rotate(0.5deg);
     border-color: var(--accent);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-glow);
@@ -164,7 +182,9 @@ main, #root > div:first-child {
 
 /* 6. ADAPTAÇÃO MOBILE */
 @media (max-width: 768px) {
-    #barrasup { display: none; }
+    #barrasup {
+        display: none;
+    }
 
     #rodanav {
         display: flex;
@@ -177,8 +197,8 @@ main, #root > div:first-child {
         width: 90%;
         height: 65px;
         background: rgba(15, 22, 28, 0.9);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-radius: 20px;
         border: 1px solid var(--glass-border);
         z-index: 2000;
@@ -196,11 +216,18 @@ main, #root > div:first-child {
         transition: 0.3s;
     }
 
-    #rodanav a:active { transform: scale(0.9); color: var(--accent); }
+    #rodanav a:active {
+        transform: scale(0.9);
+        color: var(--accent);
+    }
 
-    #fot { padding-bottom: 100px; }
+    #fot {
+        padding-bottom: 100px;
+    }
 
-    #cabelho, #sobre, .cont {
+    #cabelho,
+    #sobre,
+    .cont {
         width: 92%;
         padding: 30px 15px;
         margin: 20px auto;
@@ -236,7 +263,7 @@ main, #root > div:first-child {
     box-shadow: none !important;
     border: none !important;
     border-radius: 0 !important;
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
     transition: transform 0.3s ease;
 }
 
@@ -257,7 +284,7 @@ main, #root > div:first-child {
     font-family: 'Fira Code', monospace;
     font-size: 0.9rem;
     color: var(--accent);
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .code-display pre {
@@ -309,7 +336,7 @@ main, #root > div:first-child {
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
     }
-    
+
     .skill-card span {
         font-size: 0.7rem;
     }
@@ -317,21 +344,49 @@ main, #root > div:first-child {
 
 /* 10. KEYFRAMES */
 @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translate(-50%, 20px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 
 @keyframes slideUpReveal {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes reveal {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
