@@ -41,8 +41,8 @@ const schema = z.object({
                     </div>
 
                     <div className="exibir">
-                        <div><img src="URL_DA_IMG" alt="Preview 1" className="imge" /></div>
-                        <div><img src="URL_DA_IMG" alt="Preview 2" className="imge" /></div>
+                        <div><img loading="lazy" src="URL_DA_IMG" alt="Preview 1" className="imge" /></div>
+                        <div><img loading="lazy" src="URL_DA_IMG" alt="Preview 2" className="imge" /></div>
                     </div>
                 </section>
 
@@ -57,11 +57,11 @@ const schema = z.object({
 
                     <div className="exibir">
                         <div className="exibir-form">
-                            <img src="URL_DA_IMG" alt="Login Escuro" className="imge" />
+                            <img loading="lazy" src="URL_DA_IMG" alt="Login Escuro" className="imge" />
                             <h4>Login da página</h4>
                         </div>
                         <div className="exibir-form">
-                            <img src="URL_DA_IMG" alt="Login Claro" className="imge" />
+                            <img loading="lazy" src="URL_DA_IMG" alt="Login Claro" className="imge" />
                             <h4>Modo Claro do login</h4>
                         </div>
                     </div>

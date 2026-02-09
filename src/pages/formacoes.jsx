@@ -14,7 +14,7 @@ function Formacoes() {
                     <div className="o">
                         <div className="exibir-form">
                             <h3>Lógica de Desenvolvimento de Sistemas</h3>
-                            <img src="/ASSETS/imagens/certificado-lógicadeDS.jpg" alt="Certificado Lógica" />
+                            <img loading="lazy" src="/ASSETS/imagens/certificado-lógicadeDS.jpg" alt="Certificado Lógica" />
                             <h4>Base fundamental em algoritmos e estruturação de dados.</h4>
                         </div>
                     </div>
@@ -27,7 +27,7 @@ function Formacoes() {
                     <div className="o">
                         <div className="exibir-form">
                             <h3>Voluntariado: Torneio de Robótica FLL</h3>
-                            <img src="/ASSETS/imagens/certificação voluntária.jpg" alt="Voluntário Robótica" />
+                            <img loading="lazy" src="/ASSETS/imagens/certificação voluntária.jpg" alt="Voluntário Robótica" />
                             <h4>Atuação na organização e guia de equipes (40 horas).</h4>
                         </div>
 
@@ -35,7 +35,7 @@ function Formacoes() {
 
                         <div className="exibir-form">
                             <h3>Olimpíada Nacional de História (ONHB)</h3>
-                            <img src="/ASSETS/imagens/ONHB-SITE.png" alt="ONHB" />
+                            <img loading="lazy" src="/ASSETS/imagens/ONHB-SITE.png" alt="ONHB" />
                             <h4>Finalista até a 4ª fase (Nível Nacional).</h4>
                         </div>
                     </div>
