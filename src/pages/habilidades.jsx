@@ -17,6 +17,7 @@ function Habilidades() {
         { name: "React", icon: "react/react-original" },
         { name: "Nest.js", icon: "nestjs/nestjs-original" },
         { name: "Python", icon: "python/python-plain" },
+        { name: "FastAPI", icon: "fastapi/fastapi-original" }, 
         { name: "C#", icon: "csharp/csharp-plain" },
     ];
 
