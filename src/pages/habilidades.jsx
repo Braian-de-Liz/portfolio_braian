@@ -1,9 +1,10 @@
 function Habilidades() {
     const stackAtual = [
         { name: "TypeScript", icon: "typescript/typescript-plain" },
-        { name: "Zod", icon: "https://raw.githubusercontent.com/colinhacks/zod/master/logo.svg" }, 
+        { name: "Zod", icon: "https://raw.githubusercontent.com/colinhacks/zod/master/logo.svg" },
         { name: "Fastify", icon: "fastify/fastify-plain" },
         { name: "Node.js", icon: "nodejs/nodejs-plain" },
+        { name: "Bun", icon: "bun/bun-plain" },
         { name: "PostgreSQL", icon: "postgresql/postgresql-plain" },
         { name: "Express", icon: "express/express-original" },
         { name: "MySQL", icon: "mysql/mysql-original" },
@@ -13,11 +14,10 @@ function Habilidades() {
     ];
 
     const proximosEstudos = [
-        { name: "Bun", icon: "bun/bun-plain" },
         { name: "React", icon: "react/react-original" },
         { name: "Nest.js", icon: "nestjs/nestjs-original" },
         { name: "Python", icon: "python/python-plain" },
-        { name: "FastAPI", icon: "fastapi/fastapi-original" }, 
+        { name: "FastAPI", icon: "fastapi/fastapi-original" },
         { name: "C#", icon: "csharp/csharp-plain" },
     ];
 
@@ -39,11 +39,11 @@ function Habilidades() {
                     <div className="habilidades-grid">
                         {stackAtual.map((skill) => (
                             <div key={skill.name} className="skill-card">
-                                <img 
-                                    src={skill.icon.startsWith('http') 
-                                        ? skill.icon 
-                                        : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`} 
-                                    alt={skill.name} 
+                                <img
+                                    src={skill.icon.startsWith('http')
+                                        ? skill.icon
+                                        : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`}
+                                    alt={skill.name}
                                 />
                                 <span>{skill.name}</span>
                             </div>
@@ -61,11 +61,11 @@ function Habilidades() {
                     <div className="habilidades-grid">
                         {proximosEstudos.map((skill) => (
                             <div key={skill.name} className="skill-card learning">
-                                <img 
-                                    src={skill.icon.startsWith('http') 
-                                        ? skill.icon 
-                                        : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`} 
-                                    alt={skill.name} 
+                                <img
+                                    src={skill.icon.startsWith('http')
+                                        ? skill.icon
+                                        : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`}
+                                    alt={skill.name}
                                 />
                                 <span>{skill.name}</span>
                             </div>
