@@ -64,6 +64,10 @@ body::before {
 main,
 #root>div:first-child {
     flex: 1 0 auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 /* 2. NAVBAR DESKTOP */
@@ -229,8 +233,32 @@ main,
     #sobre,
     .cont {
         width: 92%;
-        padding: 30px 15px;
-        margin: 20px auto;
+        max-width: 92%;
+        padding: 20px 12px;
+        margin: 12px auto;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+        left: 0;
+        position: relative;
+    }
+
+    .habilidades-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .skill-card {
+        padding: 15px 8px;
+    }
+
+    .skill-card img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .skill-card span {
+        font-size: 0.75rem;
     }
 }
 
@@ -241,6 +269,7 @@ main,
     gap: 20px;
     padding: 20px 0;
     margin-top: 20px;
+    overflow: visible;
 }
 
 .skill-card {
@@ -254,6 +283,7 @@ main,
     gap: 12px;
     transition: all 0.3s ease;
     animation: reveal 0.5s ease backwards;
+    position: relative;
 }
 
 .skill-card img {
@@ -317,6 +347,35 @@ main,
     transform: translateY(-5px);
 }
 
+.skill-card::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 100;
+    pointer-events: none;
+    border: 1px solid var(--accent);
+    width: 250px;
+    white-space: normal;
+    text-align: center;
+}
+
+.skill-card:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: -50px;
+}
+
 .skill-card:hover img {
     transform: scale(1.1);
     filter: drop-shadow(0 0 8px var(--accent-glow));
@@ -334,11 +393,38 @@ main,
 @media (max-width: 480px) {
     .habilidades-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 8px;
+        padding: 10px 0;
+    }
+
+    .skill-card {
+        padding: 12px 6px;
+        border-radius: 12px;
+    }
+
+    .skill-card img {
+        width: 35px !important;
+        height: 35px !important;
     }
 
     .skill-card span {
+        font-size: 0.65rem;
+    }
+
+    .skill-card::after {
+        width: 180px;
         font-size: 0.7rem;
+        padding: 8px 10px;
+    }
+
+    .skill-card:hover::after {
+        bottom: -45px;
+    }
+}
+
+@media (max-width: 360px) {
+    .habilidades-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
