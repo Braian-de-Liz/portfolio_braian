@@ -45,7 +45,7 @@ function Habilidades() {
     const proximosEstudos = [
         { name: "React", icon: "react/react-original" },
         { name: "Nest.js", icon: "nestjs/nestjs-original" },
-        { name: "Python", icon: "python/python-plain" },
+        { name: "Python", icon: "/ASSETS/imagens/python.png" },
         { name: "FastAPI", icon: "fastapi/fastapi-original" },
         { name: "C#", icon: "csharp/csharp-plain" },
         { name: "Elysia", icon: "https://avatars.githubusercontent.com/u/119793569?s=200&v=4" },
@@ -75,7 +75,7 @@ function Habilidades() {
                         {stackAtual.map((skill) => (
                             <div key={skill.name} className="skill-card" title={descricoes[skill.name] || ''}>
                                 <img
-                                    src={skill.icon.startsWith('http')
+                                    src={skill.icon.startsWith('http') || skill.icon.startsWith('/')
                                         ? skill.icon
                                         : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`}
                                     alt={skill.name}
@@ -97,7 +97,7 @@ function Habilidades() {
                         {proximosEstudos.map((skill) => (
                             <div key={skill.name} className="skill-card learning" title={descricoes[skill.name] || ''}>
                                 <img
-                                    src={skill.icon.startsWith('http')
+                                    src={skill.icon.startsWith('http') || skill.icon.startsWith('/')
                                         ? skill.icon
                                         : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`}
                                     alt={skill.name}
