@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
+import { HouseIcon, CodeIcon, BookOpenIcon, ZapIcon } from './Icons';
 
 function Nav() {
     return (
@@ -12,22 +13,21 @@ function Nav() {
                 </ul>
             </nav>
 
-   
             <nav id="rodanav">
                 <Link to="/">
-                    <span>🏠</span>
+                    <HouseIcon />
                     <span>Início</span>
                 </Link>
                 <Link to="/projetos">
-                    <span>💻</span>
+                    <CodeIcon />
                     <span>Projetos</span>
                 </Link>
                 <Link to="/formacoes">
-                    <span>🎓</span>
+                    <BookOpenIcon />
                     <span>Formações</span>
                 </Link>
                 <Link to="/Habilidades">
-                    <span>⚡</span>
+                    <ZapIcon />
                     <span>Skills</span>
                 </Link>
             </nav>
