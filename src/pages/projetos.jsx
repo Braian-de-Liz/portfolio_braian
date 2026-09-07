@@ -180,10 +180,7 @@ const schema = z.object({
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-plain.svg" alt="PostgreSQL" />
                         <span>PostgreSQL</span>
                     </div>
-                    <div className="skill-card" title="Linguagem compilada com concorrência nativa para microsserviços">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go" />
-                        <span>Go</span>
-                    </div>
+
                     <div className="skill-card" title="Biblioteca para interfaces de usuário component-based">
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" />
                         <span>React</span>
@@ -192,10 +189,7 @@ const schema = z.object({
                         <img src="https://cdn.simpleicons.org/supabase" alt="Supabase" />
                         <span>Supabase</span>
                     </div>
-                    <div className="skill-card" title="Containerização para ambientes consistentes de execução">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain.svg" alt="Docker" />
-                        <span>Docker</span>
-                    </div>
+
                 </div>
 
                 <ArchitectureDiagram />

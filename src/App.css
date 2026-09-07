@@ -670,6 +670,14 @@ main,
     color: #777;
 }
 
+.sobre-formacao-desc {
+    font-size: 0.82rem;
+    color: #999;
+    line-height: 1.5;
+    margin-top: 6px;
+    max-width: 480px;
+}
+
 /* DOCUMENTOS */
 .sobre-docs {
     text-align: center;

@@ -147,24 +147,14 @@ function Sobre() {
                 <div className="sobre-formacao-items" ref={formacaoItemsRef}>
                     <div className="sobre-formacao-item">
                         <div className="sobre-formacao-info">
-                            <h3>Técnico em Desenvolvimento de Sistemas</h3>
-                            <span className="sobre-formacao-local">Escola SESI de Referência Joinville</span>
-                        </div>
-                        <a
-                            href="/ASSETS/documentos/histórico escolar braian de liz (2).pdf"
-                            download="Historico_Braian_de_Liz.pdf"
-                            className="pagina-boton"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Certificado
-                        </a>
-                    </div>
-
-                    <div className="sobre-formacao-item">
-                        <div className="sobre-formacao-info">
-                            <h3>Ensino Médio</h3>
-                            <span className="sobre-formacao-local">Escola SESI de Referência Joinville</span>
+                            <h3>Ensino Médio Integrado – Técnico em Desenvolvimento de Sistemas</h3>
+                            <span className="sobre-formacao-local">SESI/SC - Joinville Moinho · 2023 – 2025</span>
+                            <p className="sobre-formacao-desc">
+                                Formação técnica integrada ao ensino médio, em parceria com o SENAI/SC
+                                (Lei 13.415/17). Grade com foco em desenvolvimento de software,
+                                banco de dados, modelagem de sistemas, IoT e indústria 4.0.
+                                Conceitos majoritariamente A, com alta frequência em todos os anos.
+                            </p>
                         </div>
                         <a
                             href="/ASSETS/documentos/histórico escolar braian de liz (2).pdf"
