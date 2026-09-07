@@ -83,9 +83,9 @@ function DetalhesTypeMarks() {
                 <ul>
                     <li><strong>Bun é +45-52% mais rápido</strong> que Node.js para validadores compilados (AJV, Typia, Schema-Shield, Zod)</li>
                     <li><strong>Ordem de performance idêntica</strong> em ambos runtimes: AJV &gt; Typia &gt; Schema-Shield &gt; Zod &gt; Yup</li>
-                    <li><strong>Node.js tem curva de warm-up:</strong> +10-23% entre rodada 1 e 5; Bun opera no pico desde a rodada 1 — crítico para serverless</li>
+                    <li><strong>Node.js tem curva de warm-up:</strong> +10-23% entre rodada 1 e 5; Bun opera no pico desde a rodada 1   crítico para serverless</li>
                     <li><strong>Validação custa ~61%</strong> do throughput bruto (58k req/s rota vazia vs 22k com schema complexo)</li>
-                    <li><strong>AJV vence até no Bun</strong> apesar de code generation dinâmico — JSC JIT lidou bem após compilação</li>
+                    <li><strong>AJV vence até no Bun</strong> apesar de code generation dinâmico   JSC JIT lidou bem após compilação</li>
                 </ul>
             </div>
 

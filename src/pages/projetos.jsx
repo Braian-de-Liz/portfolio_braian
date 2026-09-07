@@ -86,7 +86,7 @@ const schema = z.object({
                 <div ref={tchuuContentRef}>
                     <h2 className="titulo">Tchuu-Tchuu</h2>
                     <p>
-                        Plataforma de monitoramento de trens em tempo real — projeto Full Stack
+                        Plataforma de monitoramento de trens em tempo real   projeto Full Stack
                         com Node.js + Fastify no back-end e HTML + CSS + JS no front-end.
                     </p>
                 </div>
@@ -146,9 +146,9 @@ const schema = z.object({
             {/* ─── AMOTIF ─── */}
             <section className="cont destaque" ref={amotifRef}>
                 <div ref={amotifContentRef}>
-                    <h2 className="titulo">AMOTIF — Colaboração Musical Assíncrona</h2>
+                    <h2 className="titulo">AMOTIF   Colaboração Musical Assíncrona</h2>
                     <p style={{ marginBottom: '20px' }}>
-                        Plataforma digital que viabiliza a criação coletiva de obras musicais através da contribuição estruturada de camadas instrumentais independentes — um "Git para músicos".
+                        Plataforma digital que viabiliza a criação coletiva de obras musicais através da contribuição estruturada de camadas instrumentais independentes   um "Git para músicos".
                     </p>
                 </div>
 
@@ -160,7 +160,7 @@ const schema = z.object({
                 </div>
 
                 <div className="habilidades-grid" style={{ marginTop: '20px' }}>
-                    <div className="skill-card" title="Runtime JavaScript all-in-one — mais rápido que Node.js">
+                    <div className="skill-card" title="Runtime JavaScript all-in-one   mais rápido que Node.js">
                         <img src={new URL(`/ASSETS/imagens/bun-logo.svg`, import.meta.url).href} alt="Bun" />
                         <span>Bun</span>
                     </div>
@@ -211,14 +211,14 @@ const schema = z.object({
             {/* ─── TypeMarks ─── */}
             <section className="cont" ref={typemarksRef}>
                 <div ref={typemarksContentRef}>
-                    <h2 className="titulo">TypeMarks — Benchmark de Validação de Schemas</h2>
+                    <h2 className="titulo">TypeMarks   Benchmark de Validação de Schemas</h2>
                     <p style={{ marginBottom: '20px' }}>
                         Benchmarks de alta performance comparando 15 cenários de validação de esquemas combinando runtimes (Bun/Node.js), frameworks (Fastify/Elysia/Hono) e validadores (AJV, TypeBox, Schema-Shield, Zod, Typia). Campeão absoluto: <strong>Hono + AJV no Bun</strong> com <strong>28.534 req/s</strong> e latência média de <strong>2,94ms</strong>.
                     </p>
                 </div>
 
                 <div className="habilidades-grid" style={{ marginTop: '20px' }}>
-                    <div className="skill-card" title="Runtime JavaScript all-in-one — mais rápido que Node.js">
+                    <div className="skill-card" title="Runtime JavaScript all-in-one   mais rápido que Node.js">
                         <img src={new URL(`/ASSETS/imagens/bun-logo.svg`, import.meta.url).href} alt="Bun" />
                         <span>Bun</span>
                     </div>

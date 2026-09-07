@@ -4,7 +4,7 @@ function DetalhesTchuu() {
             <div className="detalhes-secao">
                 <h4>Arquitetura Modular</h4>
                 <p>
-                    Três componentes independentes, cada um com deploy e escala próprios — reflexo de uma arquitetura de microsserviços em miniature.
+                    Três componentes independentes, cada um com deploy e escala próprios   reflexo de uma arquitetura de microsserviços em miniature.
                 </p>
                 <table>
                     <thead>
@@ -49,9 +49,9 @@ function DetalhesTchuu() {
             <div className="detalhes-secao">
                 <h4>Dados do Projeto</h4>
                 <ul>
-                    <li>881 commits — iteração significativa e desenvolvimento contínuo</li>
-                    <li>Frontend Vanilla JS — escolha deliberada para entender fundamentos</li>
-                    <li>Fastify sobre Express — foco em performance desde o início</li>
+                    <li>881 commits   iteração significativa e desenvolvimento contínuo</li>
+                    <li>Frontend Vanilla JS   escolha deliberada para entender fundamentos</li>
+                    <li>Fastify sobre Express   foco em performance desde o início</li>
                     <li>CORS restritivo: apenas o domínio do frontend autorizado</li>
                     <li>Projeto educacional com deploy real em produção</li>
                 </ul>

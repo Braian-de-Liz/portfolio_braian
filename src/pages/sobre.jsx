@@ -24,7 +24,7 @@ function Sobre() {
                 </p>
             </section>
 
-            {/* 01 — PERFIL */}
+            {/* 01   PERFIL */}
             <section className="cont" ref={perfilRef}>
                 <div className="sobre-secao-numero">01</div>
                 <h2 className="titulo">Perfil</h2>
@@ -59,7 +59,7 @@ function Sobre() {
                 </div>
             </section>
 
-            {/* 02 — TRAJETÓRIA */}
+            {/* 02   TRAJETÓRIA */}
             <section className="cont" ref={trajetoriaRef}>
                 <div className="sobre-secao-numero">02</div>
                 <h2 className="titulo">Trajetória</h2>
@@ -85,7 +85,7 @@ function Sobre() {
                         <span className="timeline-ano">2025</span>
                         <div className="timeline-conteudo">
                             <h3>Tchuu-Tchuu</h3>
-                            <p>Plataforma de monitoramento de trens em tempo real — Full Stack com Fastify, WebSocket e PostgreSQL.</p>
+                            <p>Plataforma de monitoramento de trens em tempo real   Full Stack com Fastify, WebSocket e PostgreSQL.</p>
                         </div>
                     </div>
 
@@ -93,7 +93,7 @@ function Sobre() {
                         <span className="timeline-ano">2026</span>
                         <div className="timeline-conteudo">
                             <h3>AMOTIF</h3>
-                            <p>Plataforma de colaboração musical assíncrona — "Git para músicos". Arquitetura Fastify-Native com 40+ endpoints.</p>
+                            <p>Plataforma de colaboração musical assíncrona   "Git para músicos". Arquitetura Fastify-Native com 40+ endpoints.</p>
                         </div>
                     </div>
 
@@ -101,13 +101,13 @@ function Sobre() {
                         <span className="timeline-ano">2026</span>
                         <div className="timeline-conteudo">
                             <h3>TypeMarks</h3>
-                            <p>Benchmark científico comparando 15 cenários de validação de schemas — Bun + Hono + AJV = 28.534 req/s.</p>
+                            <p>Benchmark científico comparando 15 cenários de validação de schemas   Bun + Hono + AJV = 28.534 req/s.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* 03 — COMO EU TRABALHO */}
+            {/* 03   COMO EU TRABALHO */}
             <section className="cont" ref={comoRef}>
                 <div className="sobre-secao-numero">03</div>
                 <h2 className="titulo">Como eu construo</h2>
@@ -116,7 +116,7 @@ function Sobre() {
                     <div className="sobre-abordagem">
                         <h3>Performance</h3>
                         <div className="sobre-abordagem-divider"></div>
-                        <p>Prefiro entender o custo das abstrações. Cada framework tem um preço — eu busco medir antes de escolher.</p>
+                        <p>Prefiro entender o custo das abstrações. Cada framework tem um preço   eu busco medir antes de escolher.</p>
                     </div>
 
                     <div className="sobre-abordagem">
@@ -139,7 +139,7 @@ function Sobre() {
                 </div>
             </section>
 
-            {/* 04 — FORMAÇÃO */}
+            {/* 04   FORMAÇÃO */}
             <section className="cont" ref={formacaoRef}>
                 <div className="sobre-secao-numero">04</div>
                 <h2 className="titulo">Formação</h2>
@@ -179,7 +179,7 @@ function Sobre() {
                 </div>
             </section>
 
-            {/* 05 — EXPERIÊNCIAS */}
+            {/* 05   EXPERIÊNCIAS */}
             <section className="cont" ref={expRef}>
                 <div className="sobre-secao-numero">05</div>
                 <h2 className="titulo">Experiências</h2>
@@ -188,14 +188,14 @@ function Sobre() {
                     <div className="sobre-formacao-item">
                         <div className="sobre-formacao-info">
                             <h3>Voluntariado: Torneio de Robótica FLL</h3>
-                            <span className="sobre-formacao-local">40 horas — organização e guia de equipes</span>
+                            <span className="sobre-formacao-local">40 horas   organização e guia de equipes</span>
                         </div>
                     </div>
 
                     <div className="sobre-formacao-item">
                         <div className="sobre-formacao-info">
                             <h3>Voluntário no SESI LAB</h3>
-                            <span className="sobre-formacao-local">Monitoria em exposições interativas — ciência, tecnologia e arte</span>
+                            <span className="sobre-formacao-local">Monitoria em exposições interativas   ciência, tecnologia e arte</span>
                         </div>
                     </div>
                 </div>

@@ -16,7 +16,7 @@ function Home() {
                 <div className="destaque-grid" ref={projetosCardsRef}>
                     <Link to="/projetos" className="destaque-card">
                         <h3>AMOTIF</h3>
-                        <p>Colaboração musical assíncrona — "Git para músicos". Full stack com Bun, Fastify, React 19 e mixer virtual in-browser.</p>
+                        <p>Colaboração musical assíncrona   "Git para músicos". Full stack com Bun, Fastify, React 19 e mixer virtual in-browser.</p>
                         <span className="destaque-tag">Full Stack</span>
                     </Link>
                     <Link to="/projetos" className="destaque-card">
@@ -26,7 +26,7 @@ function Home() {
                     </Link>
                     <Link to="/projetos" className="destaque-card">
                         <h3>TypeMarks</h3>
-                        <p>Benchmark científico comparando 15 cenários de validação de schemas — Bun + Hono + AJV = 28.534 req/s.</p>
+                        <p>Benchmark científico comparando 15 cenários de validação de schemas   Bun + Hono + AJV = 28.534 req/s.</p>
                         <span className="destaque-tag">Performance</span>
                     </Link>
                 </div>

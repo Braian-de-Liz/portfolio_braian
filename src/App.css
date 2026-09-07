@@ -464,7 +464,7 @@ main,
     margin-bottom: 24px;
 }
 
-/* SOBRE — EDITORIAL */
+/* SOBRE   EDITORIAL */
 .sobre-hero {
     text-align: center;
     padding: 80px 20px 40px;
@@ -956,7 +956,7 @@ main,
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-glow);
 }
 
-/* DETALHES DOS PROJETOS — sempre visíveis */
+/* DETALHES DOS PROJETOS   sempre visíveis */
 .detalhes-arquitetura {
     margin-top: 24px;
     padding-top: 24px;
@@ -1216,7 +1216,7 @@ main,
     color: #bbb;
 }
 
-/* 8. CODE DISPLAY — IDE Style */
+/* 8. CODE DISPLAY   IDE Style */
 .code-display {
     background: #0d1117;
     border-radius: 12px;
