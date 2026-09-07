@@ -66,7 +66,7 @@ function Sobre() {
 
                 <div className="timeline" ref={trajetoriaItemsRef}>
                     <div className="timeline-item">
-                        <span className="timeline-ano">2022</span>
+                        <span className="timeline-ano">2023</span>
                         <div className="timeline-conteudo">
                             <h3>Lógica de Desenvolvimento de Sistemas</h3>
                             <p>Base fundamental em algoritmos e estruturação de dados.</p>
@@ -74,7 +74,7 @@ function Sobre() {
                     </div>
 
                     <div className="timeline-item">
-                        <span className="timeline-ano">2023</span>
+                        <span className="timeline-ano">2024</span>
                         <div className="timeline-conteudo">
                             <h3>Técnico em Desenvolvimento de Sistemas</h3>
                             <p>Curso técnico de 2 anos integrado ao Ensino Médio na Escola SESI de Referência Joinville.</p>
@@ -82,7 +82,7 @@ function Sobre() {
                     </div>
 
                     <div className="timeline-item">
-                        <span className="timeline-ano">2024</span>
+                        <span className="timeline-ano">2025</span>
                         <div className="timeline-conteudo">
                             <h3>Tchuu-Tchuu</h3>
                             <p>Plataforma de monitoramento de trens em tempo real — Full Stack com Fastify, WebSocket e PostgreSQL.</p>
@@ -90,7 +90,7 @@ function Sobre() {
                     </div>
 
                     <div className="timeline-item">
-                        <span className="timeline-ano">2025</span>
+                        <span className="timeline-ano">2026</span>
                         <div className="timeline-conteudo">
                             <h3>AMOTIF</h3>
                             <p>Plataforma de colaboração musical assíncrona — "Git para músicos". Arquitetura Fastify-Native com 40+ endpoints.</p>
@@ -98,7 +98,7 @@ function Sobre() {
                     </div>
 
                     <div className="timeline-item">
-                        <span className="timeline-ano">2025</span>
+                        <span className="timeline-ano">2026</span>
                         <div className="timeline-conteudo">
                             <h3>TypeMarks</h3>
                             <p>Benchmark científico comparando 15 cenários de validação de schemas — Bun + Hono + AJV = 28.534 req/s.</p>
