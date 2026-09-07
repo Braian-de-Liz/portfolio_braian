@@ -8,8 +8,8 @@ function Nav() {
                 <ul className="nav-links">
                     <li><Link to="/">inicio</Link></li>
                     <li><Link to="/projetos">Projetos</Link></li>
-                    <li><Link to="/formacoes">Formações</Link></li>
-                    <li><Link to="/Habilidades">Habilidades</Link></li>
+                    <li><Link to="/sobre">Sobre</Link></li>
+                    <li><Link to="/habilidades">Habilidades</Link></li>
                 </ul>
             </nav>
 
@@ -22,11 +22,11 @@ function Nav() {
                     <CodeIcon />
                     <span>Projetos</span>
                 </Link>
-                <Link to="/formacoes">
+                <Link to="/sobre">
                     <BookOpenIcon />
-                    <span>Formações</span>
+                    <span>Sobre</span>
                 </Link>
-                <Link to="/Habilidades">
+                <Link to="/habilidades">
                     <ZapIcon />
                     <span>Skills</span>
                 </Link>
