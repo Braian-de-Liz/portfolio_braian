@@ -1,4 +1,12 @@
+import { useScrollReveal } from '../animations/useScrollReveal';
+
 function Habilidades() {
+    const headerRef = useScrollReveal({ y: 20 });
+    const atualRef = useScrollReveal({ y: 25 });
+    const atualGridRef = useScrollReveal({ y: 30, scale: 0.98, children: true, stagger: 0.05 });
+    const proximosRef = useScrollReveal({ y: 25 });
+    const proximosGridRef = useScrollReveal({ y: 30, scale: 0.98, children: true, stagger: 0.05 });
+
     const descricoes = {
         "TypeScript": "Superset do JavaScript que adiciona tipagem estática, aumentando a segurança e produtividade no desenvolvimento.",
         "Zod": "Biblioteca de validação de schemas TypeScript-first que permite criar validações declarativas e type-safe.",
@@ -58,20 +66,20 @@ function Habilidades() {
 
     return (
         <>
-            <header id="cabelho">
+            <header id="cabelho" ref={headerRef}>
                 <h1 className="titulo">Habilidades Técnicas</h1>
                 <h3 className="subtitulo">Minha Stack de Desenvolvimento</h3>
             </header>
 
             <main>
-                <section className="cont">
+                <section className="cont" ref={atualRef}>
                     <div className="titulo">
                         <h2>Caixa de Ferramentas (Atual)</h2>
                         <p style={{ color: '#888', fontSize: '0.9rem', marginTop: '10px' }}>
                             Tecnologias que utilizo diariamente para construir aplicações robustas, escaláveis e focadas em performance no ecossistema Backend.
                         </p>
                     </div>
-                    <div className="habilidades-grid">
+                    <div className="habilidades-grid" ref={atualGridRef}>
                         {stackAtual.map((skill) => (
                             <div key={skill.name} className="skill-card" title={descricoes[skill.name] || ''}>
                                 <img
@@ -86,14 +94,14 @@ function Habilidades() {
                     </div>
                 </section>
 
-                <section className="cont">
+                <section className="cont" ref={proximosRef}>
                     <div className="titulo">
                         <h2>Próximos Estudos</h2>
                         <p style={{ color: '#888', fontSize: '0.9rem', marginTop: '10px' }}>
                             Minha jornada de aprendizado contínuo. Atualmente focado em expandir meu conhecimento para o Frontend moderno e arquiteturas de alto nível.
                         </p>
                     </div>
-                    <div className="habilidades-grid">
+                    <div className="habilidades-grid" ref={proximosGridRef}>
                         {proximosEstudos.map((skill) => (
                             <div key={skill.name} className="skill-card learning" title={descricoes[skill.name] || ''}>
                                 <img

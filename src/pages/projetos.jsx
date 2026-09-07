@@ -3,13 +3,26 @@ import { DetalhesTchuu } from '../components/details/DetalhesTchuu';
 import { DetalhesAmotif } from '../components/details/DetalhesAmotif';
 import { DetalhesTypeMarks } from '../components/details/DetalhesTypeMarks';
 import { ArchitectureDiagram } from '../components/ArchitectureDiagram';
+import { useScrollReveal } from '../animations/useScrollReveal';
 
 function Projetos() {
+    const zbrRef = useScrollReveal({ y: 30 });
+    const zbrContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
+
+    const tchuuRef = useScrollReveal({ y: 30 });
+    const tchuuContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
+
+    const amotifRef = useScrollReveal({ y: 30 });
+    const amotifContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
+
+    const typemarksRef = useScrollReveal({ y: 30 });
+    const typemarksContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
+
     return (
         <main>
             {/* ─── br_standards_with_zod ─── */}
-            <section className="cont">
-                <div>
+            <section className="cont" ref={zbrRef}>
+                <div ref={zbrContentRef}>
                     <h2 className="titulo">br_standards_with_zod</h2>
                     <p style={{ marginBottom: '20px' }}>
                         Biblioteca open-source para validação rigorosa de documentos brasileiros.
@@ -69,8 +82,8 @@ const schema = z.object({
             </section>
 
             {/* ─── Tchuu-Tchuu ─── */}
-            <section className="cont">
-                <div>
+            <section className="cont" ref={tchuuRef}>
+                <div ref={tchuuContentRef}>
                     <h2 className="titulo">Tchuu-Tchuu</h2>
                     <p>
                         Plataforma de monitoramento de trens em tempo real — projeto Full Stack
@@ -131,8 +144,8 @@ const schema = z.object({
             </section>
 
             {/* ─── AMOTIF ─── */}
-            <section className="cont destaque">
-                <div>
+            <section className="cont destaque" ref={amotifRef}>
+                <div ref={amotifContentRef}>
                     <h2 className="titulo">AMOTIF — Colaboração Musical Assíncrona</h2>
                     <p style={{ marginBottom: '20px' }}>
                         Plataforma digital que viabiliza a criação coletiva de obras musicais através da contribuição estruturada de camadas instrumentais independentes — um "Git para músicos".
@@ -196,8 +209,8 @@ const schema = z.object({
             </section>
 
             {/* ─── TypeMarks ─── */}
-            <section className="cont">
-                <div>
+            <section className="cont" ref={typemarksRef}>
+                <div ref={typemarksContentRef}>
                     <h2 className="titulo">TypeMarks — Benchmark de Validação de Schemas</h2>
                     <p style={{ marginBottom: '20px' }}>
                         Benchmarks de alta performance comparando 15 cenários de validação de esquemas combinando runtimes (Bun/Node.js), frameworks (Fastify/Elysia/Hono) e validadores (AJV, TypeBox, Schema-Shield, Zod, Typia). Campeão absoluto: <strong>Hono + AJV no Bun</strong> com <strong>28.534 req/s</strong> e latência média de <strong>2,94ms</strong>.

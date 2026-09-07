@@ -1,32 +1,19 @@
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
+import { useScrollReveal } from '../animations/useScrollReveal';
 
 function Home() {
+    const projetosRef = useScrollReveal({ y: 30 });
+    const projetosCardsRef = useScrollReveal({ y: 40, scale: 0.98, children: true, stagger: 0.06 });
+    const ctaRef = useScrollReveal({ y: 20 });
+
     return (
         <main>
             <Hero />
 
-            <section className="especialidades">
-                <h2 className="titulo">Especialidades</h2>
-                <div className="especialidades-grid">
-                    <div className="especialidade-card">
-                        <h3>Backend</h3>
-                        <p> APIs robustas com Fastify, validação de schemas e arquitetura orientada a plugins.</p>
-                    </div>
-                    <div className="especialidade-card">
-                        <h3>Performance</h3>
-                        <p>Benchmarks reais, runtimes alternativos e validação JIT para máxima throughput.</p>
-                    </div>
-                    <div className="especialidade-card">
-                        <h3>Arquitetura</h3>
-                        <p>Sistemas modulares, versionamento de dados, autenticação em camadas e microsserviços.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section className="projetos-destaque">
+            <section className="projetos-destaque" ref={projetosRef}>
                 <h2 className="titulo">Projetos em Destaque</h2>
-                <div className="destaque-grid">
+                <div className="destaque-grid" ref={projetosCardsRef}>
                     <Link to="/projetos" className="destaque-card">
                         <h3>AMOTIF</h3>
                         <p>Colaboração musical assíncrona — "Git para músicos". Full stack com Bun, Fastify, React 19 e mixer virtual in-browser.</p>
@@ -46,6 +33,11 @@ function Home() {
                 <div style={{ textAlign: 'center', marginTop: '32px' }}>
                     <Link to="/projetos" className="pagina-boton">Ver Todos os Projetos</Link>
                 </div>
+            </section>
+
+            <section className="home-cta" ref={ctaRef}>
+                <p className="home-cta-texto">Quer conhecer minha trajetória e como penso sistemas?</p>
+                <Link to="/sobre" className="hero-cta">Conheça meu perfil</Link>
             </section>
         </main>
     );

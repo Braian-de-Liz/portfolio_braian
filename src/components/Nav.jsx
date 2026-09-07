@@ -1,10 +1,19 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HouseIcon, CodeIcon, BookOpenIcon, ZapIcon } from './Icons';
 
 function Nav() {
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
     return (
         <>
-            <nav id="barrasup">
+            <nav id="barrasup" className={scrolled ? 'nav-scrolled' : ''}>
                 <ul className="nav-links">
                     <li><Link to="/">inicio</Link></li>
                     <li><Link to="/projetos">Projetos</Link></li>
