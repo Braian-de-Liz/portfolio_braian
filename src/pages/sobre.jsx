@@ -6,12 +6,14 @@ function Sobre() {
     const perfilContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.06 });
     const trajetoriaRef = useScrollReveal({ y: 25 });
     const trajetoriaItemsRef = useScrollReveal({ y: 20, children: true, stagger: 0.08 });
-    const comoRef = useScrollReveal({ y: 25 });
-    const comoCardsRef = useScrollReveal({ y: 20, children: true, stagger: 0.06 });
-    const formacaoRef = useScrollReveal({ y: 25 });
-    const formacaoItemsRef = useScrollReveal({ y: 20, children: true, stagger: 0.08 });
     const expRef = useScrollReveal({ y: 25 });
     const expItemsRef = useScrollReveal({ y: 20, children: true, stagger: 0.08 });
+    const formacaoRef = useScrollReveal({ y: 25 });
+    const formacaoItemsRef = useScrollReveal({ y: 20, children: true, stagger: 0.08 });
+    const comoRef = useScrollReveal({ y: 25 });
+    const comoCardsRef = useScrollReveal({ y: 20, children: true, stagger: 0.06 });
+    const ecoRef = useScrollReveal({ y: 25 });
+    const ecoGridRef = useScrollReveal({ y: 20, children: true, stagger: 0.06 });
     const docsRef = useScrollReveal({ y: 20 });
 
     return (
@@ -24,7 +26,7 @@ function Sobre() {
                 </p>
             </section>
 
-            {/* 01   PERFIL */}
+            {/* 01 — PERFIL */}
             <section className="cont" ref={perfilRef}>
                 <div className="sobre-secao-numero">01</div>
                 <h2 className="titulo">Perfil</h2>
@@ -32,14 +34,20 @@ function Sobre() {
                 <div className="sobre-perfil" ref={perfilContentRef}>
                     <img src="ASSETS/imagens/foto_braian.jpg" alt="Braian de Liz" className="sobre-foto" />
                     <div className="sobre-perfil-texto">
-                        <p>
-                            Desenvolvedor de Sistemas com foco em backend e no ecossistema TypeScript/JavaScript.
-                            Tenho interesse em construção de APIs, arquitetura de sistemas, performance,
-                            bancos relacionais e processamento eficiente de dados.
+                        <p className="sobre-perfil-tagline">
+                            Engenharia de software com foco em backend
                         </p>
                         <p>
-                            Especializado em Bun, Node.js, Fastify e React, com experiência em
-                            microsserviços em Go e bancos relacionais como PostgreSQL.
+                            Desenvolvedor de sistemas com formação técnica em Desenvolvimento de Sistemas
+                            e graduação em Análise e Desenvolvimento de Sistemas em andamento. Minha atuação
+                            é direcionada à construção de aplicações web robustas, com foco em arquitetura,
+                            performance, integração de serviços e consistência de dados.
+                        </p>
+                        <p>
+                            Tenho experiência prática desde o desenvolvimento e estruturação de aplicações
+                            até sua implantação, trabalhando principalmente no ecossistema JavaScript/TypeScript
+                            e tecnologias de backend. Meu interesse está especialmente em sistemas que exigem
+                            eficiência, escalabilidade e decisões arquiteturais bem fundamentadas.
                         </p>
                         <div className="sobre-links">
                             <a href="https://github.com/Braian-de-Liz" target="_blank" rel="noopener noreferrer" className="social-floating-btn">
@@ -59,7 +67,7 @@ function Sobre() {
                 </div>
             </section>
 
-            {/* 02   TRAJETÓRIA */}
+            {/* 02 — TRAJETÓRIA */}
             <section className="cont" ref={trajetoriaRef}>
                 <div className="sobre-secao-numero">02</div>
                 <h2 className="titulo">Trajetória</h2>
@@ -68,78 +76,85 @@ function Sobre() {
                     <div className="timeline-item">
                         <span className="timeline-ano">2023</span>
                         <div className="timeline-conteudo">
-                            <h3>Lógica de Desenvolvimento de Sistemas</h3>
-                            <p>Base fundamental em algoritmos e estruturação de dados.</p>
+                            <h3>Fundamentos</h3>
+                            <p>Lógica, algoritmos e primeiros projetos de software.</p>
                         </div>
                     </div>
 
                     <div className="timeline-item">
                         <span className="timeline-ano">2024</span>
                         <div className="timeline-conteudo">
-                            <h3>Técnico em Desenvolvimento de Sistemas</h3>
-                            <p>Curso técnico de 2 anos integrado ao Ensino Médio na Escola SESI de Referência Joinville.</p>
+                            <h3>Desenvolvimento de Sistemas</h3>
+                            <p>Estruturas de dados, SQL, redes, desenvolvimento web
+                            e construção de aplicações práticas.</p>
                         </div>
                     </div>
 
                     <div className="timeline-item">
                         <span className="timeline-ano">2025</span>
                         <div className="timeline-conteudo">
-                            <h3>Tchuu-Tchuu</h3>
-                            <p>Plataforma de monitoramento de trens em tempo real   Full Stack com Fastify, WebSocket e PostgreSQL.</p>
+                            <h3>Projetos Full Stack</h3>
+                            <p>Tchuu-Tchuu — aplicação com comunicação em tempo real,
+                            monitoramento e persistência de dados.</p>
                         </div>
                     </div>
 
                     <div className="timeline-item">
                         <span className="timeline-ano">2026</span>
                         <div className="timeline-conteudo">
-                            <h3>AMOTIF</h3>
-                            <p>Plataforma de colaboração musical assíncrona   "Git para músicos". Arquitetura Fastify-Native com 40+ endpoints.</p>
-                        </div>
-                    </div>
-
-                    <div className="timeline-item">
-                        <span className="timeline-ano">2026</span>
-                        <div className="timeline-conteudo">
-                            <h3>TypeMarks</h3>
-                            <p>Benchmark científico comparando 15 cenários de validação de schemas   Bun + Hono + AJV = 28.534 req/s.</p>
+                            <h3>Engenharia de Backend</h3>
+                            <p>AMOTIF, TypeMarks e estudos de performance,
+                            arquitetura e validação de dados.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* 03   COMO EU TRABALHO */}
-            <section className="cont" ref={comoRef}>
+            {/* 03 — EXPERIÊNCIA */}
+            <section className="cont" ref={expRef}>
                 <div className="sobre-secao-numero">03</div>
-                <h2 className="titulo">Como eu construo</h2>
+                <h2 className="titulo">Experiência</h2>
 
-                <div className="sobre-abordagens" ref={comoCardsRef}>
-                    <div className="sobre-abordagem">
-                        <h3>Performance</h3>
-                        <div className="sobre-abordagem-divider"></div>
-                        <p>Prefiro entender o custo das abstrações. Cada framework tem um preço   eu busco medir antes de escolher.</p>
+                <div className="sobre-exp-items" ref={expItemsRef}>
+                    <div className="sobre-exp-item">
+                        <div className="sobre-exp-numero">01</div>
+                        <div className="sobre-exp-conteudo">
+                            <span className="sobre-exp-tag">DESENVOLVIMENTO</span>
+                            <h3>Full-Stack Freelancer</h3>
+                            <span className="sobre-exp-sub">Projetos pontuais · Desenvolvimento web</span>
+                            <div className="sobre-exp-flow">
+                                Arquitetura → Desenvolvimento → Deploy
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="sobre-abordagem">
-                        <h3>Arquitetura</h3>
-                        <div className="sobre-abordagem-divider"></div>
-                        <p>Sistemas modulares com responsabilidades claras. Plugins sobre heranças. Composição sobre configuração.</p>
+                    <div className="sobre-exp-item">
+                        <div className="sobre-exp-numero">02</div>
+                        <div className="sobre-exp-conteudo">
+                            <span className="sobre-exp-tag">INDÚSTRIA</span>
+                            <h3>Tupy</h3>
+                            <span className="sobre-exp-sub">Jovem Aprendiz · Controle de Qualidade</span>
+                            <div className="sobre-exp-flow">
+                                Análise → Padronização → Auditoria → Conformidade
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="sobre-abordagem">
-                        <h3>Tipagem</h3>
-                        <div className="sobre-abordagem-divider"></div>
-                        <p>TypeScript não é opcional. Schemas validam em runtime o que o compilador garante em build.</p>
-                    </div>
-
-                    <div className="sobre-abordagem">
-                        <h3>Dados</h3>
-                        <div className="sobre-abordagem-divider"></div>
-                        <p>Bancos relacionais com integridade. Migrations versionadas. Modelos que refletem o domínio, não a interface.</p>
+                    <div className="sobre-exp-item">
+                        <div className="sobre-exp-numero">03</div>
+                        <div className="sobre-exp-conteudo">
+                            <span className="sobre-exp-tag">VOLUNTARIADO</span>
+                            <h3>Torneios de Robótica</h3>
+                            <span className="sobre-exp-sub">2023 — 2024</span>
+                            <div className="sobre-exp-flow">
+                                Suporte técnico · Comunicação · Resolução de problemas
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* 04   FORMAÇÃO */}
+            {/* 04 — FORMAÇÃO */}
             <section className="cont" ref={formacaoRef}>
                 <div className="sobre-secao-numero">04</div>
                 <h2 className="titulo">Formação</h2>
@@ -147,13 +162,22 @@ function Sobre() {
                 <div className="sobre-formacao-items" ref={formacaoItemsRef}>
                     <div className="sobre-formacao-item">
                         <div className="sobre-formacao-info">
-                            <h3>Ensino Médio Integrado – Técnico em Desenvolvimento de Sistemas</h3>
-                            <span className="sobre-formacao-local">SESI/SC - Joinville Moinho · 2023 – 2025</span>
+                            <h3>Análise e Desenvolvimento de Sistemas</h3>
+                            <span className="sobre-formacao-local">UniSenai · 2026 — atual</span>
                             <p className="sobre-formacao-desc">
-                                Formação técnica integrada ao ensino médio, em parceria com o SENAI/SC
-                                (Lei 13.415/17). Grade com foco em desenvolvimento de software,
-                                banco de dados, modelagem de sistemas, IoT e indústria 4.0.
-                                Conceitos majoritariamente A, com alta frequência em todos os anos.
+                                Programação aplicada, engenharia de software,
+                                frameworks modernos e desenvolvimento backend.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="sobre-formacao-item">
+                        <div className="sobre-formacao-info">
+                            <h3>Técnico em Desenvolvimento de Sistemas</h3>
+                            <span className="sobre-formacao-local">SESI/SENAI · 2023 — 2025</span>
+                            <p className="sobre-formacao-desc">
+                                Lógica · Algoritmos · Banco de Dados · Web
+                                Estruturas de Dados · Projetos colaborativos
                             </p>
                         </div>
                         <a
@@ -166,32 +190,90 @@ function Sobre() {
                             Histórico
                         </a>
                     </div>
+
+                    <div className="sobre-formacao-item">
+                        <div className="sobre-formacao-info">
+                            <h3>Técnico em Fundição</h3>
+                            <span className="sobre-formacao-local">SENAI · 2026 — atual</span>
+                            <p className="sobre-formacao-desc">
+                                Processos metalúrgicos · Materiais · Otimização
+                                de processos industriais
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            {/* 05   EXPERIÊNCIAS */}
-            <section className="cont" ref={expRef}>
+            {/* 05 — COMO EU TRABALHO */}
+            <section className="cont" ref={comoRef}>
                 <div className="sobre-secao-numero">05</div>
-                <h2 className="titulo">Experiências</h2>
+                <h2 className="titulo">Como eu trabalho</h2>
 
-                <div className="sobre-formacao-items" ref={expItemsRef}>
-                    <div className="sobre-formacao-item">
-                        <div className="sobre-formacao-info">
-                            <h3>Voluntariado: Torneio de Robótica FLL</h3>
-                            <span className="sobre-formacao-local">40 horas   organização e guia de equipes</span>
-                        </div>
+                <div className="sobre-abordagens" ref={comoCardsRef}>
+                    <div className="sobre-abordagem">
+                        <h3>Performance</h3>
+                        <div className="sobre-abordagem-divider"></div>
+                        <p>Busco reduzir overhead e construir sistemas eficientes
+                        desde a camada de dados até a API.</p>
                     </div>
 
-                    <div className="sobre-formacao-item">
-                        <div className="sobre-formacao-info">
-                            <h3>Voluntário no SESI LAB</h3>
-                            <span className="sobre-formacao-local">Monitoria em exposições interativas   ciência, tecnologia e arte</span>
-                        </div>
+                    <div className="sobre-abordagem">
+                        <h3>Arquitetura</h3>
+                        <div className="sobre-abordagem-divider"></div>
+                        <p>Estruturo aplicações pensando em separação de
+                        responsabilidades, manutenção e evolução.</p>
+                    </div>
+
+                    <div className="sobre-abordagem">
+                        <h3>Dados</h3>
+                        <div className="sobre-abordagem-divider"></div>
+                        <p>Trabalho com bancos relacionais, validação de schemas
+                        e consistência das informações.</p>
+                    </div>
+
+                    <div className="sobre-abordagem">
+                        <h3>Aprendizado</h3>
+                        <div className="sobre-abordagem-divider"></div>
+                        <p>Tenho facilidade para explorar novas stacks e comparar
+                        tecnologias através de experimentação prática.</p>
                     </div>
                 </div>
             </section>
 
-            {/* DOCUMENTOS */}
+            {/* 06 — ECOSSISTEMA */}
+            <section className="cont" ref={ecoRef}>
+                <div className="sobre-secao-numero">06</div>
+                <h2 className="titulo">Ecossistema</h2>
+
+                <div className="sobre-ecossistema" ref={ecoGridRef}>
+                    <div className="sobre-eco-bloco">
+                        <h3>Languages</h3>
+                        <p>JavaScript · TypeScript · SQL · PHP</p>
+                    </div>
+                    <div className="sobre-eco-bloco">
+                        <h3>Backend</h3>
+                        <p>Node.js · Bun · Fastify · Hono · Express</p>
+                    </div>
+                    <div className="sobre-eco-bloco">
+                        <h3>Data</h3>
+                        <p>PostgreSQL · MySQL · Prisma · Drizzle</p>
+                    </div>
+                    <div className="sobre-eco-bloco">
+                        <h3>Validation</h3>
+                        <p>Zod · TypeBox</p>
+                    </div>
+                    <div className="sobre-eco-bloco">
+                        <h3>Web</h3>
+                        <p>HTML5 · CSS3 · REST APIs</p>
+                    </div>
+                    <div className="sobre-eco-bloco">
+                        <h3>Tooling</h3>
+                        <p>Git · GitHub · CLI</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* 07 — CV / CONTATO */}
             <section className="sobre-docs" ref={docsRef}>
                 <p className="sobre-docs-texto">
                     Quer conhecer minha trajetória profissional em detalhes?

@@ -280,6 +280,43 @@ main,
     margin-bottom: 24px;
 }
 
+.hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: 'Fira Code', monospace;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    color: #999;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+}
+
+.hero-pill:hover {
+    color: var(--accent);
+}
+
+.hero-pill-badge {
+    background: var(--accent);
+    color: #000;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 4px;
+    line-height: 1;
+}
+
+.hero-pill-arrow {
+    transition: transform 0.15s ease;
+}
+
+.hero-pill:hover .hero-pill-arrow {
+    transform: translateX(3px);
+}
+
 .hero-tags {
     display: flex;
     flex-wrap: wrap;
@@ -519,6 +556,13 @@ main,
     margin-bottom: 16px;
 }
 
+.sobre-perfil-tagline {
+    font-size: 1rem !important;
+    font-weight: 600;
+    color: #fff !important;
+    margin-bottom: 20px !important;
+}
+
 .sobre-links {
     display: flex;
     gap: 16px;
@@ -712,6 +756,106 @@ main,
     color: var(--accent);
 }
 
+/* EXPERIÊNCIA */
+.sobre-exp-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sobre-exp-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    transition: border-color 0.3s ease;
+}
+
+.sobre-exp-item:hover {
+    border-color: rgba(79, 193, 233, 0.3);
+}
+
+.sobre-exp-numero {
+    font-family: 'Fira Code', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.3;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.sobre-exp-conteudo {
+    flex: 1;
+}
+
+.sobre-exp-tag {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.7;
+}
+
+.sobre-exp-conteudo h3 {
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 600;
+    margin: 4px 0;
+}
+
+.sobre-exp-sub {
+    font-size: 0.8rem;
+    color: #777;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.sobre-exp-flow {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.75rem;
+    color: #999;
+    letter-spacing: 0.5px;
+}
+
+/* ECOSSISTEMA */
+.sobre-ecossistema {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.sobre-eco-bloco {
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.sobre-eco-bloco:hover {
+    border-color: rgba(79, 193, 233, 0.3);
+}
+
+.sobre-eco-bloco h3 {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    opacity: 0.7;
+}
+
+.sobre-eco-bloco p {
+    font-size: 0.88rem;
+    color: #bbb;
+    line-height: 1.5;
+}
+
 @media (max-width: 768px) {
     .sobre-perfil {
         flex-direction: column;
@@ -731,6 +875,15 @@ main,
         flex-direction: column;
         gap: 12px;
         text-align: center;
+    }
+
+    .sobre-ecossistema {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sobre-exp-item {
+        flex-direction: column;
+        gap: 12px;
     }
 }
 

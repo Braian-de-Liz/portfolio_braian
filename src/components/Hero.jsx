@@ -12,6 +12,7 @@ function Hero() {
     const nomeRef = useRef(null);
     const cargoRef = useRef(null);
     const descRef = useRef(null);
+    const pillRef = useRef(null);
     const tagsRef = useRef(null);
     const ctaRef = useRef(null);
     const fotoRef = useRef(null);
@@ -25,9 +26,14 @@ function Hero() {
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({ defaults: { ease: easing.entry } });
 
-            tl.fromTo(olaRef.current,
-                { opacity: 0, y: 15 },
+            tl.fromTo(pillRef.current,
+                { opacity: 0, y: 10 },
                 { opacity: 1, y: 0, duration: duration.fast }
+            )
+            .fromTo(olaRef.current,
+                { opacity: 0, y: 15 },
+                { opacity: 1, y: 0, duration: duration.fast },
+                '-=0.3'
             )
             .fromTo(nomeRef.current,
                 { opacity: 0, y: 20 },
@@ -91,6 +97,11 @@ function Hero() {
     return (
         <section className="hero" ref={sectionRef}>
             <div className="hero-content">
+                <a href="/projetos" className="hero-pill" ref={pillRef}>
+                    <span className="hero-pill-badge">NEW</span>
+                    <span>Veja meus projetos</span>
+                    <span className="hero-pill-arrow" aria-hidden="true">→</span>
+                </a>
                 <p className="hero-ola" ref={olaRef}>Olá, eu sou</p>
                 <h1 className="hero-nome" ref={nomeRef}>Braian de Liz</h1>
                 <h2 className="hero-cargo" ref={cargoRef}>Desenvolvedor de Sistemas</h2>
