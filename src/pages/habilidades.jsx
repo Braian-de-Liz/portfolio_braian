@@ -125,6 +125,11 @@ function Habilidades() {
         "Docker": "Plataforma de containerização que permite empacotar aplicações com suas dependências em containers isolados.",
         "CI/CD": "Integração e entrega contínua — automação de build, teste e deploy com GitHub Actions.",
         "Hono": "Framework web ultrafast para Edge Workers, compatível com múltiplos runtimes (Cloudflare, Deno, Bun, Node.js).",
+        "GraphQL": "Linguagem de consultas para APIs que permite ao cliente solicitar exatamente os dados necessários, reduzindo over-fetching.",
+        "MCP": "Model Context Protocol — protocolo padronizado para conectar modelos de IA a ferramentas, dados e contextos externos de forma segura.",
+        "Agentes de IA": "Sistemas autônomos que utilizam modelos de linguagem para planejar, decidir e executar tarefas com pouca ou nenhuma supervisão humana.",
+        "Terraform": "Ferramenta de Infrastructure as Code (IaC) da HashiCorp para provisionar e gerenciar infraestrutura em nuvem de forma declarativa.",
+        "AWS": "Plataforma de cloud computing da Amazon com serviços de compute, storage, banco de dados, IA e mais.",
     };
 
     const stackAtual = [
@@ -158,12 +163,19 @@ function Habilidades() {
             { name: "Go", icon: "go/go-original" },
             { name: "Fiber", icon: "fiber/fiber-plain" },
             { name: "C#", icon: "csharp/csharp-plain" },
+            { name: "GraphQL", icon: "https://cdn.simpleicons.org/graphql" },
+        ]},
+        { category: "Tipos de Aplicações", items: [
+            { name: "MCP", icon: "https://cdn.simpleicons.org/modelcontextprotocol" },
+            { name: "Agentes de IA", icon: "https://cdn.simpleicons.org/langchain" },
         ]},
         { category: "Dados & Infraestrutura", items: [
             { name: "MongoDB", icon: "mongodb/mongodb-original" },
             { name: "Docker", icon: "docker/docker-plain" },
-            { name: "Python", icon: "/ASSETS/imagens/python.png" },
+            { name: "Python", icon: "python/python-original" },
             { name: "CI/CD", icon: "github/github-original" },
+            { name: "Terraform", icon: "https://cdn.simpleicons.org/terraform" },
+            { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" },
         ]},
     ];
 
