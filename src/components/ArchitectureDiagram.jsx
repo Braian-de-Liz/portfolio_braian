@@ -1,9 +1,12 @@
 import { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { easing, duration, stagger } from '../animations/presets';
+import { easing, duration, stagger, motion } from '../animations/presets';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function ArchitectureDiagram() {
     const rootRef = useRef(null);
@@ -12,20 +15,18 @@ function ArchitectureDiagram() {
         const node = rootRef.current;
         if (!node) return;
 
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: node,
-                    start: 'top 85%',
+                    start: 'top 80%',
                     once: true,
                 },
             });
 
             tl.fromTo(node,
-                { opacity: 0 },
-                { opacity: 1, duration: duration.fast, ease: easing.entry }
+                { opacity: 0, scale: 0.98 },
+                { opacity: 1, scale: 1, duration: duration.entry, ease: easing.entry }
             );
 
             if (prefersReducedMotion) return;
@@ -36,14 +37,14 @@ function ArchitectureDiagram() {
             const storage = node.querySelector('.arch-storage-branch');
 
             tl.fromTo(cols,
-                { opacity: 0, y: 15 },
-                { opacity: 1, y: 0, duration: duration.entry, ease: easing.entry, stagger: stagger.normal },
+                { ...motion.nodeEntry },
+                { opacity: 1, y: 0, scale: 1, duration: motion.nodeEntry.duration, ease: motion.nodeEntry.ease, stagger: stagger.normal },
                 '-=0.1'
             )
             .fromTo(arrows,
-                { opacity: 0, scaleX: 0 },
-                { opacity: 1, scaleX: 1, duration: duration.entry, ease: easing.entry, stagger: stagger.normal, transformOrigin: 'left center' },
-                '-=0.4'
+                { ...motion.connectionDraw },
+                { scaleX: 1, opacity: 1, duration: motion.connectionDraw.duration, ease: motion.connectionDraw.ease, stagger: stagger.normal, transformOrigin: 'left center' },
+                '-=0.3'
             );
 
             if (storage) {
@@ -55,9 +56,9 @@ function ArchitectureDiagram() {
             }
 
             tl.fromTo(stats,
-                { opacity: 0, y: 10 },
+                { opacity: 0, y: 12 },
                 { opacity: 1, y: 0, duration: duration.fast, ease: easing.entry, stagger: stagger.fast },
-                '-=0.3'
+                '-=0.2'
             );
         }, node);
 

@@ -1,11 +1,106 @@
+import { useState, useRef, useCallback } from 'react';
+import gsap from 'gsap';
 import { useScrollReveal } from '../animations/useScrollReveal';
+import { usePageEntry } from '../animations/usePageEntry';
+
+const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function Habilidades() {
+    const [expanded, setExpanded] = useState({});
+    const pageRef = usePageEntry();
     const headerRef = useScrollReveal({ y: 20 });
     const atualRef = useScrollReveal({ y: 25 });
     const atualGridRef = useScrollReveal({ y: 30, scale: 0.98, children: true, stagger: 0.05 });
     const proximosRef = useScrollReveal({ y: 25 });
     const proximosGridRef = useScrollReveal({ y: 30, scale: 0.98, children: true, stagger: 0.05 });
+
+    const contentRefs = useRef({});
+
+    const animateAccordion = useCallback((section, category, isExpanding) => {
+        if (prefersReducedMotion) return;
+
+        const key = `${section}-${category}`;
+        const contentEl = contentRefs.current[key];
+        if (!contentEl) return;
+
+        gsap.killTweensOf(contentEl);
+        const cards = contentEl.querySelectorAll('.skill-card');
+        if (cards.length > 0) gsap.killTweensOf(cards);
+
+        if (isExpanding) {
+            gsap.set(contentEl, { height: 0, opacity: 0, overflow: 'hidden' });
+            gsap.to(contentEl, {
+                height: 'auto',
+                opacity: 1,
+                duration: 0.5,
+                ease: 'power2.out',
+                onComplete: () => {
+                    gsap.set(contentEl, { overflow: 'visible' });
+                },
+            });
+
+            if (cards.length > 0) {
+                gsap.fromTo(cards, {
+                    opacity: 0,
+                    y: 10,
+                }, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.35,
+                    stagger: 0.04,
+                    delay: 0.15,
+                });
+            }
+        } else {
+            gsap.to(contentEl, {
+                height: 0,
+                opacity: 0,
+                duration: 0.35,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    gsap.set(contentEl, { overflow: 'hidden' });
+                },
+            });
+        }
+    }, []);
+
+    const handleEnter = (section, category) => {
+        if (expanded[section] === category) return;
+        setExpanded(prev => ({ ...prev, [section]: category }));
+        animateAccordion(section, category, true);
+    };
+
+    const handleLeave = (section) => {
+        const category = expanded[section];
+        if (!category) return;
+        const key = `${section}-${category}`;
+        const contentEl = contentRefs.current[key];
+        if (contentEl) {
+            gsap.delayedCall(0.15, () => {
+                setExpanded(prev => ({ ...prev, [section]: null }));
+                animateAccordion(section, category, false);
+            });
+        } else {
+            setExpanded(prev => ({ ...prev, [section]: null }));
+        }
+    };
+
+    const handleClick = (section, category) => {
+        const isCurrentlyExpanded = expanded[section] === category;
+
+        if (isCurrentlyExpanded) {
+            setExpanded(prev => ({ ...prev, [section]: null }));
+            animateAccordion(section, category, false);
+        } else {
+            const prevCategory = expanded[section];
+            if (prevCategory) {
+                animateAccordion(section, prevCategory, false);
+            }
+            setExpanded(prev => ({ ...prev, [section]: category }));
+            animateAccordion(section, category, true);
+        }
+    };
 
     const descricoes = {
         "TypeScript": "Superset do JavaScript que adiciona tipagem estática, aumentando a segurança e produtividade no desenvolvimento.",
@@ -22,101 +117,153 @@ function Habilidades() {
         "HTML5": "Linguagem de marcação para estruturar conteúdo web, semantic tags e APIs modernas.",
         "CSS3": "Linguagem de estilo para presentation de documentos web, incluindo animations e layouts modernos.",
         "React": "Biblioteca JavaScript para construir interfaces de usuário component-based e single-page applications.",
-        "Nest.js": "Framework Node.js progressivo que usa TypeScript, inspirado em Angular para criar aplicações enterprise.",
         "Python": "Linguagem multiparadigma reconhecida por simplicidade, usada em web, data science e AI.",
-        "FastAPI": "Framework Python moderno e rápido para criar APIs com validação automática e async native.",
         "C#": "Linguagem orientada a objetos da Microsoft, usada em aplicações enterprise, games (Unity) e .NET.",
-        "Elysia": "Framework Bun TypeScript-first com ergonomia excelente e performance exceptional.",
         "Go": "Linguagem do Google compilada, concurrency-native, ideal para microservices e high-performance systems.",
         "Fiber": "Express-like framework Go para web apps, conhecido por performance e baixo footprint de memória em Golang.",
         "MongoDB": "Banco de dados NoSQL orientado a documentos, schema-less com JSON-like documents.",
         "Docker": "Plataforma de containerização que permite empacotar aplicações com suas dependências em containers isolados.",
+        "CI/CD": "Integração e entrega contínua — automação de build, teste e deploy com GitHub Actions.",
         "Hono": "Framework web ultrafast para Edge Workers, compatível com múltiplos runtimes (Cloudflare, Deno, Bun, Node.js).",
     };
 
     const stackAtual = [
-        { name: "TypeScript", icon: "typescript/typescript-plain" },
-        { name: "Zod", icon: "https://cdn.simpleicons.org/zod" },
-        { name: "TypeBox", icon: "https://raw.githubusercontent.com/sinclairzx81/sinclair-typebox/refs/heads/main/typebox.png" },
-        { name: "Drizzle", icon: "https://cdn.simpleicons.org/drizzle" },
-        { name: "Fastify", icon: "fastify/fastify-plain" },
-        { name: "Node.js", icon: "nodejs/nodejs-plain" },
-        { name: "Bun", icon: "https://bun.com/logo.svg" },
-        { name: "PostgreSQL", icon: "postgresql/postgresql-plain" },
-        { name: "Express", icon: "express/express-original" },
-        { name: "MySQL", icon: "mysql/mysql-original" },
-        { name: "JavaScript", icon: "javascript/javascript-plain" },
-        { name: "HTML5", icon: "html5/html5-plain" },
-        { name: "CSS3", icon: "css3/css3-plain" },
+        { category: "Frontend & Linguagens", items: [
+            { name: "HTML5", icon: "html5/html5-plain" },
+            { name: "CSS3", icon: "css3/css3-plain" },
+            { name: "JavaScript", icon: "javascript/javascript-plain" },
+            { name: "TypeScript", icon: "typescript/typescript-plain" },
+        ]},
+        { category: "Backend & Runtime", items: [
+            { name: "Node.js", icon: "nodejs/nodejs-plain" },
+            { name: "Bun", icon: "https://bun.com/logo.svg" },
+            { name: "Fastify", icon: "fastify/fastify-plain" },
+            { name: "Express", icon: "express/express-original" },
+        ]},
+        { category: "Dados & Validação", items: [
+            { name: "PostgreSQL", icon: "postgresql/postgresql-plain" },
+            { name: "MySQL", icon: "mysql/mysql-original" },
+            { name: "Drizzle", icon: "https://cdn.simpleicons.org/drizzle" },
+            { name: "Zod", icon: "https://cdn.simpleicons.org/zod" },
+            { name: "TypeBox", icon: "https://raw.githubusercontent.com/sinclairzx81/sinclair-typebox/refs/heads/main/typebox.png" },
+        ]},
     ];
 
     const proximosEstudos = [
-        { name: "React", icon: "react/react-original" },
-        { name: "Nest.js", icon: "nestjs/nestjs-original" },
-        { name: "Python", icon: "/ASSETS/imagens/python.png" },
-        { name: "FastAPI", icon: "fastapi/fastapi-original" },
-        { name: "C#", icon: "csharp/csharp-plain" },
-        { name: "Elysia", icon: "https://avatars.githubusercontent.com/u/119793569?s=200&v=4" },
-        { name: "Go", icon: "go/go-original" },
-        { name: "Fiber", icon: "fiber/fiber-plain" },
-        { name: "MongoDB", icon: "mongodb/mongodb-original" },
-        { name: "Docker", icon: "docker/docker-plain" },
-        { name: "Hono", icon: "https://hono.dev/images/logo.svg" },
+        { category: "Frontend", items: [
+            { name: "React", icon: "react/react-original" },
+        ]},
+        { category: "Backend & Arquitetura", items: [
+            { name: "Hono", icon: "https://hono.dev/images/logo.svg" },
+            { name: "Go", icon: "go/go-original" },
+            { name: "Fiber", icon: "fiber/fiber-plain" },
+            { name: "C#", icon: "csharp/csharp-plain" },
+        ]},
+        { category: "Dados & Infraestrutura", items: [
+            { name: "MongoDB", icon: "mongodb/mongodb-original" },
+            { name: "Docker", icon: "docker/docker-plain" },
+            { name: "Python", icon: "/ASSETS/imagens/python.png" },
+            { name: "CI/CD", icon: "github/github-original" },
+        ]},
     ];
 
     return (
-        <>
+        <main ref={pageRef}>
             <header id="cabelho" ref={headerRef}>
                 <h1 className="titulo">Habilidades Técnicas</h1>
-                <h3 className="subtitulo">Minha Stack de Desenvolvimento</h3>
+                <h3 className="subtitulo">Stack Atual & Direção Técnica</h3>
             </header>
 
-            <main>
                 <section className="cont" ref={atualRef}>
-                    <div className="titulo">
-                        <h2>Caixa de Ferramentas (Atual)</h2>
-                        <p style={{ color: '#888', fontSize: '0.9rem', marginTop: '10px' }}>
-                            Tecnologias que utilizo diariamente para construir aplicações robustas, escaláveis e focadas em performance no ecossistema Backend.
-                        </p>
-                    </div>
-                    <div className="habilidades-grid" ref={atualGridRef}>
-                        {stackAtual.map((skill) => (
-                            <div key={skill.name} className="skill-card" title={descricoes[skill.name] || ''}>
-                                <img
-                                    src={skill.icon.startsWith('http') || skill.icon.startsWith('/')
-                                        ? skill.icon
-                                        : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`}
-                                    alt={skill.name}
-                                />
-                                <span>{skill.name}</span>
+                    <h2 className="titulo">Caixa de Ferramentas (Atual)</h2>
+                    <p className="section-subtitle">
+                        Tecnologias que utilizo diariamente para construir aplicações robustas, escaláveis e focadas em performance no ecossistema Backend.
+                    </p>
+                    <div ref={atualGridRef}>
+                        {stackAtual.map((group) => (
+                            <div
+                                key={group.category}
+                                className={`skill-category ${expanded.atual === group.category ? 'expanded' : ''}`}
+                                onMouseEnter={() => handleEnter('atual', group.category)}
+                                onMouseLeave={() => handleLeave('atual')}
+                            >
+                                <span
+                                    className="skill-category-pill"
+                                    onClick={() => handleClick('atual', group.category)}
+                                >
+                                    {group.category}
+                                    <span className="skill-category-arrow">{expanded.atual === group.category ? '▾' : '▸'}</span>
+                                </span>
+                                <div
+                                    className="skill-category-grid"
+                                    ref={(el) => {
+                                        contentRefs.current[`atual-${group.category}`] = el;
+                                    }}
+                                >
+                                    <div className="habilidades-grid">
+                                        {group.items.map((skill) => (
+                                            <div key={skill.name} className="skill-card" title={descricoes[skill.name] || ''}>
+                                                <img
+                                                    src={skill.icon.startsWith('http') || skill.icon.startsWith('/')
+                                                        ? skill.icon
+                                                        : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`}
+                                                    alt={skill.name}
+                                                />
+                                                <span>{skill.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </section>
 
                 <section className="cont" ref={proximosRef}>
-                    <div className="titulo">
-                        <h2>Próximos Estudos</h2>
-                        <p style={{ color: '#888', fontSize: '0.9rem', marginTop: '10px' }}>
-                            Minha jornada de aprendizado contínuo. Atualmente focado em expandir meu conhecimento para o Frontend moderno e arquiteturas de alto nível.
-                        </p>
-                    </div>
-                    <div className="habilidades-grid" ref={proximosGridRef}>
-                        {proximosEstudos.map((skill) => (
-                            <div key={skill.name} className="skill-card learning" title={descricoes[skill.name] || ''}>
-                                <img
-                                    src={skill.icon.startsWith('http') || skill.icon.startsWith('/')
-                                        ? skill.icon
-                                        : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`}
-                                    alt={skill.name}
-                                />
-                                <span>{skill.name}</span>
+                    <h2 className="titulo">Próximos Estudos</h2>
+                    <p className="section-subtitle">
+                        Tecnologias que estou explorando ou pretendo aprofundar, alinhadas à minha direção em backend, performance e arquitetura.
+                    </p>
+                    <div ref={proximosGridRef}>
+                        {proximosEstudos.map((group) => (
+                            <div
+                                key={group.category}
+                                className={`skill-category ${expanded.proximos === group.category ? 'expanded' : ''}`}
+                                onMouseEnter={() => handleEnter('proximos', group.category)}
+                                onMouseLeave={() => handleLeave('proximos')}
+                            >
+                                <span
+                                    className="skill-category-pill"
+                                    onClick={() => handleClick('proximos', group.category)}
+                                >
+                                    {group.category}
+                                    <span className="skill-category-arrow">{expanded.proximos === group.category ? '▾' : '▸'}</span>
+                                </span>
+                                <div
+                                    className="skill-category-grid"
+                                    ref={(el) => {
+                                        contentRefs.current[`proximos-${group.category}`] = el;
+                                    }}
+                                >
+                                    <div className="habilidades-grid">
+                                        {group.items.map((skill) => (
+                                            <div key={skill.name} className="skill-card learning" title={descricoes[skill.name] || ''}>
+                                                <img
+                                                    src={skill.icon.startsWith('http') || skill.icon.startsWith('/')
+                                                        ? skill.icon
+                                                        : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}.svg`}
+                                                    alt={skill.name}
+                                                />
+                                                <span>{skill.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </section>
             </main>
-        </>
     );
 }
 

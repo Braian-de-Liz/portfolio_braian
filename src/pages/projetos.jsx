@@ -4,8 +4,11 @@ import { DetalhesAmotif } from '../components/details/DetalhesAmotif';
 import { DetalhesTypeMarks } from '../components/details/DetalhesTypeMarks';
 import { ArchitectureDiagram } from '../components/ArchitectureDiagram';
 import { useScrollReveal } from '../animations/useScrollReveal';
+import { usePageEntry } from '../animations/usePageEntry';
+import { useRevealTitle } from '../animations/useRevealTitle';
 
 function Projetos() {
+    const pageRef = usePageEntry();
     const zbrRef = useScrollReveal({ y: 30 });
     const zbrContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
 
@@ -18,13 +21,18 @@ function Projetos() {
     const typemarksRef = useScrollReveal({ y: 30 });
     const typemarksContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
 
+    const zbrTitleRef = useRevealTitle();
+    const tchuuTitleRef = useRevealTitle();
+    const amotifTitleRef = useRevealTitle();
+    const typemarksTitleRef = useRevealTitle();
+
     return (
-        <main>
+        <main ref={pageRef}>
             {/* ─── br_standards_with_zod ─── */}
             <section className="cont" ref={zbrRef}>
                 <div ref={zbrContentRef}>
-                    <h2 className="titulo">br_standards_with_zod</h2>
-                    <p style={{ marginBottom: '20px' }}>
+                    <h2 className="titulo" ref={zbrTitleRef}>br_standards_with_zod</h2>
+                    <p className="projeto-descricao">
                         Biblioteca open-source para validação rigorosa de documentos brasileiros.
                         Garante integridade de dados com validação matemática de dígitos verificadores e integração nativa ao ecossistema Zod.
                     </p>
@@ -49,7 +57,7 @@ const schema = z.object({
                     </pre>
                 </div>
 
-                <div className="habilidades-grid" style={{ marginTop: '20px' }}>
+                <div className="habilidades-grid projeto-techs">
                     <div className="skill-card" title="Linguagem tipada para código seguro e escalável">
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg" alt="TypeScript" />
                         <span>TypeScript</span>
@@ -74,7 +82,7 @@ const schema = z.object({
 
                 <DetalhesZbr />
 
-                <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                <div className="projeto-links">
                     <a href="https://github.com/Braian-de-Liz/br_standards_with_zod" className="pagina-boton">GitHub</a>
                     <a href="https://www.npmjs.com/package/br_standards_with_zod" className="pagina-boton">Ver no NPM</a>
                     <a href="https://zbr-view-7bc2.vercel.app/" className="pagina-boton">Site do Projeto</a>
@@ -84,7 +92,7 @@ const schema = z.object({
             {/* ─── Tchuu-Tchuu ─── */}
             <section className="cont" ref={tchuuRef}>
                 <div ref={tchuuContentRef}>
-                    <h2 className="titulo">Tchuu-Tchuu</h2>
+                    <h2 className="titulo" ref={tchuuTitleRef}>Tchuu-Tchuu</h2>
                     <p>
                         Plataforma de monitoramento de trens em tempo real   projeto Full Stack
                         com Node.js + Fastify no back-end e HTML + CSS + JS no front-end.
@@ -97,7 +105,7 @@ const schema = z.object({
                     <div><img loading="lazy" src="ASSETS/imagens/inicial_tchuuTchuu.png" alt="Preview 3" className="imge" /></div>
                 </div>
 
-                <div className="habilidades-grid" style={{ marginTop: '20px' }}>
+                <div className="habilidades-grid projeto-techs">
                     <div className="skill-card" title="Linguagem de marcação para estruturar páginas web">
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain.svg" alt="HTML5" />
                         <span>HTML5</span>
@@ -138,7 +146,7 @@ const schema = z.object({
 
                 <DetalhesTchuu />
 
-                <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                <div className="projeto-links">
                     <a href="https://github.com/Braian-de-Liz/Tchuu-Tchuu" className="pagina-boton">GitHub</a>
                 </div>
             </section>
@@ -146,8 +154,8 @@ const schema = z.object({
             {/* ─── AMOTIF ─── */}
             <section className="cont destaque" ref={amotifRef}>
                 <div ref={amotifContentRef}>
-                    <h2 className="titulo">AMOTIF   Colaboração Musical Assíncrona</h2>
-                    <p style={{ marginBottom: '20px' }}>
+                    <h2 className="titulo" ref={amotifTitleRef}>AMOTIF <span className="title-separator">—</span> Colaboração Musical Assíncrona</h2>
+                    <p className="projeto-descricao">
                         Plataforma digital que viabiliza a criação coletiva de obras musicais através da contribuição estruturada de camadas instrumentais independentes   um "Git para músicos".
                     </p>
                 </div>
@@ -159,7 +167,7 @@ const schema = z.object({
                     <div><img loading="lazy" src="/ASSETS/imagens/gitamotif.png" alt="Github" className="imge" /></div>
                 </div>
 
-                <div className="habilidades-grid" style={{ marginTop: '20px' }}>
+                <div className="habilidades-grid projeto-techs">
                     <div className="skill-card" title="Runtime JavaScript all-in-one   mais rápido que Node.js">
                         <img src={new URL(`/ASSETS/imagens/bun-logo.svg`, import.meta.url).href} alt="Bun" />
                         <span>Bun</span>
@@ -196,7 +204,7 @@ const schema = z.object({
 
                 <DetalhesAmotif />
 
-                <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                <div className="projeto-links">
                     <a href="https://github.com/Braian-de-Liz/AMOTIF" className="pagina-boton">GitHub</a>
                     <a href="https://amotif-music.onrender.com" className="pagina-boton">Site do AMOTIF</a>
                 </div>
@@ -205,13 +213,13 @@ const schema = z.object({
             {/* ─── TypeMarks ─── */}
             <section className="cont" ref={typemarksRef}>
                 <div ref={typemarksContentRef}>
-                    <h2 className="titulo">TypeMarks   Benchmark de Validação de Schemas</h2>
-                    <p style={{ marginBottom: '20px' }}>
+                    <h2 className="titulo" ref={typemarksTitleRef}>TypeMarks <span className="title-separator">—</span> Benchmark de Validação de Schemas</h2>
+                    <p className="projeto-descricao">
                         Benchmarks de alta performance comparando 15 cenários de validação de esquemas combinando runtimes (Bun/Node.js), frameworks (Fastify/Elysia/Hono) e validadores (AJV, TypeBox, Schema-Shield, Zod, Typia). Campeão absoluto: <strong>Hono + AJV no Bun</strong> com <strong>28.534 req/s</strong> e latência média de <strong>2,94ms</strong>.
                     </p>
                 </div>
 
-                <div className="habilidades-grid" style={{ marginTop: '20px' }}>
+                <div className="habilidades-grid projeto-techs">
                     <div className="skill-card" title="Runtime JavaScript all-in-one   mais rápido que Node.js">
                         <img src={new URL(`/ASSETS/imagens/bun-logo.svg`, import.meta.url).href} alt="Bun" />
                         <span>Bun</span>
@@ -252,7 +260,7 @@ const schema = z.object({
 
                 <DetalhesTypeMarks />
 
-                <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                <div className="projeto-links">
                     <a href="https://github.com/Braian-de-Liz/typemarks" className="pagina-boton">GitHub</a>
                 </div>
             </section>

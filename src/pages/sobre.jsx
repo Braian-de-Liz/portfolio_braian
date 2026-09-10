@@ -1,23 +1,75 @@
+import { useRef, useLayoutEffect } from 'react';
+import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useScrollReveal } from '../animations/useScrollReveal';
+import { usePageEntry } from '../animations/usePageEntry';
+import { useRevealTitle } from '../animations/useRevealTitle';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function Sobre() {
+    const pageRef = usePageEntry();
     const heroRef = useScrollReveal({ y: 25 });
     const perfilRef = useScrollReveal({ y: 25 });
     const perfilContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.06 });
+
+    const trajetoriaTitleRef = useRevealTitle();
     const trajetoriaRef = useScrollReveal({ y: 25 });
     const trajetoriaItemsRef = useScrollReveal({ y: 20, children: true, stagger: 0.08 });
+
+    const expTitleRef = useRevealTitle();
     const expRef = useScrollReveal({ y: 25 });
     const expItemsRef = useScrollReveal({ y: 20, children: true, stagger: 0.08 });
+
+    const formacaoTitleRef = useRevealTitle();
     const formacaoRef = useScrollReveal({ y: 25 });
     const formacaoItemsRef = useScrollReveal({ y: 20, children: true, stagger: 0.08 });
+
+    const comoTitleRef = useRevealTitle();
     const comoRef = useScrollReveal({ y: 25 });
     const comoCardsRef = useScrollReveal({ y: 20, children: true, stagger: 0.06 });
-    const ecoRef = useScrollReveal({ y: 25 });
-    const ecoGridRef = useScrollReveal({ y: 20, children: true, stagger: 0.06 });
+
+    const direcaoTitleRef = useRevealTitle();
     const docsRef = useScrollReveal({ y: 20 });
+    const cvRef = useScrollReveal({ y: 20 });
+
+    const timelineTrackRef = useRef(null);
+
+    useLayoutEffect(() => {
+        if (prefersReducedMotion) return;
+
+        const path = timelineTrackRef.current?.querySelector('path');
+        if (!path) return;
+
+        const length = path.getTotalLength();
+
+        const ctx = gsap.context(() => {
+            gsap.set(path, {
+                strokeDasharray: length,
+                strokeDashoffset: length,
+            });
+
+            gsap.to(path, {
+                strokeDashoffset: 0,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.timeline',
+                    start: 'top 70%',
+                    end: 'bottom 70%',
+                    scrub: 1,
+                },
+            });
+        });
+
+        return () => ctx.revert();
+    }, []);
 
     return (
-        <main>
+        <main ref={pageRef}>
             {/* HERO DO SOBRE */}
             <section className="sobre-hero" ref={heroRef}>
                 <h1 className="titulo">Por trás do código.</h1>
@@ -67,17 +119,28 @@ function Sobre() {
                 </div>
             </section>
 
-            {/* 02 — TRAJETÓRIA */}
+            {/* 02 — EVOLUÇÃO TÉCNICA */}
             <section className="cont" ref={trajetoriaRef}>
                 <div className="sobre-secao-numero">02</div>
-                <h2 className="titulo">Trajetória</h2>
+                <h2 className="titulo" ref={trajetoriaTitleRef}>Evolução técnica</h2>
 
                 <div className="timeline" ref={trajetoriaItemsRef}>
+                    <div className="timeline-track" ref={timelineTrackRef}>
+                        <svg width="2" height="100%" preserveAspectRatio="none">
+                            <path
+                                d="M1,0 L1,1000"
+                                stroke="rgba(79,193,233,0.2)"
+                                strokeWidth="2"
+                                fill="none"
+                                vectorEffect="non-scaling-stroke"
+                            />
+                        </svg>
+                    </div>
                     <div className="timeline-item">
                         <span className="timeline-ano">2023</span>
                         <div className="timeline-conteudo">
                             <h3>Fundamentos</h3>
-                            <p>Lógica, algoritmos e primeiros projetos de software.</p>
+                            <p>Lógica, algoritmos e primeiros projetos.</p>
                         </div>
                     </div>
 
@@ -85,17 +148,15 @@ function Sobre() {
                         <span className="timeline-ano">2024</span>
                         <div className="timeline-conteudo">
                             <h3>Desenvolvimento de Sistemas</h3>
-                            <p>Estruturas de dados, SQL, redes, desenvolvimento web
-                            e construção de aplicações práticas.</p>
+                            <p>Web, dados e aplicações práticas.</p>
                         </div>
                     </div>
 
                     <div className="timeline-item">
                         <span className="timeline-ano">2025</span>
                         <div className="timeline-conteudo">
-                            <h3>Projetos Full Stack</h3>
-                            <p>Tchuu-Tchuu — aplicação com comunicação em tempo real,
-                            monitoramento e persistência de dados.</p>
+                            <h3>Aplicações reais</h3>
+                            <p>Projetos completos e integração.</p>
                         </div>
                     </div>
 
@@ -103,8 +164,7 @@ function Sobre() {
                         <span className="timeline-ano">2026</span>
                         <div className="timeline-conteudo">
                             <h3>Engenharia de Backend</h3>
-                            <p>AMOTIF, TypeMarks e estudos de performance,
-                            arquitetura e validação de dados.</p>
+                            <p>Performance, arquitetura e sistemas.</p>
                         </div>
                     </div>
                 </div>
@@ -113,7 +173,7 @@ function Sobre() {
             {/* 03 — EXPERIÊNCIA */}
             <section className="cont" ref={expRef}>
                 <div className="sobre-secao-numero">03</div>
-                <h2 className="titulo">Experiência</h2>
+                <h2 className="titulo" ref={expTitleRef}>Experiência</h2>
 
                 <div className="sobre-exp-items" ref={expItemsRef}>
                     <div className="sobre-exp-item">
@@ -121,9 +181,14 @@ function Sobre() {
                         <div className="sobre-exp-conteudo">
                             <span className="sobre-exp-tag">DESENVOLVIMENTO</span>
                             <h3>Full-Stack Freelancer</h3>
-                            <span className="sobre-exp-sub">Projetos pontuais · Desenvolvimento web</span>
+                            <span className="sobre-exp-sub">Desenvolvimento Web · Projetos Pontuais</span>
+                            <p className="sobre-exp-desc">
+                                Planejamento, arquitetura, desenvolvimento e deploy de aplicações web
+                                para clientes reais, com atenção a responsividade, experiência do usuário
+                                e performance.
+                            </p>
                             <div className="sobre-exp-flow">
-                                Arquitetura → Desenvolvimento → Deploy
+                                Arquitetura · Desenvolvimento · Deploy
                             </div>
                         </div>
                     </div>
@@ -133,9 +198,14 @@ function Sobre() {
                         <div className="sobre-exp-conteudo">
                             <span className="sobre-exp-tag">INDÚSTRIA</span>
                             <h3>Tupy</h3>
-                            <span className="sobre-exp-sub">Jovem Aprendiz · Controle de Qualidade</span>
+                            <span className="sobre-exp-sub">Jovem Aprendiz · Controle da Qualidade</span>
+                            <p className="sobre-exp-desc">
+                                Atuação analítica no controle de qualidade e auditoria técnica dos
+                                fluxos de produção, acompanhando conformidade, padronização e
+                                tratamento de desvios.
+                            </p>
                             <div className="sobre-exp-flow">
-                                Análise → Padronização → Auditoria → Conformidade
+                                Qualidade · Auditoria · Conformidade
                             </div>
                         </div>
                     </div>
@@ -146,6 +216,10 @@ function Sobre() {
                             <span className="sobre-exp-tag">VOLUNTARIADO</span>
                             <h3>Torneios de Robótica</h3>
                             <span className="sobre-exp-sub">2023 — 2024</span>
+                            <p className="sobre-exp-desc">
+                                Suporte logístico e apoio técnico às equipes competidoras, com
+                                resolução de problemas sob pressão, comunicação e trabalho em equipe.
+                            </p>
                             <div className="sobre-exp-flow">
                                 Suporte técnico · Comunicação · Resolução de problemas
                             </div>
@@ -157,7 +231,7 @@ function Sobre() {
             {/* 04 — FORMAÇÃO */}
             <section className="cont" ref={formacaoRef}>
                 <div className="sobre-secao-numero">04</div>
-                <h2 className="titulo">Formação</h2>
+                <h2 className="titulo" ref={formacaoTitleRef}>Formação</h2>
 
                 <div className="sobre-formacao-items" ref={formacaoItemsRef}>
                     <div className="sobre-formacao-item">
@@ -207,76 +281,70 @@ function Sobre() {
             {/* 05 — COMO EU TRABALHO */}
             <section className="cont" ref={comoRef}>
                 <div className="sobre-secao-numero">05</div>
-                <h2 className="titulo">Como eu trabalho</h2>
+                <h2 className="titulo" ref={comoTitleRef}>Como eu trabalho</h2>
 
                 <div className="sobre-abordagens" ref={comoCardsRef}>
                     <div className="sobre-abordagem">
                         <h3>Performance</h3>
                         <div className="sobre-abordagem-divider"></div>
                         <p>Busco reduzir overhead e construir sistemas eficientes
-                        desde a camada de dados até a API.</p>
+                        desde a camada de dados até a API, avaliando o custo das
+                        abstrações e o comportamento da aplicação em execução.</p>
                     </div>
 
                     <div className="sobre-abordagem">
                         <h3>Arquitetura</h3>
                         <div className="sobre-abordagem-divider"></div>
-                        <p>Estruturo aplicações pensando em separação de
-                        responsabilidades, manutenção e evolução.</p>
+                        <p>Estruturo aplicações com separação clara de responsabilidades,
+                        priorizando baixo acoplamento, manutenção e evolução incremental.</p>
                     </div>
 
                     <div className="sobre-abordagem">
                         <h3>Dados</h3>
                         <div className="sobre-abordagem-divider"></div>
-                        <p>Trabalho com bancos relacionais, validação de schemas
-                        e consistência das informações.</p>
+                        <p>Trabalho com bancos relacionais, modelagem, validação de schemas
+                        e consistência das informações, considerando o impacto das decisões
+                        de persistência no restante da aplicação.</p>
                     </div>
 
                     <div className="sobre-abordagem">
                         <h3>Aprendizado</h3>
                         <div className="sobre-abordagem-divider"></div>
-                        <p>Tenho facilidade para explorar novas stacks e comparar
-                        tecnologias através de experimentação prática.</p>
+                        <p>Aprendo principalmente por experimentação prática, comparando
+                        tecnologias, medindo resultados e aplicando os conceitos em
+                        projetos reais.</p>
                     </div>
                 </div>
             </section>
 
-            {/* 06 — ECOSSISTEMA */}
-            <section className="cont" ref={ecoRef}>
+            {/* 06 — DIREÇÃO TÉCNICA */}
+            <section className="cont" ref={docsRef}>
                 <div className="sobre-secao-numero">06</div>
-                <h2 className="titulo">Ecossistema</h2>
+                <h2 className="titulo" ref={direcaoTitleRef}>Direção técnica</h2>
 
-                <div className="sobre-ecossistema" ref={ecoGridRef}>
-                    <div className="sobre-eco-bloco">
-                        <h3>Languages</h3>
-                        <p>JavaScript · TypeScript · SQL · PHP</p>
+                <div className="sobre-abordagens">
+                    <div className="sobre-abordagem">
+                        <h3>Backend e arquitetura</h3>
+                        <div className="sobre-abordagem-divider"></div>
+                        <p>Meu foco está no desenvolvimento backend com JavaScript e TypeScript,
+                        priorizando APIs eficientes, baixo overhead e arquiteturas que sejam
+                        simples de manter e evoluir.</p>
+                        <p>Tenho direcionado meus estudos e projetos para runtimes, frameworks
+                        e ferramentas modernas do ecossistema JavaScript/TypeScript, com atenção
+                        especial a performance, arquitetura de software, integração entre serviços
+                        e consistência de dados.</p>
                     </div>
-                    <div className="sobre-eco-bloco">
-                        <h3>Backend</h3>
-                        <p>Node.js · Bun · Fastify · Hono · Express</p>
-                    </div>
-                    <div className="sobre-eco-bloco">
-                        <h3>Data</h3>
-                        <p>PostgreSQL · MySQL · Prisma · Drizzle</p>
-                    </div>
-                    <div className="sobre-eco-bloco">
-                        <h3>Validation</h3>
-                        <p>Zod · TypeBox</p>
-                    </div>
-                    <div className="sobre-eco-bloco">
-                        <h3>Web</h3>
-                        <p>HTML5 · CSS3 · REST APIs</p>
-                    </div>
-                    <div className="sobre-eco-bloco">
-                        <h3>Tooling</h3>
-                        <p>Git · GitHub · CLI</p>
-                    </div>
+                </div>
+
+                <div className="sobre-cta-wrap">
+                    <Link to="/habilidades" className="pagina-boton">Ver habilidades técnicas →</Link>
                 </div>
             </section>
 
             {/* 07 — CV / CONTATO */}
-            <section className="sobre-docs" ref={docsRef}>
+            <section className="sobre-docs" ref={cvRef}>
                 <p className="sobre-docs-texto">
-                    Quer conhecer minha trajetória profissional em detalhes?
+                    Quer ver meu currículo completo?
                 </p>
                 <a
                     href="/ASSETS/documentos/Currículo Braian de Liz.pdf"
@@ -287,10 +355,6 @@ function Sobre() {
                 >
                     Baixar currículo PDF
                 </a>
-                <div className="sobre-docs-links">
-                    <a href="https://github.com/Braian-de-Liz" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    <a href="https://www.linkedin.com/in/braian-de-liz-da-silva-47385038b/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                </div>
             </section>
         </main>
     );

@@ -1,11 +1,13 @@
 :root {
-    --glass: rgba(255, 255, 255, 0.02);
+    --glass: rgba(255, 255, 255, 0.04);
     --glass-border: rgba(255, 255, 255, 0.08);
     --accent: #4FC1E9;
     --accent-secondary: #A78BFA;
     --accent-glow: rgba(79, 193, 233, 0.3);
     --accent-gradient: linear-gradient(135deg, var(--accent), var(--accent-secondary));
     --text-main: #e0e0e0;
+    --text-secondary: #bbb;
+    --text-muted: #888;
     --bg-dark: #0a0f14;
 }
 
@@ -29,7 +31,7 @@ body {
     background-attachment: fixed;
     color: var(--text-main);
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.6;
     display: flex;
     flex-direction: column;
@@ -69,7 +71,7 @@ body::after {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: 9999;
+    z-index: 1;
     pointer-events: none;
     opacity: 0.02;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
@@ -103,14 +105,6 @@ main,
     transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-#barrasup.nav-scrolled {
-    background: rgba(7, 16, 23, 0.85);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-color: rgba(79, 193, 233, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
 .nav-links {
     list-style: none;
     display: flex;
@@ -118,7 +112,7 @@ main,
 }
 
 .nav-links a {
-    color: #999;
+    color: var(--text-muted);
     text-decoration: none;
     font-size: 0.85rem;
     font-weight: 600;
@@ -274,7 +268,7 @@ main,
 
 .hero-desc {
     font-size: 0.95rem;
-    color: #999;
+    color: var(--text-muted);
     line-height: 1.6;
     max-width: 420px;
     margin-bottom: 24px;
@@ -290,7 +284,7 @@ main,
     text-transform: uppercase;
     font-size: 11px;
     font-weight: 500;
-    color: #999;
+    color: var(--text-muted);
     margin-bottom: 16px;
     transition: color 0.2s;
 }
@@ -419,6 +413,37 @@ main,
     margin-bottom: 15px;
 }
 
+.section-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.title-separator {
+    opacity: 0.5;
+    margin: 0 0.3em;
+}
+
+.projeto-descricao {
+    margin-bottom: 20px;
+}
+
+.projeto-techs {
+    margin-top: 20px;
+}
+
+.projeto-links {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.sobre-cta-wrap {
+    text-align: center;
+    margin-top: 24px;
+}
+
 /* PROJETOS DESTAQUE */
 .projetos-destaque {
     width: 90%;
@@ -462,7 +487,7 @@ main,
 
 .destaque-card p {
     font-size: 0.85rem;
-    color: #999;
+    color: var(--text-muted);
     line-height: 1.5;
     flex: 1;
 }
@@ -497,7 +522,7 @@ main,
 
 .home-cta-texto {
     font-size: 1.1rem;
-    color: #888;
+    color: var(--text-muted);
     margin-bottom: 24px;
 }
 
@@ -514,7 +539,7 @@ main,
 
 .sobre-hero-sub {
     font-size: 1.1rem;
-    color: #888;
+    color: var(--text-muted);
     max-width: 500px;
     margin: 0 auto;
     line-height: 1.6;
@@ -551,7 +576,7 @@ main,
 
 .sobre-perfil-texto p {
     font-size: 0.95rem;
-    color: #bbb;
+    color: var(--text-secondary);
     line-height: 1.7;
     margin-bottom: 16px;
 }
@@ -574,10 +599,10 @@ main,
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--glass);
     border: 1px solid var(--glass-border);
     border-radius: 10px;
-    color: #bbb;
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 0.85rem;
     transition: all 0.3s ease;
@@ -594,14 +619,17 @@ main,
     padding-left: 40px;
 }
 
-.timeline::before {
-    content: '';
+.timeline-track {
     position: absolute;
     left: 6px;
     top: 0;
     bottom: 0;
-    width: 1px;
-    background: var(--glass-border);
+    width: 2px;
+}
+
+.timeline-track svg {
+    width: 2px;
+    height: 100%;
 }
 
 .timeline-item {
@@ -646,7 +674,7 @@ main,
 
 .timeline-conteudo p {
     font-size: 0.88rem;
-    color: #999;
+    color: var(--text-muted);
     line-height: 1.5;
 }
 
@@ -675,7 +703,7 @@ main,
 
 .sobre-abordagem p {
     font-size: 0.88rem;
-    color: #999;
+    color: var(--text-muted);
     line-height: 1.6;
 }
 
@@ -692,7 +720,7 @@ main,
     justify-content: space-between;
     align-items: center;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--glass);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
     transition: border-color 0.3s ease;
@@ -711,12 +739,12 @@ main,
 
 .sobre-formacao-local {
     font-size: 0.8rem;
-    color: #777;
+    color: var(--text-muted);
 }
 
 .sobre-formacao-desc {
     font-size: 0.82rem;
-    color: #999;
+    color: var(--text-muted);
     line-height: 1.5;
     margin-top: 6px;
     max-width: 480px;
@@ -730,7 +758,7 @@ main,
 
 .sobre-docs-texto {
     font-size: 1rem;
-    color: #888;
+    color: var(--text-muted);
     margin-bottom: 20px;
 }
 
@@ -746,7 +774,7 @@ main,
 }
 
 .sobre-docs-links a {
-    color: #666;
+    color: var(--text-muted);
     text-decoration: none;
     font-size: 0.85rem;
     transition: color 0.3s ease;
@@ -767,7 +795,7 @@ main,
     display: flex;
     gap: 20px;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--glass);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
     transition: border-color 0.3s ease;
@@ -809,15 +837,22 @@ main,
 
 .sobre-exp-sub {
     font-size: 0.8rem;
-    color: #777;
+    color: var(--text-muted);
     display: block;
     margin-bottom: 8px;
+}
+
+.sobre-exp-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 12px;
 }
 
 .sobre-exp-flow {
     font-family: 'Fira Code', monospace;
     font-size: 0.75rem;
-    color: #999;
+    color: var(--text-muted);
     letter-spacing: 0.5px;
 }
 
@@ -830,7 +865,7 @@ main,
 
 .sobre-eco-bloco {
     padding: 16px;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--glass);
     border: 1px solid var(--glass-border);
     border-radius: 10px;
     transition: border-color 0.3s ease;
@@ -852,7 +887,7 @@ main,
 
 .sobre-eco-bloco p {
     font-size: 0.88rem;
-    color: #bbb;
+    color: var(--text-secondary);
     line-height: 1.5;
 }
 
@@ -908,7 +943,7 @@ main,
 
 .arch-label {
     font-size: 0.78rem;
-    color: #777;
+    color: var(--text-muted);
     letter-spacing: 0.5px;
 }
 
@@ -988,7 +1023,7 @@ main,
 
 .arch-item-sub {
     font-size: 0.72rem;
-    color: #888;
+    color: var(--text-muted);
     padding: 2px 0;
 }
 
@@ -1021,7 +1056,7 @@ main,
     gap: 4px;
     padding: 0 16px 12px;
     font-size: 0.7rem;
-    color: #666;
+    color: var(--text-muted);
 }
 
 .arch-storage-label {
@@ -1056,8 +1091,8 @@ main,
 }
 
 .arch-stat-label {
-    font-size: 0.58rem;
-    color: #666;
+    font-size: 0.65rem;
+    color: var(--text-muted);
     letter-spacing: 0.5px;
     margin-top: 2px;
 }
@@ -1135,7 +1170,7 @@ main,
 
 .detalhes-arquitetura p {
     font-size: 0.92rem;
-    color: #bbb;
+    color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 16px;
 }
@@ -1148,7 +1183,7 @@ main,
 
 .detalhes-arquitetura ul li {
     font-size: 0.88rem;
-    color: #aaa;
+    color: var(--text-secondary);
     padding: 4px 0;
     padding-left: 16px;
     position: relative;
@@ -1183,13 +1218,13 @@ main,
 
 .detalhes-arquitetura td {
     padding: 8px 12px;
-    color: #bbb;
+    color: var(--text-secondary);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     transition: background 0.2s ease;
 }
 
 .detalhes-arquitetura tr:hover td {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--glass);
 }
 
 .detalhes-arquitetura tr:last-child td {
@@ -1222,7 +1257,7 @@ main,
 
 .detalhes-highlight-label {
     font-size: 0.72rem;
-    color: #888;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -1251,6 +1286,7 @@ main,
     flex-shrink: 0;
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid var(--glass-border);
     padding: 40px 20px;
     text-align: center;
@@ -1307,7 +1343,7 @@ main,
     .cont {
         width: 92%;
         max-width: 92%;
-        padding: 20px 12px;
+        padding: 24px 20px;
         margin: 12px auto;
         margin-left: auto;
         margin-right: auto;
@@ -1340,13 +1376,58 @@ main,
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    padding: 20px 0;
-    margin-top: 20px;
+    padding: 18px;
     overflow: visible;
 }
 
+.skill-category {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: visible;
+    transition: border-color 0.3s ease;
+}
+
+.skill-category:hover,
+.skill-category.expanded {
+    border-color: rgba(79, 193, 233, 0.3);
+}
+
+.skill-category-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 18px;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.skill-category-pill:hover {
+    color: #fff;
+}
+
+.skill-category-arrow {
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+
+.skill-category-grid {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
 .skill-card {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--glass);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     padding: 20px 10px;
@@ -1374,7 +1455,7 @@ main,
 .skill-card span {
     font-size: 0.85rem;
     font-weight: 500;
-    color: #bbb;
+    color: var(--text-secondary);
 }
 
 /* 8. CODE DISPLAY   IDE Style */
@@ -1392,7 +1473,7 @@ main,
     align-items: center;
     gap: 8px;
     padding: 10px 16px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--glass);
     border-bottom: 1px solid var(--glass-border);
 }
 
@@ -1409,7 +1490,7 @@ main,
 .code-filename {
     margin-left: 12px;
     font-size: 0.75rem;
-    color: #666;
+    color: var(--text-muted);
     font-family: 'Fira Code', monospace;
 }
 

@@ -12,7 +12,6 @@ function Hero() {
     const nomeRef = useRef(null);
     const cargoRef = useRef(null);
     const descRef = useRef(null);
-    const pillRef = useRef(null);
     const tagsRef = useRef(null);
     const ctaRef = useRef(null);
     const fotoRef = useRef(null);
@@ -26,11 +25,7 @@ function Hero() {
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({ defaults: { ease: easing.entry } });
 
-            tl.fromTo(pillRef.current,
-                { opacity: 0, y: 10 },
-                { opacity: 1, y: 0, duration: duration.fast }
-            )
-            .fromTo(olaRef.current,
+            tl.fromTo(olaRef.current,
                 { opacity: 0, y: 15 },
                 { opacity: 1, y: 0, duration: duration.fast },
                 '-=0.3'
@@ -67,26 +62,59 @@ function Hero() {
             );
 
             if (!prefersReducedMotion) {
-                gsap.to(fotoRef.current, {
-                    y: -50,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top top',
-                        end: 'bottom top',
-                        scrub: 0.5,
-                    },
+                const mm = gsap.matchMedia();
+
+                mm.add('(min-width: 768px)', () => {
+                    gsap.to(fotoRef.current, {
+                        y: -60,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top top',
+                            end: 'bottom top',
+                            scrub: 1,
+                        },
+                    });
+
+                    gsap.to(section.querySelector('.hero-content'), {
+                        y: -30,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top top',
+                            end: 'bottom top',
+                            scrub: 1,
+                        },
+                    });
+
+                    const xTo = gsap.quickTo(fotoRef.current, 'x', { duration: 0.6, ease: 'power3' });
+                    const yTo = gsap.quickTo(fotoRef.current, 'y', { duration: 0.6, ease: 'power3' });
+
+                    const onMouseMove = (e) => {
+                        const rect = section.getBoundingClientRect();
+                        const centerX = rect.left + rect.width / 2;
+                        const centerY = rect.top + rect.height / 2;
+                        const x = ((e.clientX - centerX) / rect.width) * 8;
+                        const y = ((e.clientY - centerY) / rect.height) * 8;
+                        xTo(x);
+                        yTo(y);
+                    };
+
+                    window.addEventListener('mousemove', onMouseMove);
+                    return () => window.removeEventListener('mousemove', onMouseMove);
                 });
 
-                gsap.to(section.querySelector('.hero-content'), {
-                    y: -20,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top top',
-                        end: 'bottom top',
-                        scrub: 0.5,
-                    },
+                mm.add('(max-width: 767px)', () => {
+                    gsap.to(fotoRef.current, {
+                        y: -30,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top top',
+                            end: 'bottom top',
+                            scrub: 1,
+                        },
+                    });
                 });
             }
         }, section);
@@ -97,11 +125,6 @@ function Hero() {
     return (
         <section className="hero" ref={sectionRef}>
             <div className="hero-content">
-                <a href="/projetos" className="hero-pill" ref={pillRef}>
-                    <span className="hero-pill-badge">NEW</span>
-                    <span>Veja meus projetos</span>
-                    <span className="hero-pill-arrow" aria-hidden="true">→</span>
-                </a>
                 <p className="hero-ola" ref={olaRef}>Olá, eu sou</p>
                 <h1 className="hero-nome" ref={nomeRef}>Braian de Liz</h1>
                 <h2 className="hero-cargo" ref={cargoRef}>Desenvolvedor de Sistemas</h2>
@@ -114,6 +137,7 @@ function Hero() {
                     <span className="hero-tag">TypeScript</span>
                     <span className="hero-tag">Node.js</span>
                     <span className="hero-tag">Fastify</span>
+                    <span className="hero-tag">Bun</span>
                 </div>
                 <Link to="/projetos" className="hero-cta" ref={ctaRef}>Ver Projetos</Link>
             </div>
