@@ -43,10 +43,10 @@ const STACK_ATUAL = [
  * sinalizam direção, não competência consolidada.
  */
 const EM_ESTUDO = [
-    { area: 'Backend', itens: ['Hono', 'Go', 'GraphQL'] },
+    { area: 'Backend', itens: ['Go (Fiber)', 'Hono', 'GraphQL', '.Net'] },
     { area: 'Infraestrutura', itens: ['Docker', 'CI/CD', 'Terraform', 'AWS'] },
     { area: 'Dados', itens: ['Drizzle', 'MongoDB'] },
-    { area: 'Aplicações de IA', itens: ['MCP', 'Agentes de IA'] },
+    { area: 'Aplicações de IA', itens: ['LangChain', 'MCP', 'Agentes de IA'] },
 ];
 
 function Habilidades() {

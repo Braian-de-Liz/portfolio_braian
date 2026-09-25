@@ -1567,6 +1567,13 @@ main,
     letter-spacing: 0.5px;
 }
 
+.detalhes-payload-desc {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+    line-height: 1.5;
+}
+
 .detalhes-secao {
     margin-bottom: var(--space-5);
 }
