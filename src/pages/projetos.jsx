@@ -1,270 +1,181 @@
+import { ProjetoCase } from '../components/ProjetoCase';
+import { FluxoTecnico } from '../components/FluxoTecnico';
+import { BenchmarkChart } from '../components/BenchmarkChart';
+import { BlocoCodigo } from '../components/BlocoCodigo';
 import { DetalhesZbr } from '../components/details/DetalhesZbr';
 import { DetalhesTchuu } from '../components/details/DetalhesTchuu';
 import { DetalhesAmotif } from '../components/details/DetalhesAmotif';
 import { DetalhesTypeMarks } from '../components/details/DetalhesTypeMarks';
-import { ArchitectureDiagram } from '../components/ArchitectureDiagram';
-import { useScrollReveal } from '../animations/useScrollReveal';
-import { usePageEntry } from '../animations/usePageEntry';
-import { useRevealTitle } from '../animations/useRevealTitle';
 
-function Projetos() {
-    const pageRef = usePageEntry();
-    const zbrRef = useScrollReveal({ y: 30 });
-    const zbrContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
+/*
+ * Os quatro melhores cenários do relatório de benchmark do TypeMarks,
+ * seguidos do baseline em Node.js com a mesma combinação Fastify + AJV.
+ * O contraste entre a 4ª e a 5ª linha isola o efeito do runtime.
+ */
+const CENARIOS_TYPEMARKS = [
+    { runtime: 'Bun', framework: 'Hono', validador: 'AJV', reqs: 28534, latencia: '2,94 ms' },
+    { runtime: 'Bun', framework: 'Elysia', validador: 'TypeBox', reqs: 25915, latencia: '3,45 ms' },
+    { runtime: 'Bun', framework: 'Hono', validador: 'Schema-Shield', reqs: 25021, latencia: '3,61 ms' },
+    { runtime: 'Bun', framework: 'Fastify', validador: 'AJV', reqs: 22527, latencia: '3,93 ms' },
+    { runtime: 'Node', framework: 'Fastify', validador: 'AJV', reqs: 14998, latencia: '6,16 ms' },
+];
 
-    const tchuuRef = useScrollReveal({ y: 30 });
-    const tchuuContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
+const EXEMPLO_ZOD = `import { z } from 'zod';
+import { zbr } from 'br_standards_with_zod';
 
-    const amotifRef = useScrollReveal({ y: 30 });
-    const amotifContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
-
-    const typemarksRef = useScrollReveal({ y: 30 });
-    const typemarksContentRef = useScrollReveal({ y: 20, children: true, stagger: 0.05 });
-
-    const zbrTitleRef = useRevealTitle();
-    const tchuuTitleRef = useRevealTitle();
-    const amotifTitleRef = useRevealTitle();
-    const typemarksTitleRef = useRevealTitle();
-
-    return (
-        <main ref={pageRef}>
-            {/* ─── br_standards_with_zod ─── */}
-            <section className="cont" ref={zbrRef}>
-                <div ref={zbrContentRef}>
-                    <h2 className="titulo" ref={zbrTitleRef}>br_standards_with_zod</h2>
-                    <p className="projeto-descricao">
-                        Biblioteca open-source para validação rigorosa de documentos brasileiros.
-                        Garante integridade de dados com validação matemática de dígitos verificadores e integração nativa ao ecossistema Zod.
-                    </p>
-                </div>
-
-                <div className="code-display">
-                    <div className="code-header">
-                        <span className="code-dot"></span>
-                        <span className="code-dot"></span>
-                        <span className="code-dot"></span>
-                        <span className="code-filename">example.ts</span>
-                    </div>
-                    <pre>
-                        <code>
-                            {`// Exemplo de uso:
-const schema = z.object({
+const cadastro = z.object({
   cpf: zbr.cpf(),
   cnpj: zbr.cnpj(),
-  tel: zbr.tel()
-});`}
-                        </code>
-                    </pre>
-                </div>
+  tel: zbr.tel(),
+});
 
-                <div className="habilidades-grid projeto-techs">
-                    <div className="skill-card" title="Linguagem tipada para código seguro e escalável">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg" alt="TypeScript" />
-                        <span>TypeScript</span>
-                    </div>
-                    <div className="skill-card" title="Validação de schemas TypeScript-first">
-                        <img src="https://cdn.simpleicons.org/zod" alt="Zod" />
-                        <span>Zod</span>
-                    </div>
-                    <div className="skill-card" title="Runtime JavaScript server-side">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-plain.svg" alt="Node.js" />
-                        <span>Node.js</span>
-                    </div>
-                    <div className="skill-card" title="Testes unitários rápidos com Vitest">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitest/vitest-plain.svg" alt="Vitest" />
-                        <span>Vitest</span>
-                    </div>
-                    <div className="skill-card" title="Bundler TypeScript para ESM e CJS">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/esbuild/esbuild-original.svg" alt="esbuild" />
-                        <span>tsup</span>
-                    </div>
-                </div>
+// "123.456.789-09" -> normalizado para "12345678909"
+// "111.111.111-11" -> rejeitado: sequência inválida`;
 
-                <DetalhesZbr />
-
-                <div className="projeto-links">
-                    <a href="https://github.com/Braian-de-Liz/br_standards_with_zod" className="pagina-boton">GitHub</a>
-                    <a href="https://www.npmjs.com/package/br_standards_with_zod" className="pagina-boton">Ver no NPM</a>
-                    <a href="https://zbr-view-7bc2.vercel.app/" className="pagina-boton">Site do Projeto</a>
-                </div>
-            </section>
-
-            {/* ─── Tchuu-Tchuu ─── */}
-            <section className="cont" ref={tchuuRef}>
-                <div ref={tchuuContentRef}>
-                    <h2 className="titulo" ref={tchuuTitleRef}>Tchuu-Tchuu</h2>
-                    <p>
-                        Plataforma de monitoramento de trens em tempo real   projeto Full Stack
-                        com Node.js + Fastify no back-end e HTML + CSS + JS no front-end.
-                    </p>
-                </div>
-
-                <div className="exibir">
-                    <div><img loading="lazy" src="ASSETS/imagens/tchuu-tchuu_github.png" alt="Preview 1" className="imge" /></div>
-                    <div><img loading="lazy" src="ASSETS/imagens/tchuu-tchuu_login.png" alt="Preview 2" className="imge" /></div>
-                    <div><img loading="lazy" src="ASSETS/imagens/inicial_tchuuTchuu.png" alt="Preview 3" className="imge" /></div>
-                </div>
-
-                <div className="habilidades-grid projeto-techs">
-                    <div className="skill-card" title="Linguagem de marcação para estruturar páginas web">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain.svg" alt="HTML5" />
-                        <span>HTML5</span>
-                    </div>
-                    <div className="skill-card" title="Estilização e layout responsivo">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg" alt="CSS3" />
-                        <span>CSS3</span>
-                    </div>
-                    <div className="skill-card" title="Linguagem dinâmica para interatividade no navegador">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg" alt="JavaScript" />
-                        <span>JavaScript</span>
-                    </div>
-                    <div className="skill-card" title="Gráficos dinâmicos e visualização de dados">
-                        <img src="https://www.chartjs.org/media/logo-title.svg" alt="Chart.js" />
-                        <span>Chart.js</span>
-                    </div>
-                    <div className="skill-card" title="Framework web backend de alta performance">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastify/fastify-plain.svg" alt="Fastify" />
-                        <span>Fastify</span>
-                    </div>
-                    <div className="skill-card" title="Runtime JavaScript server-side">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-plain.svg" alt="Node.js" />
-                        <span>Node.js</span>
-                    </div>
-                    <div className="skill-card" title="Comunicação bidirecional em tempo real">
-                        <img src="https://cdn.simpleicons.org/socketdotio" alt="WebSocket" />
-                        <span>WebSocket</span>
-                    </div>
-                    <div className="skill-card" title="Hashing de senhas com bcrypt">
-                        <img src="https://cdn.simpleicons.org/bcrypt" alt="Bcrypt" />
-                        <span>Bcrypt</span>
-                    </div>
-                    <div className="skill-card" title="Banco relacional robusto">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-plain.svg" alt="PostgreSQL" />
-                        <span>PostgreSQL</span>
-                    </div>
-                </div>
-
-                <DetalhesTchuu />
-
-                <div className="projeto-links">
-                    <a href="https://github.com/Braian-de-Liz/Tchuu-Tchuu" className="pagina-boton">GitHub</a>
-                </div>
-            </section>
+function Projetos() {
+    return (
+        <main>
+            <header className="secao-aberta pagina-cabecalho">
+                <span className="eyebrow">Projetos</span>
+                <h1 className="titulo">Decisões técnicas e resultados</h1>
+                <p className="section-subtitle">
+                    Cada case começa pelo problema e pela evidência. Os detalhes de
+                    arquitetura, metodologia e trade-offs ficam a um clique.
+                </p>
+            </header>
 
             {/* ─── AMOTIF ─── */}
-            <section className="cont destaque" ref={amotifRef}>
-                <div ref={amotifContentRef}>
-                    <h2 className="titulo" ref={amotifTitleRef}>AMOTIF <span className="title-separator">—</span> Colaboração Musical Assíncrona</h2>
-                    <p className="projeto-descricao">
-                        Plataforma digital que viabiliza a criação coletiva de obras musicais através da contribuição estruturada de camadas instrumentais independentes   um "Git para músicos".
-                    </p>
-                </div>
-
-                <div className="exibir">
-                    <div><img loading="lazy" src="ASSETS/imagens/home_amotif.png" alt="Home AMOTIF" className="imge" /></div>
-                    <div><img loading="lazy" src="ASSETS/imagens/amotif_login.png" alt="Login AMOTIF" className="imge" /></div>
-                    <div><img loading="lazy" src="ASSETS/imagens/amotif_cadastro.png" alt="Cadastro AMOTIF" className="imge" /></div>
-                    <div><img loading="lazy" src="/ASSETS/imagens/gitamotif.png" alt="Github" className="imge" /></div>
-                </div>
-
-                <div className="habilidades-grid projeto-techs">
-                    <div className="skill-card" title="Runtime JavaScript all-in-one   mais rápido que Node.js">
-                        <img src={new URL(`/ASSETS/imagens/bun-logo.svg`, import.meta.url).href} alt="Bun" />
-                        <span>Bun</span>
-                    </div>
-                    <div className="skill-card" title="Framework web backend de alta performance com validação TypeBox">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastify/fastify-plain.svg" alt="Fastify" />
-                        <span>Fastify</span>
-                    </div>
-                    <div className="skill-card" title="Validação rigorosa de schemas TypeScript-first em runtime">
-                        <img src="https://raw.githubusercontent.com/sinclairzx81/sinclair-typebox/refs/heads/main/typebox.png" alt="TypeBox" />
-                        <span>TypeBox</span>
-                    </div>
-                    <div className="skill-card" title="ORM TypeScript type-safe para PostgreSQL">
-                        <img src="https://cdn.simpleicons.org/prisma" alt="Prisma" />
-                        <span>Prisma</span>
-                    </div>
-                    <div className="skill-card" title="Banco relacional robusto com integridade de dados">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-plain.svg" alt="PostgreSQL" />
-                        <span>PostgreSQL</span>
-                    </div>
-
-                    <div className="skill-card" title="Biblioteca para interfaces de usuário component-based">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" />
-                        <span>React</span>
-                    </div>
-                    <div className="skill-card" title="Infraestrutura de cloud storage e entrega global de arquivos">
-                        <img src="https://cdn.simpleicons.org/supabase" alt="Supabase" />
-                        <span>Supabase</span>
-                    </div>
-
-                </div>
-
-                <ArchitectureDiagram />
-
-                <DetalhesAmotif />
-
-                <div className="projeto-links">
-                    <a href="https://github.com/Braian-de-Liz/AMOTIF" className="pagina-boton">GitHub</a>
-                    <a href="https://amotif-music.onrender.com" className="pagina-boton">Site do AMOTIF</a>
-                </div>
-            </section>
+            <ProjetoCase
+                destaque
+                categoria="Plataforma full stack"
+                titulo="AMOTIF"
+                resumo="Plataforma de colaboração musical assíncrona: cada contribuição entra como uma camada de áudio versionada, preservando autoria e histórico em vez de sobrescrever o trabalho anterior."
+                composicao={
+                    <FluxoTecnico
+                        titulo="amotif.arquitetura"
+                        status="Em produção"
+                        etapas={[
+                            { titulo: 'Cliente', itens: ['React 19', 'Web Audio API'] },
+                            {
+                                titulo: 'API',
+                                itens: ['Fastify 5 + Bun', 'TypeBox (JIT)', 'JWT + Argon2id'],
+                                destaque: true,
+                                conexao: 'HTTPS',
+                            },
+                            { titulo: 'Dados', itens: ['Prisma 7', 'PostgreSQL'], conexao: 'SQL' },
+                            { titulo: 'Arquivos', itens: ['Supabase Storage'], conexao: 'stream' },
+                        ]}
+                        nota="Upload de áudio não passa pela memória da API: o binário é validado em até 40 MB e transmitido por streaming ao storage; só a URL final é persistida no banco."
+                    />
+                }
+                metricas={[
+                    { valor: '40+', rotulo: 'endpoints' },
+                    { valor: '14', rotulo: 'modelos Prisma' },
+                    { valor: '15', rotulo: 'migrações' },
+                    { valor: '18', rotulo: 'arquivos de teste' },
+                ]}
+                stack={['Bun', 'Fastify 5', 'TypeBox', 'Prisma 7', 'PostgreSQL', 'React 19']}
+                links={[
+                    { href: 'https://github.com/Braian-de-Liz/AMOTIF', label: 'Ver código' },
+                    { href: 'https://amotif-music.onrender.com', label: 'Abrir aplicação' },
+                ]}
+                detalhes={<DetalhesAmotif />}
+            />
 
             {/* ─── TypeMarks ─── */}
-            <section className="cont" ref={typemarksRef}>
-                <div ref={typemarksContentRef}>
-                    <h2 className="titulo" ref={typemarksTitleRef}>TypeMarks <span className="title-separator">—</span> Benchmark de Validação de Schemas</h2>
-                    <p className="projeto-descricao">
-                        Benchmarks de alta performance comparando 15 cenários de validação de esquemas combinando runtimes (Bun/Node.js), frameworks (Fastify/Elysia/Hono) e validadores (AJV, TypeBox, Schema-Shield, Zod, Typia). Campeão absoluto: <strong>Hono + AJV no Bun</strong> com <strong>28.534 req/s</strong> e latência média de <strong>2,94ms</strong>.
-                    </p>
-                </div>
+            <ProjetoCase
+                categoria="Pesquisa de performance"
+                titulo="TypeMarks"
+                resumo="Benchmark de 15 cenários combinando runtimes, frameworks e validadores para medir quanto a validação de contratos custa em throughput — e transformar a escolha de stack numa decisão com dado, não com intuição."
+                composicao={
+                    <BenchmarkChart
+                        cenarios={CENARIOS_TYPEMARKS}
+                        legenda="Requisições por segundo: os quatro melhores cenários, todos no Bun, comparados ao baseline de Fastify com AJV no Node.js"
+                    />
+                }
+                metricas={[
+                    { valor: '28.534', rotulo: 'req/s no melhor cenário' },
+                    { valor: '2,94 ms', rotulo: 'latência média' },
+                    { valor: '5,60 ms', rotulo: 'latência P99' },
+                    { valor: '+50,2%', rotulo: 'Bun sobre Node.js (AJV)' },
+                ]}
+                stack={['Bun', 'Node.js', 'Hono', 'Fastify', 'AJV', 'Autocannon']}
+                links={[
+                    { href: 'https://github.com/Braian-de-Liz/typemarks', label: 'Ver relatório' },
+                ]}
+                detalhes={<DetalhesTypeMarks />}
+            />
 
-                <div className="habilidades-grid projeto-techs">
-                    <div className="skill-card" title="Runtime JavaScript all-in-one   mais rápido que Node.js">
-                        <img src={new URL(`/ASSETS/imagens/bun-logo.svg`, import.meta.url).href} alt="Bun" />
-                        <span>Bun</span>
-                    </div>
-                    <div className="skill-card" title="Runtime JavaScript server-side (Motor V8)">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-plain.svg" alt="Node.js" />
-                        <span>Node.js</span>
-                    </div>
-                    <div className="skill-card" title="Framework web backend de alta performance">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastify/fastify-plain.svg" alt="Fastify" />
-                        <span>Fastify</span>
-                    </div>
-                    <div className="skill-card" title="Framework web TypeScript-first para Bun">
-                        <img src="https://avatars.githubusercontent.com/u/119793569?s=200&v=4" alt="Elysia" />
-                        <span>Elysia</span>
-                    </div>
-                    <div className="skill-card" title="Validação estática de esquemas com TypeBox">
-                        <img src="https://raw.githubusercontent.com/sinclairzx81/sinclair-typebox/refs/heads/main/typebox.png" alt="TypeBox" />
-                        <span>TypeBox</span>
-                    </div>
-                    <div className="skill-card" title="Compilador JSON Schema de alta performance (AJV)">
-                        <img src="https://cdn.simpleicons.org/ajv" alt="AJV" />
-                        <span>AJV</span>
-                    </div>
-                    <div className="skill-card" title="Validação de schemas TypeScript-first">
-                        <img src="https://cdn.simpleicons.org/zod" alt="Zod" />
-                        <span>Zod</span>
-                    </div>
-                    <div className="skill-card" title="Validação por transformação estática em tempo de compilação">
-                        <img src="https://typia.io/logo.png" alt="Typia" />
-                        <span>Typia</span>
-                    </div>
-                    <div className="skill-card" title="Ferramenta de testes de carga HTTP">
-                        <img src="https://cdn.simpleicons.org/autocannon" alt="Autocannon" />
-                        <span>Autocannon</span>
-                    </div>
-                </div>
+            {/* ─── br_standards_with_zod ─── */}
+            <ProjetoCase
+                categoria="Biblioteca open source"
+                titulo="br_standards_with_zod"
+                resumo="Validação de documentos brasileiros que vai além de regex: o dígito verificador é calculado por módulo 11 e a entrada é normalizada antes de chegar ao schema, integrada ao ecossistema Zod."
+                composicao={
+                    <>
+                        <BlocoCodigo arquivo="cadastro.ts" codigo={EXEMPLO_ZOD} />
+                        <FluxoTecnico
+                            titulo="zbr.pipeline"
+                            etapas={[
+                                { titulo: 'Entrada', itens: ['"123.456.789-09"'] },
+                                { titulo: 'Normalização', itens: ['Remove máscara'], conexao: 'sanitize' },
+                                {
+                                    titulo: 'Validação',
+                                    itens: ['Dígito mod 11', 'Bloqueia sequências'],
+                                    destaque: true,
+                                    conexao: 'checa',
+                                },
+                                { titulo: 'Saída', itens: ['"12345678909"'], conexao: 'tipado' },
+                            ]}
+                        />
+                    </>
+                }
+                metricas={[
+                    { valor: '0', rotulo: 'dependências em runtime' },
+                    { valor: 'ESM + CJS', rotulo: 'formatos publicados' },
+                    { valor: '5', rotulo: 'documentos validados' },
+                ]}
+                stack={['TypeScript', 'Zod', 'Node.js', 'Vitest', 'tsup']}
+                links={[
+                    { href: 'https://www.npmjs.com/package/br_standards_with_zod', label: 'Ver no NPM' },
+                    { href: 'https://github.com/Braian-de-Liz/br_standards_with_zod', label: 'Ver código' },
+                    { href: 'https://zbr-view-7bc2.vercel.app/', label: 'Abrir demo' },
+                ]}
+                detalhes={<DetalhesZbr />}
+            />
 
-                <DetalhesTypeMarks />
-
-                <div className="projeto-links">
-                    <a href="https://github.com/Braian-de-Liz/typemarks" className="pagina-boton">GitHub</a>
-                </div>
-            </section>
-
+            {/* ─── Tchuu-Tchuu ─── */}
+            <ProjetoCase
+                categoria="Monitoramento em tempo real"
+                titulo="Tchuu-Tchuu"
+                resumo="Sistema de monitoramento ferroviário em que telemetria de sensores chega por WebSocket e alimenta um painel operacional, com três componentes que escalam e implantam de forma independente."
+                composicao={
+                    <FluxoTecnico
+                        titulo="tchuu.telemetria"
+                        etapas={[
+                            { titulo: 'Sensores', itens: ['Telemetria dos trens'] },
+                            {
+                                titulo: 'API',
+                                itens: ['Fastify', 'WebSocket', 'JWT'],
+                                destaque: true,
+                                conexao: 'WS',
+                            },
+                            { titulo: 'Persistência', itens: ['PostgreSQL (Neon)'], conexao: 'SQL' },
+                            { titulo: 'Operação', itens: ['Painel', 'Chart.js', 'Chat'], conexao: 'push' },
+                        ]}
+                        nota="Frontend em JavaScript puro foi uma escolha deliberada do projeto para exercitar fundamentos, e o CORS aceita apenas o domínio do próprio frontend."
+                    />
+                }
+                metricas={[
+                    { valor: '881', rotulo: 'commits' },
+                    { valor: '3', rotulo: 'componentes com deploy próprio' },
+                ]}
+                stack={['Node.js', 'Fastify', 'WebSocket', 'PostgreSQL', 'Chart.js', 'JavaScript']}
+                links={[
+                    { href: 'https://github.com/Braian-de-Liz/Tchuu-Tchuu', label: 'Ver código' },
+                ]}
+                detalhes={<DetalhesTchuu />}
+            />
         </main>
     );
 }

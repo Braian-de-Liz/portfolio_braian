@@ -1,40 +1,40 @@
 import { useRef, useLayoutEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HouseIcon, CodeIcon, BookOpenIcon, ZapIcon } from './Icons';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const prefersReducedMotion = typeof window !== 'undefined'
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 function Nav() {
     const navRef = useRef(null);
 
     useLayoutEffect(() => {
-        if (prefersReducedMotion) return;
-
         const nav = navRef.current;
         if (!nav) return;
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
 
         const ctx = gsap.context(() => {
             ScrollTrigger.create({
                 start: 50,
                 onEnter: () => gsap.to(nav, {
-                    backgroundColor: 'rgba(7, 16, 23, 0.85)',
+                    backgroundColor: 'rgba(9, 15, 21, 0.86)',
                     backdropFilter: 'blur(24px)',
                     WebkitBackdropFilter: 'blur(24px)',
-                    borderColor: 'rgba(79, 193, 233, 0.2)',
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                    borderColor: 'rgba(255, 255, 255, 0.11)',
+                    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.26)',
                     duration: 0.25,
                     ease: 'power2.out',
                 }),
                 onLeaveBack: () => gsap.to(nav, {
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    // Mesmos valores do estado inicial em App.css,
+                    // para a navbar voltar exatamente ao tom original.
+                    backgroundColor: 'rgba(13, 21, 28, 0.66)',
                     backdropFilter: 'blur(16px)',
                     WebkitBackdropFilter: 'blur(16px)',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderColor: 'rgba(255, 255, 255, 0.07)',
                     boxShadow: 'none',
                     duration: 0.25,
                     ease: 'power2.out',
@@ -47,32 +47,32 @@ function Nav() {
 
     return (
         <>
-            <nav id="barrasup" ref={navRef}>
+            <nav id="barrasup" ref={navRef} aria-label="Navegação principal">
                 <ul className="nav-links">
-                    <li><Link to="/">Início</Link></li>
-                    <li><Link to="/projetos">Projetos</Link></li>
-                    <li><Link to="/sobre">Sobre</Link></li>
-                    <li><Link to="/habilidades">Habilidades</Link></li>
+                    <li><NavLink to="/" end>Início</NavLink></li>
+                    <li><NavLink to="/projetos">Projetos</NavLink></li>
+                    <li><NavLink to="/sobre">Sobre</NavLink></li>
+                    <li><NavLink to="/habilidades">Habilidades</NavLink></li>
                 </ul>
             </nav>
 
-            <nav id="rodanav">
-                <Link to="/">
+            <nav id="rodanav" aria-label="Navegação mobile">
+                <NavLink to="/" end>
                     <HouseIcon />
                     <span>Início</span>
-                </Link>
-                <Link to="/projetos">
+                </NavLink>
+                <NavLink to="/projetos">
                     <CodeIcon />
                     <span>Projetos</span>
-                </Link>
-                <Link to="/sobre">
+                </NavLink>
+                <NavLink to="/sobre">
                     <BookOpenIcon />
                     <span>Sobre</span>
-                </Link>
-                <Link to="/habilidades">
+                </NavLink>
+                <NavLink to="/habilidades">
                     <ZapIcon />
                     <span>Habilidades</span>
-                </Link>
+                </NavLink>
             </nav>
         </>
     );

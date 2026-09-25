@@ -1,19 +1,12 @@
 import { useRef, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { easing, duration } from '../animations/presets';
 
-gsap.registerPlugin(ScrollTrigger);
+const TECNOLOGIAS = ['TypeScript', 'Node.js', 'Bun', 'Fastify', 'PostgreSQL'];
 
 function Hero() {
     const sectionRef = useRef(null);
-    const olaRef = useRef(null);
-    const nomeRef = useRef(null);
-    const cargoRef = useRef(null);
-    const descRef = useRef(null);
-    const tagsRef = useRef(null);
-    const ctaRef = useRef(null);
     const fotoRef = useRef(null);
 
     useLayoutEffect(() => {
@@ -21,128 +14,64 @@ function Hero() {
         if (!section) return;
 
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        // Uma única entrada encadeada e discreta: sem parallax,
+        // sem tilt por mouse e sem escala nos elementos de texto.
+        const alvos = section.querySelectorAll('[data-hero-item]');
+        if (alvos.length === 0) return;
 
         const ctx = gsap.context(() => {
-            const tl = gsap.timeline({ defaults: { ease: easing.entry } });
-
-            tl.fromTo(olaRef.current,
-                { opacity: 0, y: 15 },
-                { opacity: 1, y: 0, duration: duration.fast },
-                '-=0.3'
-            )
-            .fromTo(nomeRef.current,
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: duration.hero },
-                '-=0.3'
-            )
-            .fromTo(cargoRef.current,
-                { opacity: 0, y: 15 },
-                { opacity: 1, y: 0, duration: duration.entry },
-                '-=0.5'
-            )
-            .fromTo(descRef.current,
-                { opacity: 0, y: 15 },
-                { opacity: 1, y: 0, duration: duration.entry },
-                '-=0.4'
-            )
-            .fromTo(tagsRef.current.children,
-                { opacity: 0, y: 10, scale: 0.95 },
-                { opacity: 1, y: 0, scale: 1, duration: duration.fast, stagger: 0.06 },
-                '-=0.3'
-            )
-            .fromTo(ctaRef.current,
-                { opacity: 0, y: 10 },
-                { opacity: 1, y: 0, duration: duration.entry },
-                '-=0.2'
-            )
-            .fromTo(fotoRef.current,
-                { opacity: 0, y: 20, scale: 0.94 },
-                { opacity: 1, y: 0, scale: 1, duration: duration.hero },
-                '-=0.7'
+            gsap.fromTo(alvos,
+                { opacity: 0, y: 14 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: duration.entry,
+                    ease: easing.entry,
+                    stagger: 0.07,
+                    clearProps: 'transform',
+                }
             );
-
-            if (!prefersReducedMotion) {
-                const mm = gsap.matchMedia();
-
-                mm.add('(min-width: 768px)', () => {
-                    gsap.to(fotoRef.current, {
-                        y: -60,
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: section,
-                            start: 'top top',
-                            end: 'bottom top',
-                            scrub: 1,
-                        },
-                    });
-
-                    gsap.to(section.querySelector('.hero-content'), {
-                        y: -30,
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: section,
-                            start: 'top top',
-                            end: 'bottom top',
-                            scrub: 1,
-                        },
-                    });
-
-                    const xTo = gsap.quickTo(fotoRef.current, 'x', { duration: 0.6, ease: 'power3' });
-                    const yTo = gsap.quickTo(fotoRef.current, 'y', { duration: 0.6, ease: 'power3' });
-
-                    const onMouseMove = (e) => {
-                        const rect = section.getBoundingClientRect();
-                        const centerX = rect.left + rect.width / 2;
-                        const centerY = rect.top + rect.height / 2;
-                        const x = ((e.clientX - centerX) / rect.width) * 8;
-                        const y = ((e.clientY - centerY) / rect.height) * 8;
-                        xTo(x);
-                        yTo(y);
-                    };
-
-                    window.addEventListener('mousemove', onMouseMove);
-                    return () => window.removeEventListener('mousemove', onMouseMove);
-                });
-
-                mm.add('(max-width: 767px)', () => {
-                    gsap.to(fotoRef.current, {
-                        y: -30,
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: section,
-                            start: 'top top',
-                            end: 'bottom top',
-                            scrub: 1,
-                        },
-                    });
-                });
-            }
         }, section);
 
-        return () => ctx.revert();
+        return () => {
+            ctx.revert();
+            gsap.set(alvos, { opacity: 1, y: 0, clearProps: 'transform' });
+        };
     }, []);
 
     return (
         <section className="hero" ref={sectionRef}>
             <div className="hero-content">
-                <p className="hero-ola" ref={olaRef}>Olá, eu sou</p>
-                <h1 className="hero-nome" ref={nomeRef}>Braian de Liz</h1>
-                <h2 className="hero-cargo" ref={cargoRef}>Desenvolvedor de Sistemas</h2>
-                <p className="hero-desc" ref={descRef}>
-                    Construo aplicações web focadas em performance,
-                    arquitetura e escalabilidade.
+                <p className="hero-ola" data-hero-item>Olá, eu sou</p>
+                <h1 className="hero-nome" data-hero-item>Braian de Liz</h1>
+                <h2 className="hero-cargo" data-hero-item>
+                    Desenvolvedor de sistemas com foco em <strong>backend</strong>
+                </h2>
+                <p className="hero-desc" data-testid="hero-desc" data-hero-item>
+                    Construo APIs e serviços em JavaScript e TypeScript, com atenção
+                    a arquitetura, consistência de dados e custo de execução.
                 </p>
-                <div className="hero-tags" ref={tagsRef}>
-                    <span className="hero-tag">JavaScript</span>
-                    <span className="hero-tag">TypeScript</span>
-                    <span className="hero-tag">Node.js</span>
-                    <span className="hero-tag">Fastify</span>
-                    <span className="hero-tag">Bun</span>
+                <div className="hero-tags" data-testid="hero-tags" data-hero-item>
+                    {TECNOLOGIAS.map((tech) => (
+                        <span className="hero-tag" key={tech}>{tech}</span>
+                    ))}
                 </div>
-                <Link to="/projetos" className="hero-cta" ref={ctaRef}>Ver Projetos</Link>
+                <div className="hero-acoes" data-hero-item>
+                    <Link to="/projetos" className="hero-cta">Ver projetos</Link>
+                    <Link to="/sobre" className="hero-link-secundario">Sobre meu trabalho</Link>
+                </div>
             </div>
-            <div className="hero-foto" ref={fotoRef}>
-                <img src="ASSETS/imagens/foto_braian.jpg" alt="Braian de Liz" />
+            <div className="hero-foto" ref={fotoRef} data-hero-item>
+                <img
+                    src="/ASSETS/imagens/foto_braian.jpg"
+                    alt="Retrato de Braian de Liz"
+                    width="232"
+                    height="290"
+                    decoding="async"
+                    fetchPriority="high"
+                />
             </div>
         </section>
     );

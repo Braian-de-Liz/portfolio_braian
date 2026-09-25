@@ -8,7 +8,7 @@ function DetalhesAmotif() {
                     Schema-first com TypeBox: cada rota declara seu schema de validação, que o Fastify compila para AJV com JIT.
                     Apenas 2 services existem no projeto inteiro   extraídos apenas quando chamados de múltiplas rotas.
                 </p>
-                <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                <div className="detalhes-highlights">
                     <div className="detalhes-highlight">
                         <span className="detalhes-highlight-numero">40+</span>
                         <span className="detalhes-highlight-label">endpoints</span>
@@ -30,6 +30,7 @@ function DetalhesAmotif() {
 
             <div className="detalhes-secao">
                 <h4>Stack Completa</h4>
+                <div className="tabela-scroll">
                 <table>
                     <thead>
                         <tr>
@@ -81,6 +82,7 @@ function DetalhesAmotif() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
             <div className="detalhes-secao">

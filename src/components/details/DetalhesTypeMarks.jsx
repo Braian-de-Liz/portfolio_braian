@@ -14,6 +14,7 @@ function DetalhesTypeMarks() {
 
             <div className="detalhes-secao">
                 <h4>Matriz de Cenários (15 combinações)</h4>
+                <div className="tabela-scroll">
                 <table>
                     <thead>
                         <tr>
@@ -76,6 +77,7 @@ function DetalhesTypeMarks() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
             <div className="detalhes-secao">

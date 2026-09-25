@@ -6,6 +6,7 @@ function DetalhesTchuu() {
                 <p>
                     Três componentes independentes, cada um com deploy e escala próprios   reflexo de uma arquitetura de microsserviços em miniature.
                 </p>
+                <div className="tabela-scroll">
                 <table>
                     <thead>
                         <tr>
@@ -32,6 +33,7 @@ function DetalhesTchuu() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
             <div className="detalhes-secao">

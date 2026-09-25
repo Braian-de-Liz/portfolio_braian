@@ -2,9 +2,6 @@ import { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { easing, duration } from './presets';
 
-const prefersReducedMotion = typeof window !== 'undefined'
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 function usePageEntry(options = {}) {
     const root = useRef(null);
 
@@ -17,10 +14,11 @@ function usePageEntry(options = {}) {
     } = options;
 
     useLayoutEffect(() => {
-        if (prefersReducedMotion) return;
-
         const node = root.current;
         if (!node) return;
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
 
         const eyebrowEl = node.querySelector(eyebrow);
         const titleEl = node.querySelector(title);
@@ -40,10 +38,14 @@ function usePageEntry(options = {}) {
                 duration: duration.entry,
                 ease: easing.entry,
                 stagger,
+                clearProps: 'transform',
             });
         }, node);
 
-        return () => ctx.revert();
+        return () => {
+            ctx.revert();
+            gsap.set(targets, { opacity: 1, y: 0, clearProps: 'transform' });
+        };
     }, [eyebrow, title, subtitle, content, stagger]);
 
     return root;

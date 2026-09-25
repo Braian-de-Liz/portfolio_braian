@@ -1,12 +1,9 @@
 import { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { easing, duration, stagger as staggerPreset, scrollConfig } from './presets';
+import { easing, duration, stagger as staggerPreset } from './presets';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const prefersReducedMotion = typeof window !== 'undefined'
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function useScrollReveal(options = {}) {
     const root = useRef(null);
@@ -16,43 +13,87 @@ function useScrollReveal(options = {}) {
         opacity = 0,
         scale = 1,
         stagger: staggerAmount = staggerPreset.normal,
-        start = scrollConfig.reveal.start,
         once = true,
         delay = 0,
         children = false,
     } = options;
 
     useLayoutEffect(() => {
-        if (prefersReducedMotion) return;
-
         const node = root.current;
         if (!node) return;
 
-        const targets = children ? node.children : node;
+        // Content is visible by default (no inline hidden state is applied up-front).
+        // We only build the GSAP fromTo animation once the element actually enters
+        // the viewport, so nothing can get stuck invisible while waiting for a trigger.
 
-        const ctx = gsap.context(() => {
-            gsap.fromTo(targets, {
-                y,
-                opacity,
-                scale: scale !== 1 ? scale : undefined,
-            }, {
-                y: 0,
-                opacity: 1,
-                scale: 1,
-                duration: duration.entry,
-                ease: easing.entry,
-                stagger: children ? staggerAmount : 0,
-                delay,
-                scrollTrigger: {
-                    trigger: node,
-                    start,
-                    once,
-                },
-            });
-        }, node);
+        // Reduced motion is evaluated dynamically; if the user prefers reduced motion
+        // we simply never animate and leave the content visible.
+        if (typeof window === 'undefined') return;
 
-        return () => ctx.revert();
-    }, [y, opacity, scale, staggerAmount, start, once, delay, children]);
+        const reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        let ctx = null;
+        let played = false;
+        let observer = null;
+
+        const play = () => {
+            if (played) return;
+            if (reduceQuery.matches) return; // dynamic reduced-motion check at trigger time
+            played = true;
+
+            const targets = children ? node.children : node;
+
+            ctx = gsap.context(() => {
+                gsap.fromTo(targets, {
+                    y,
+                    opacity,
+                    scale: scale !== 1 ? scale : undefined,
+                }, {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: duration.entry,
+                    ease: easing.entry,
+                    stagger: children ? staggerAmount : 0,
+                    delay,
+                    clearProps: 'transform',
+                });
+            }, node);
+        };
+
+        if (typeof IntersectionObserver !== 'undefined') {
+            observer = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        play();
+                        if (once && observer) {
+                            observer.disconnect();
+                            observer = null;
+                        }
+                    }
+                }
+            }, { threshold: 0.01, rootMargin: '0px 0px -8% 0px' });
+            observer.observe(node);
+        } else {
+            // No IntersectionObserver support: never hide content. Just animate in
+            // immediately so the reveal still reads as intentional.
+            play();
+        }
+
+        return () => {
+            if (observer) {
+                observer.disconnect();
+                observer = null;
+            }
+            if (ctx) {
+                ctx.revert();
+                ctx = null;
+            }
+            // Safety net: never leave content invisible after teardown.
+            const revertTargets = children ? Array.from(node.children) : node;
+            gsap.set(revertTargets, { opacity: 1, y: 0, scale: 1, clearProps: 'transform' });
+        };
+    }, [y, opacity, scale, staggerAmount, once, delay, children]);
 
     return root;
 }
@@ -61,10 +102,11 @@ function useParallax(property = 'y', value = -50, triggerRef) {
     const root = useRef(null);
 
     useLayoutEffect(() => {
-        if (prefersReducedMotion) return;
-
         const trigger = triggerRef?.current || root.current;
         if (!trigger) return;
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
 
         const ctx = gsap.context(() => {
             gsap.to(root.current, {
@@ -72,8 +114,8 @@ function useParallax(property = 'y', value = -50, triggerRef) {
                 ease: 'none',
                 scrollTrigger: {
                     trigger,
-                    start: scrollConfig.hero.start,
-                    end: scrollConfig.hero.end,
+                    start: 'top top',
+                    end: 'bottom top',
                     scrub: 0.5,
                 },
             });

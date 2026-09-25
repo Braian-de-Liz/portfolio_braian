@@ -11,6 +11,7 @@ function DetalhesZbr() {
 
             <div className="detalhes-secao">
                 <h4>Métodos Disponíveis</h4>
+                <div className="tabela-scroll">
                 <table>
                     <thead>
                         <tr>
@@ -47,6 +48,7 @@ function DetalhesZbr() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
             <div className="detalhes-secao">
