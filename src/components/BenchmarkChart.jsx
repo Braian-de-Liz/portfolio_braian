@@ -48,7 +48,13 @@ function BenchmarkChart({ cenarios, legenda, unidade = 'req/s' }) {
                 })}
             </div>
 
-            <table className="sr-only">
+            {/*
+              * O sr-only fica no wrapper, não na <table>: tabelas tratam `width`
+              * como mínimo e crescem até o conteúdo (com nowrap, ~880px), o que
+              * gerava overflow horizontal no mobile.
+              */}
+            <div className="sr-only">
+            <table>
                 <caption>{legenda}</caption>
                 <thead>
                     <tr>
@@ -71,6 +77,7 @@ function BenchmarkChart({ cenarios, legenda, unidade = 'req/s' }) {
                     ))}
                 </tbody>
             </table>
+            </div>
         </div>
     );
 }

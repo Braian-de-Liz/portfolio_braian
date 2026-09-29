@@ -39,7 +39,8 @@ describe('BenchmarkChart', () => {
 
         const tabela = screen.getByRole('table', { name: /Throughput/i });
         expect(tabela).toBeInTheDocument();
-        expect(tabela).toHaveClass('sr-only');
+        // sr-only fica no wrapper: em <table>, width: 1px é ignorado e gera overflow
+        expect(tabela.parentElement).toHaveClass('sr-only');
     });
 
     it('destaca visualmente o melhor cenário', () => {
