@@ -1,8 +1,10 @@
 export const easing = {
-    entry: 'power3.out',
+    entry: 'expo.out',
+    entrySoft: 'power3.out',
     scroll: 'power2.out',
     subtle: 'power1.out',
     linear: 'none',
+    spring: 'back.out(1.4)',
 };
 
 export const duration = {

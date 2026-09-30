@@ -11,12 +11,16 @@ function useScrollReveal(options = {}) {
     const {
         y = 30,
         opacity = 0,
-        scale = 1,
+        scale: scaleOption,
         stagger: staggerAmount = staggerPreset.normal,
         once = true,
         delay = 0,
         children = false,
     } = options;
+
+    // Cards animados em grupo ganham uma leve escala de entrada por padrão,
+    // reforçando a sensação de profundidade sem exagerar o movimento.
+    const scale = scaleOption ?? (children ? 0.97 : 1);
 
     useLayoutEffect(() => {
         const node = root.current;

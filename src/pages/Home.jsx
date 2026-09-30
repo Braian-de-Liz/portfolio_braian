@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
 import { useScrollReveal } from '../animations/useScrollReveal';
+import { useTiltHover } from '../animations/useTiltHover';
 
 /**
  * Previews de case: cada destaque responde "qual problema",
@@ -34,7 +35,13 @@ const DESTAQUES = [
 function Home() {
     const projetosRef = useScrollReveal({ y: 20 });
     const cardsRef = useScrollReveal({ y: 24, children: true, stagger: 0.06 });
+    const tiltRef = useTiltHover({ max: 6, scale: 1.015 });
     const ctaRef = useScrollReveal({ y: 16 });
+
+    const setGridRefs = (node) => {
+        cardsRef.current = node;
+        tiltRef.current = node;
+    };
 
     return (
         <main>
@@ -47,13 +54,14 @@ function Home() {
                     Três projetos que mostram como penso API, dados e performance.
                 </p>
 
-                <div className="destaque-grid" ref={cardsRef}>
+                <div className="destaque-grid" ref={setGridRefs}>
                     {DESTAQUES.map((projeto) => (
                         <Link
                             to="/projetos"
                             className="destaque-card"
                             key={projeto.titulo}
                             data-testid="preview-card"
+                            data-tilt
                         >
                             <span className="destaque-categoria">{projeto.categoria}</span>
                             <h3 data-testid="preview-titulo">{projeto.titulo}</h3>

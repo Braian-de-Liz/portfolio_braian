@@ -71,8 +71,12 @@
 
     /* Movimento */
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
     --transition-fast: 0.18s var(--ease-out);
     --transition-base: 0.28s var(--ease-out);
+    --transition-spring: 0.4s var(--ease-spring);
+    --transition-smooth: 0.5s var(--ease-smooth);
 
     /* Compatibilidade com regras legadas */
     --glass: var(--surface-2);
@@ -161,11 +165,13 @@ main,
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    transition: color var(--transition-fast);
+    transition: color var(--transition-fast), transform var(--transition-spring);
+    display: inline-block;
 }
 
 .nav-links a:hover {
     color: var(--text-strong);
+    transform: translateY(-1px);
 }
 
 .nav-links a.active {
@@ -182,6 +188,17 @@ main,
     height: 2px;
     border-radius: 2px;
     background: var(--accent);
+    animation: nav-underline-in var(--transition-smooth);
+}
+
+@keyframes nav-underline-in {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
 }
 
 .github-floating {
@@ -196,7 +213,7 @@ main,
 
 .social-floating-btn {
     color: var(--text-secondary);
-    transition: color var(--transition-fast);
+    transition: color var(--transition-fast), transform var(--transition-spring);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -204,6 +221,11 @@ main,
 
 .social-floating-btn:hover {
     color: var(--accent);
+    transform: scale(1.15) translateY(-1px);
+}
+
+.social-floating-btn:active {
+    transform: scale(0.95);
 }
 
 @media (max-width: 768px) {
@@ -336,6 +358,13 @@ main,
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 500;
+    transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-spring);
+}
+
+.hero-tag:hover {
+    border-color: var(--border-accent);
+    color: var(--accent);
+    transform: translateY(-2px);
 }
 
 .hero-acoes {
@@ -346,18 +375,36 @@ main,
 }
 
 .hero-link-secundario {
+    position: relative;
     color: var(--text-secondary);
     text-decoration: none;
     font-size: var(--text-sm);
     font-weight: 500;
-    border-bottom: 1px solid var(--border-medium);
+    border-bottom: 1px solid transparent;
     padding-bottom: 2px;
-    transition: color var(--transition-fast), border-color var(--transition-fast);
+    transition: color var(--transition-fast);
+}
+
+.hero-link-secundario::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--border-medium);
+    transform: scaleX(0.4);
+    transform-origin: left center;
+    transition: transform var(--transition-smooth), background var(--transition-fast);
 }
 
 .hero-link-secundario:hover {
     color: var(--accent);
-    border-color: var(--border-accent);
+}
+
+.hero-link-secundario:hover::after {
+    transform: scaleX(1);
+    background: var(--border-accent);
 }
 
 .hero-cta {
@@ -373,12 +420,19 @@ main,
     font-size: var(--text-sm);
     font-weight: 700;
     box-shadow: var(--shadow-sm);
-    transition: background var(--transition-fast), transform var(--transition-fast);
+    transition: background var(--transition-fast), transform var(--transition-spring), box-shadow var(--transition-base);
+    will-change: transform;
 }
 
 .hero-cta:hover {
     background: #6ed0f2;
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 10px 24px -6px rgba(79, 193, 233, 0.45);
+}
+
+.hero-cta:active {
+    transform: translateY(0) scale(0.98);
+    transition-duration: 0.1s;
 }
 
 .hero-foto {
@@ -386,7 +440,8 @@ main,
 }
 
 /* Moldura retangular com cantos arredondados: leitura mais
-   editorial que o recorte circular de avatar. */
+   editorial que o recorte circular de avatar. O tilt 3D em hover
+   é aplicado via GSAP (Hero.jsx) apenas em desktop com mouse fino. */
 .hero-foto img {
     width: 232px;
     height: 290px;
@@ -475,6 +530,7 @@ main,
 }
 
 .destaque-card {
+    position: relative;
     background: var(--surface-2);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
@@ -482,15 +538,45 @@ main,
     text-align: left;
     text-decoration: none;
     color: var(--text-main);
-    transition: border-color var(--transition-base), background var(--transition-base);
+    transition: border-color var(--transition-base), background var(--transition-base),
+        transform var(--transition-spring), box-shadow var(--transition-base);
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    overflow: hidden;
+    will-change: transform;
+}
+
+.destaque-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(79, 193, 233, 0.12), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
 }
 
 .destaque-card:hover {
     border-color: var(--border-accent);
     background: var(--surface-3);
+    box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.35);
+}
+
+.destaque-card:hover::before {
+    opacity: 1;
+}
+
+/* Sem suporte a tilt via GSAP (ex.: JS desabilitado), ainda garante
+   uma leve elevação em desktop com mouse fino. */
+@media (hover: hover) and (pointer: fine) {
+    .destaque-card:hover {
+        transform: translateY(-4px);
+    }
+}
+
+.destaque-card:active {
+    transform: translateY(-1px) scale(0.99);
 }
 
 .destaque-categoria {
@@ -822,6 +908,15 @@ main,
     display: flex;
     flex-direction: column;
     gap: 2px;
+    padding: var(--space-2);
+    margin: 0 calc(var(--space-2) * -1);
+    border-radius: var(--radius-md);
+    transition: background var(--transition-base), transform var(--transition-spring);
+}
+
+.stack-item:hover {
+    background: var(--surface-2);
+    transform: translateX(4px);
 }
 
 .stack-item-nome {
@@ -874,6 +969,11 @@ main,
 .estudo-item {
     font-size: var(--text-sm);
     color: var(--text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.estudo-item:hover {
+    color: var(--accent);
 }
 
 .estudo-item:not(:last-child)::after {
@@ -1062,14 +1162,33 @@ main,
 }
 
 .case-disclosure-icone {
+    display: inline-block;
     font-family: var(--font-mono);
     font-size: 1rem;
     line-height: 1;
     color: var(--accent);
+    transition: transform var(--transition-spring);
+}
+
+.case-disclosure-gatilho[aria-expanded="true"] .case-disclosure-icone {
+    transform: rotate(180deg);
 }
 
 .case-disclosure-painel {
     padding-top: var(--space-2);
+    animation: disclosure-in var(--transition-smooth);
+}
+
+@keyframes disclosure-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .case-disclosure-painel[hidden] {
