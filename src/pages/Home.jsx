@@ -34,11 +34,17 @@ const DESTAQUES = [
     },
 ];
 
+/** Permite quebrar nomes longos depois de "_" em vez de no meio de uma palavra. */
+function comQuebras(titulo) {
+    return titulo.split('_').map((parte, i, todas) => (
+        <span key={i}>{parte}{i < todas.length - 1 && <>_<wbr /></>}</span>
+    ));
+}
+
 function Home() {
     const projetosRef = useScrollReveal({ y: 20 });
     const cardsRef = useScrollReveal({ y: 24, children: true, stagger: 0.06 });
     const tiltRef = useTiltHover({ max: 6, scale: 1.015 });
-    const ctaRef = useScrollReveal({ y: 16 });
 
     const setGridRefs = (node) => {
         cardsRef.current = node;
@@ -67,7 +73,7 @@ function Home() {
                         >
                             <span className="destaque-num" aria-hidden="true">0{indice + 1}</span>
                             <span className="destaque-categoria">{projeto.categoria}</span>
-                            <h3 data-testid="preview-titulo">{projeto.titulo}</h3>
+                            <h3 data-testid="preview-titulo" aria-label={projeto.titulo}>{comQuebras(projeto.titulo)}</h3>
                             <p className="destaque-problema" data-testid="preview-problema">
                                 {projeto.problema}
                             </p>
@@ -84,14 +90,8 @@ function Home() {
                     <Link to="/projetos" className="pagina-boton primario">
                         Ver todos os projetos
                     </Link>
+                    <Link to="/sobre" className="pagina-boton">Ver perfil completo</Link>
                 </div>
-            </section>
-
-            <section className="secao-aberta home-cta" ref={ctaRef}>
-                <p className="home-cta-texto">
-                    Quer entender como eu decido arquitetura e meço resultado?
-                </p>
-                <Link to="/sobre" className="pagina-boton">Ver perfil completo</Link>
             </section>
 
             <Contato />

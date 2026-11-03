@@ -36,7 +36,7 @@ describe('App', () => {
         render(<App />);
 
         await waitFor(() => {
-            expect(screen.getByRole('heading', { name: /contatos/i })).toBeInTheDocument();
+            expect(screen.getByRole('contentinfo')).toHaveTextContent(/delizbraian@gmail\.com/);
         });
     });
 });

@@ -14,6 +14,15 @@
     --text-h2: clamp(2rem, 5vw, 3.6rem);
     --bg-dark: #070a10;
     --content-width: 1180px;
+
+    /* Escala de texto maior e mais contraste para ler no fundo escuro */
+    --text-eyebrow: 0.875rem;
+    --text-xs: 0.8125rem;
+    --text-sm: 0.9375rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-secondary: #bcc5ce;
+    --text-muted: #9aa5b0;
 }
 
 body {
@@ -58,6 +67,35 @@ body {
 
 .eyebrow {
     color: var(--accent);
+}
+
+/* Rótulos em caixa normal: mais legíveis que mono em maiúsculas espaçadas */
+.eyebrow,
+.destaque-categoria,
+.hero-ola {
+    font-family: var(--font-sans);
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-weight: 500;
+}
+.nav-links a { text-transform: none; letter-spacing: 0.01em; font-size: var(--text-sm); }
+
+/* Rodapé enxuto: o contato completo já aparece na seção de contato */
+#fot {
+    padding: var(--space-5) 20px;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    background: none;
+    backdrop-filter: none;
+}
+#fot p { margin: 0 0 var(--space-1); }
+
+.sobre-cta-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: flex-start;
+    margin-top: var(--space-6);
 }
 
 /* ---------- Hero ---------- */
@@ -210,7 +248,7 @@ body {
 .destaque-card {
     position: relative;
     display: grid;
-    grid-template-columns: 3.5rem minmax(0, 1.1fr) minmax(0, 1.4fr) auto;
+    grid-template-columns: 3.5rem minmax(0, 1.25fr) minmax(0, 1.25fr) auto;
     column-gap: var(--space-6);
     row-gap: var(--space-2);
     align-items: start;
@@ -254,11 +292,11 @@ body {
     align-self: start;
     grid-column: 2;
     grid-row: 2;
-    font-size: clamp(1.9rem, 4.2vw, 3.4rem);
-    line-height: 1;
+    font-size: clamp(1.8rem, 3.3vw, 2.9rem);
+    line-height: 1.05;
     margin: 0;
     color: var(--text-strong);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
     transition: color var(--transition-base);
 }
 

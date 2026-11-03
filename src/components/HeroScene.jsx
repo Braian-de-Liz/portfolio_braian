@@ -10,7 +10,23 @@ function suportaCena() {
     if (typeof window === 'undefined') return false;
     if (typeof window.WebGL2RenderingContext === 'undefined') return false;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    // Celular, economia de dados e aparelhos fracos ficam só com a foto:
+    // evita baixar ~190 kB de Three.js que não compensa nessas condições.
+    if (window.matchMedia('(max-width: 768px)').matches) return false;
+    const conexao = navigator.connection;
+    if (conexao?.saveData) return false;
+    if (navigator.deviceMemory && navigator.deviceMemory <= 2) return false;
     return true;
+}
+
+/** Espera o hero pintar e o navegador ficar livre antes de baixar o Three.js. */
+function aoFicarOcioso(callback) {
+    if (typeof window.requestIdleCallback === 'function') {
+        const id = window.requestIdleCallback(callback, { timeout: 1500 });
+        return () => window.cancelIdleCallback(id);
+    }
+    const id = window.setTimeout(callback, 300);
+    return () => window.clearTimeout(id);
 }
 
 function HeroScene() {
@@ -23,7 +39,7 @@ function HeroScene() {
         let disposed = false;
         let cleanup = () => {};
 
-        import('three').then((THREE) => {
+        const cancelarEspera = aoFicarOcioso(() => import('three').then((THREE) => {
             if (disposed) return;
 
             let renderer;
@@ -210,10 +226,11 @@ function HeroScene() {
                 renderer.domElement.remove();
             };
             if (disposed) cleanup();
-        });
+        }));
 
         return () => {
             disposed = true;
+            cancelarEspera();
             cleanup();
         };
     }, []);
