@@ -170,6 +170,12 @@ function Projetos() {
                 composicao={
                     <>
                     <Cena3D montar={cenaTrilho} className="cena-3d-case" />
+                    <p className="cena-explicacao" data-testid="tchuu-cena-explicacao">
+                        <strong>Como funciona a telemetria.</strong> O trem percorre o trecho entre duas
+                        estações e, a cada pulso, envia a leitura dos sensores à API por WebSocket. A API
+                        grava no PostgreSQL e empurra o dado para o painel operacional, sem o painel
+                        precisar recarregar.
+                    </p>
                     <FluxoTecnico
                         titulo="tchuu.telemetria"
                         etapas={[

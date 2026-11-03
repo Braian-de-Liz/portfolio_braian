@@ -185,7 +185,7 @@ export function criarCenaBarras(cenarios) {
 }
 
 /* ---------- Tchuu-Tchuu: trilho com telemetria ---------- */
-export function cenaTrilho(THREE, { scene, camera }) {
+export function cenaTrilho(THREE, { scene, camera, container }) {
     const baseCamera = new THREE.Vector3(0, 4.6, 6.4);
     camera.position.copy(baseCamera);
     camera.lookAt(0, 0, 0);
@@ -247,10 +247,16 @@ export function cenaTrilho(THREE, { scene, camera }) {
     ping.rotation.x = -Math.PI / 2;
     grupo.add(ping);
 
+    const rotuloTrem = criarRotulo(container, 'trem', 'cena-rotulo-camada');
+    const rotuloPulso = criarRotulo(container, 'telemetria', 'cena-rotulo-camada cena-rotulo-nova');
+    const rotulosEstacao = [0, 1].map(() => criarRotulo(container, 'estação', 'cena-rotulo-camada'));
+    const pontaTrem = new THREE.Vector3();
+    const pontaPulso = new THREE.Vector3();
+
     const alvo = new THREE.Vector3();
     return {
         atualizar(t, mouse) {
-            ajustarDistancia(camera, baseCamera, 12.5);
+            ajustarDistancia(camera, baseCamera, 15);
             camera.lookAt(0, 0, 0);
             const u = Math.sin(t * 0.32) * 0.5 + 0.5;
             const p = curva.getPointAt(u);
@@ -267,6 +273,15 @@ export function cenaTrilho(THREE, { scene, camera }) {
 
             grupo.rotation.y = mouse.x * 0.25;
             grupo.rotation.x = mouse.y * 0.05;
+
+            grupo.updateMatrixWorld(true);
+            projetar(THREE, grupo.localToWorld(pontaTrem.set(p.x, 0.9, p.z)), camera, container, rotuloTrem);
+            projetar(THREE, grupo.localToWorld(pontaPulso.set(p.x, 0, p.z + 1.9)), camera, container, rotuloPulso);
+            rotuloPulso.style.opacity = Math.min(1, (1 - fase) * 1.6);
+            [0, 1].forEach((i) => {
+                const e = curva.getPointAt(i);
+                projetar(THREE, grupo.localToWorld(pontaTrem.set(e.x, 0, e.z + 0.9)), camera, container, rotulosEstacao[i]);
+            });
         },
     };
 }
