@@ -29,7 +29,7 @@ function Nav() {
                     ease: 'power2.out',
                 }),
                 onLeaveBack: () => gsap.to(nav, {
-                    // Mesmos valores do estado inicial em App.css,
+                    // Mesmos valores do estado inicial em styles.css,
                     // para a navbar voltar exatamente ao tom original.
                     backgroundColor: 'rgba(13, 21, 28, 0.66)',
                     backdropFilter: 'blur(16px)',

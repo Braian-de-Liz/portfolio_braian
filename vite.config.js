@@ -7,6 +7,11 @@ import react from '@vitejs/plugin-react'
 const siteUrl = (process.env.VITE_SITE_URL || '').replace(/\/$/, '');
 const injetaSiteUrl = () => ({
   name: 'inject-site-url',
+  buildStart() {
+    if (!siteUrl && process.env.NODE_ENV === 'production') {
+      this.warn('VITE_SITE_URL não definida: a imagem Open Graph ficará com URL relativa e a prévia de link não aparecerá.')
+    }
+  },
   transformIndexHtml: (html) => html.replaceAll('__SITE_URL__', siteUrl),
 })
 

@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
+import { TituloDaPagina } from './components/TituloDaPagina';
 import { CursorGlow } from './components/CursorGlow';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
-import './App.css';
-import './modern.css';
+import './styles.css';
 
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })));
 const Projetos = lazy(() => import('./pages/projetos').then((m) => ({ default: m.Projetos })));
@@ -30,6 +30,7 @@ function App() {
         <Router>
             <div className="App">
                 <ScrollToTop />
+                <TituloDaPagina />
                 <CursorGlow />
 
                 <div className="github-floating">

@@ -65,6 +65,7 @@ function PlaygroundZbr() {
                 className="playground-campo"
                 value={texto}
                 onChange={(e) => setTexto(e.target.value)}
+                maxLength={40}
                 spellCheck="false"
                 autoComplete="off"
                 inputMode="text"

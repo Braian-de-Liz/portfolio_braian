@@ -51,3 +51,12 @@ describe('Hero', () => {
         }
     });
 });
+
+describe('Hero sem WebGL', () => {
+    it('mostra a foto e não cria canvas quando a cena 3D não é suportada', () => {
+        renderWithRouter(<Hero />);
+
+        expect(screen.getByRole('img', { name: /retrato de braian/i })).toBeInTheDocument();
+        expect(document.querySelector('.hero-scene canvas')).toBeNull();
+    });
+});
