@@ -15,9 +15,12 @@ describe('App', () => {
         render(<App />);
 
         await waitFor(() => {
-            expect(screen.getByRole('link', { name: /GitHub/i })).toBeInTheDocument();
+            expect(screen.getAllByRole('link', { name: /GitHub/i }).length).toBeGreaterThan(0);
         });
-        expect(screen.getByRole('link', { name: /LinkedIn/i })).toBeInTheDocument();
+        // Os atalhos flutuantes e a seção de contato da Home apontam para os mesmos perfis.
+        const hrefs = (nome) => screen.getAllByRole('link', { name: nome }).map((a) => a.getAttribute('href'));
+        expect(new Set(hrefs(/GitHub/i)).size).toBe(1);
+        expect(new Set(hrefs(/LinkedIn/i)).size).toBe(1);
     });
 
     it('mantém uma única navegação principal e uma mobile', async () => {
