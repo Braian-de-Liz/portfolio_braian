@@ -4,14 +4,29 @@ import { Sobre } from '../sobre';
 import { renderWithRouter } from '../../test/helpers';
 
 describe('Sobre', () => {
-    it('não repete a foto de perfil nesta página', () => {
+    it('mostra o retrato uma única vez, com dimensões definidas', () => {
         renderWithRouter(<Sobre />);
 
-        const retratos = Array.from(document.querySelectorAll('img')).filter((img) =>
-            img.getAttribute('src')?.includes('foto_braian')
-        );
+        const retratos = screen.getAllByRole('img', { name: /retrato de braian/i });
+        expect(retratos).toHaveLength(1);
+        expect(retratos[0]).toHaveAttribute('src', '/ASSETS/imagens/foto_braian.jpg');
+        expect(retratos[0]).toHaveAttribute('width');
+        expect(retratos[0]).toHaveAttribute('height');
+    });
 
-        expect(retratos).toHaveLength(0);
+    it('resume o trabalho em números reais e informa o que está em estudo', () => {
+        renderWithRouter(<Sobre />);
+
+        const numeros = screen.getByTestId('sobre-numeros').textContent;
+        for (const n of ['73', '881', '15']) expect(numeros).toContain(n);
+        expect(screen.getByTestId('sobre-estudo').textContent).toMatch(/Go com Fiber/);
+    });
+
+    it('fecha com o contato', () => {
+        renderWithRouter(<Sobre />);
+
+        expect(screen.getByTestId('contato')).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: /delizbraian@gmail\.com/i })).toHaveAttribute('href', 'mailto:delizbraian@gmail.com');
     });
 
     it('usa um único h1 e organiza as seções em h2', () => {
@@ -33,8 +48,8 @@ describe('Sobre', () => {
         renderWithRouter(<Sobre />);
 
         const curriculo = screen.getByRole('link', { name: /currículo/i });
-        expect(curriculo.getAttribute('href')).toContain('/ASSETS/documentos/');
-        expect(curriculo).toHaveAttribute('rel', expect.stringContaining('noopener'));
+        expect(decodeURIComponent(curriculo.getAttribute('href'))).toContain('/ASSETS/documentos/');
+        expect(curriculo).toHaveAttribute('download');
     });
 
     it('leva para habilidades técnicas', () => {

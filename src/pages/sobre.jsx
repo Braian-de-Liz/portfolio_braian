@@ -1,5 +1,14 @@
 import { Link } from 'react-router-dom';
+import { Contato } from '../components/Contato';
+import { RetratoSobre } from '../components/RetratoSobre';
 import { useScrollReveal } from '../animations/useScrollReveal';
+
+const NUMEROS = [
+    { valor: '73', rotulo: 'endpoints no AMOTIF' },
+    { valor: '881', rotulo: 'commits no Tchuu-Tchuu' },
+    { valor: '15', rotulo: 'cenários medidos no TypeMarks' },
+    { valor: '1', rotulo: 'biblioteca publicada no NPM' },
+];
 
 const TRAJETORIA = [
     { ano: '2023', titulo: 'Fundamentos', desc: 'Lógica, algoritmos e primeiros projetos.' },
@@ -73,7 +82,8 @@ function Sobre() {
     const expRef = useScrollReveal({ y: 20 });
     const formacaoRef = useScrollReveal({ y: 20 });
     const principiosRef = useScrollReveal({ y: 20 });
-    const cvRef = useScrollReveal({ y: 16 });
+    const numerosRef = useScrollReveal({ y: 16 });
+    const estudoRef = useScrollReveal({ y: 16 });
 
     return (
         <main>
@@ -86,6 +96,8 @@ function Sobre() {
             </header>
 
             <section className="secao-aberta sobre-perfil-secao" ref={perfilRef}>
+                <RetratoSobre />
+                <div className="sobre-perfil-texto">
                 <div className="sobre-prosa">
                     <p>
                         Sou desenvolvedor de sistemas com foco em <strong>backend</strong>, com
@@ -123,6 +135,18 @@ function Sobre() {
                         LinkedIn
                     </a>
                 </div>
+                </div>
+            </section>
+
+            <section className="secao-aberta" ref={numerosRef} aria-label="Números do trabalho">
+                <ul className="sobre-numeros" data-testid="sobre-numeros">
+                    {NUMEROS.map((n) => (
+                        <li className="sobre-numero" key={n.rotulo}>
+                            <span className="sobre-numero-valor">{n.valor}</span>
+                            <span className="sobre-numero-rotulo">{n.rotulo}</span>
+                        </li>
+                    ))}
+                </ul>
             </section>
 
             <section className="secao-aberta" ref={trajetoriaRef}>
@@ -198,18 +222,15 @@ function Sobre() {
                 </div>
             </section>
 
-            <section className="secao-aberta sobre-docs" ref={cvRef}>
-                <p className="sobre-docs-texto">Quer o documento completo?</p>
-                <a
-                    href="/ASSETS/documentos/Currículo Braian de Liz.pdf"
-                    download="Curriculo_Braian_de_Liz.pdf"
-                    className="pagina-boton"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Baixar currículo em PDF
-                </a>
+            <section className="secao-aberta sobre-estudo" ref={estudoRef}>
+                <span className="eyebrow">Em estudo agora</span>
+                <p className="sobre-estudo-texto" data-testid="sobre-estudo">
+                    <strong>Go com Fiber</strong>, depois <strong>LangChain</strong> em
+                    TypeScript integrado a <strong>MCP</strong>.
+                </p>
             </section>
+
+            <Contato />
         </main>
     );
 }

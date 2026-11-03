@@ -32,14 +32,10 @@ describe('Hero', () => {
         expect(screen.getByRole('link', { name: /projetos/i })).toHaveAttribute('href', '/projetos');
     });
 
-    it('usa a foto apenas uma vez, com caminho absoluto e dimensões definidas', () => {
+    it('não traz a foto: o retrato fica na página Sobre', () => {
         renderWithRouter(<Hero />);
 
-        const fotos = screen.getAllByRole('img');
-        expect(fotos).toHaveLength(1);
-        expect(fotos[0]).toHaveAttribute('src', '/ASSETS/imagens/foto_braian.jpg');
-        expect(fotos[0]).toHaveAttribute('width');
-        expect(fotos[0]).toHaveAttribute('height');
+        expect(screen.queryAllByRole('img')).toHaveLength(0);
     });
 
     it('expõe as tecnologias centrais do backend', () => {
@@ -53,10 +49,10 @@ describe('Hero', () => {
 });
 
 describe('Hero sem WebGL', () => {
-    it('mostra a foto e não cria canvas quando a cena 3D não é suportada', () => {
+    it('não cria canvas nem reserva espaço quando a cena 3D não é suportada', () => {
         renderWithRouter(<Hero />);
 
-        expect(screen.getByRole('img', { name: /retrato de braian/i })).toBeInTheDocument();
-        expect(document.querySelector('.hero-scene canvas')).toBeNull();
+        expect(document.querySelector('.hero-scene')).toBeNull();
+        expect(document.querySelector('.hero-foto')).toBeNull();
     });
 });

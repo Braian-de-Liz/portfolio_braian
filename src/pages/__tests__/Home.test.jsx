@@ -36,14 +36,14 @@ describe('Home', () => {
         expect(typemarks.textContent).toContain('28.534');
     });
 
-    it('não repete a foto de perfil fora do Hero', () => {
+    it('não exibe a foto de perfil (ela fica na página Sobre)', () => {
         renderWithRouter(<Home />);
 
         const retratos = screen
-            .getAllByRole('img')
+            .queryAllByRole('img')
             .filter((img) => img.getAttribute('src')?.includes('foto_braian'));
 
-        expect(retratos).toHaveLength(1);
+        expect(retratos).toHaveLength(0);
     });
 
     it('oferece caminhos para a lista completa e para o perfil', () => {
