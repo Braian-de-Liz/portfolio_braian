@@ -10,7 +10,6 @@ export const PROJETOS = {
     'br-standards-with-zod': { nome: 'br_standards_with_zod', cor: '#F4F6F8', status: 'publicada no NPM', pagina: true },
     comandliz: { nome: 'ComandLiz', cor: '#FFD166', status: 'back-end pronto, front-end começando' },
     docusprint: { nome: 'DocuSprint', cor: '#FFA94D' },
-    orcalint: { nome: 'OrcaLint', cor: '#9BE564' },
     'agente-local': { nome: 'Agente local', cor: '#7BDFF2' },
 };
 
@@ -25,7 +24,7 @@ export const STACK_ATUAL = [
         itens: [
             { nome: 'TypeScript', evidencia: 'Base do AMOTIF e da br_standards_with_zod', projetos: ['amotif', 'br-standards-with-zod'] },
             { nome: 'JavaScript', evidencia: 'Backend e frontend do Tchuu-Tchuu', projetos: ['tchuu-tchuu'] },
-            { nome: 'Bun', evidencia: 'Runtime do AMOTIF, do ComandLiz, do DocuSprint, do OrcaLint e dos benchmarks', projetos: ['amotif', 'typemarks', 'comandliz', 'docusprint', 'orcalint'] },
+            { nome: 'Bun', evidencia: 'Runtime do AMOTIF, do ComandLiz, do DocuSprint e dos benchmarks', projetos: ['amotif', 'typemarks', 'comandliz', 'docusprint'] },
             { nome: 'Node.js', evidencia: 'API do Tchuu-Tchuu e execução do TypeMarks', projetos: ['tchuu-tchuu', 'typemarks'] },
         ],
     },
@@ -38,13 +37,13 @@ export const STACK_ATUAL = [
             { nome: 'PostgreSQL', evidencia: '14 modelos e 15 migrações no AMOTIF', projetos: ['amotif', 'comandliz', 'tchuu-tchuu', 'docusprint'] },
             { nome: 'Neon', evidencia: 'Banco gerenciado do Tchuu-Tchuu e do DocuSprint', projetos: ['tchuu-tchuu', 'docusprint'] },
             { nome: 'Prisma', evidencia: 'Camada de acesso a dados do AMOTIF', projetos: ['amotif'] },
-            { nome: 'Drizzle ORM', evidencia: 'Acesso a dados do ComandLiz, do DocuSprint e do OrcaLint', projetos: ['comandliz', 'docusprint', 'orcalint'] },
+            { nome: 'Drizzle ORM', evidencia: 'Acesso a dados do ComandLiz e do DocuSprint', projetos: ['comandliz', 'docusprint'] },
         ],
     },
     {
         grupo: 'Autenticação e pagamentos',
         itens: [
-            { nome: 'JWT', evidencia: 'Sessões no AMOTIF, no Tchuu-Tchuu e no OrcaLint', projetos: ['amotif', 'tchuu-tchuu', 'orcalint'] },
+            { nome: 'JWT', evidencia: 'Sessões no AMOTIF e no Tchuu-Tchuu', projetos: ['amotif', 'tchuu-tchuu'] },
             { nome: 'Argon2', evidencia: 'Hash de senhas no AMOTIF (Argon2id) e no DocuSprint', projetos: ['amotif', 'docusprint'] },
         ],
     },
