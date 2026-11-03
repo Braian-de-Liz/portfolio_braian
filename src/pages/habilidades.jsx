@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useScrollReveal } from '../animations/useScrollReveal';
 
 /**
@@ -6,37 +7,35 @@ import { useScrollReveal } from '../animations/useScrollReveal';
  */
 const STACK_ATUAL = [
     {
-        grupo: 'Linguagem e tipos',
+        grupo: 'Linguagem e runtime',
         itens: [
-            { nome: 'TypeScript', evidencia: 'Base do AMOTIF e da br_standards_with_zod' },
-            { nome: 'JavaScript', evidencia: 'Backend e frontend do Tchuu-Tchuu' },
+            { nome: 'TypeScript', evidencia: 'Base do AMOTIF e da br_standards_with_zod', projeto: 'amotif' },
+            { nome: 'JavaScript', evidencia: 'Backend e frontend do Tchuu-Tchuu', projeto: 'tchuu-tchuu' },
+            { nome: 'Bun', evidencia: 'Runtime da API do AMOTIF e dos benchmarks', projeto: 'amotif' },
+            { nome: 'Node.js', evidencia: 'API do Tchuu-Tchuu e execução do TypeMarks', projeto: 'tchuu-tchuu' },
         ],
     },
     {
-        grupo: 'Runtime e API',
+        grupo: 'API e dados',
         itens: [
-            { nome: 'Bun', evidencia: 'Runtime da API do AMOTIF e dos benchmarks' },
-            { nome: 'Node.js', evidencia: 'API do Tchuu-Tchuu e execução do TypeMarks' },
-            { nome: 'Fastify', evidencia: 'API de 40+ endpoints no AMOTIF' },
+            { nome: 'Fastify', evidencia: 'API de 40+ endpoints no AMOTIF', projeto: 'amotif' },
+            { nome: 'PostgreSQL', evidencia: '14 modelos e 15 migrações no AMOTIF', projeto: 'amotif' },
+            { nome: 'Prisma', evidencia: 'Camada de acesso a dados do AMOTIF', projeto: 'amotif' },
         ],
     },
     {
-        grupo: 'Dados e validação',
+        grupo: 'Validação e qualidade',
         itens: [
-            { nome: 'PostgreSQL', evidencia: '14 modelos e 15 migrações no AMOTIF' },
-            { nome: 'Prisma', evidencia: 'Camada de acesso a dados do AMOTIF' },
-            { nome: 'TypeBox', evidencia: 'Validação com compilação JIT no Fastify' },
-            { nome: 'Zod', evidencia: 'Biblioteca própria publicada no NPM' },
-        ],
-    },
-    {
-        grupo: 'Qualidade',
-        itens: [
-            { nome: 'Vitest', evidencia: 'Testes da biblioteca e dos benchmarks' },
-            { nome: 'Autocannon', evidencia: 'Testes de carga dos 15 cenários do TypeMarks' },
+            { nome: 'TypeBox', evidencia: 'Validação com compilação JIT no Fastify', projeto: 'typemarks' },
+            { nome: 'Zod', evidencia: 'Biblioteca própria publicada no NPM', projeto: 'br-standards-with-zod' },
+            { nome: 'Vitest', evidencia: 'Testes da biblioteca e dos benchmarks', projeto: 'br-standards-with-zod' },
+            { nome: 'Autocannon', evidencia: 'Testes de carga dos 15 cenários do TypeMarks', projeto: 'typemarks' },
         ],
     },
 ];
+
+const TOTAL_TECNOLOGIAS = STACK_ATUAL.reduce((soma, g) => soma + g.itens.length, 0);
+const TOTAL_PROJETOS = new Set(STACK_ATUAL.flatMap((g) => g.itens.map((i) => i.projeto))).size;
 
 /**
  * Próximos estudos ficam em uma lista deliberadamente secundária:
@@ -52,21 +51,26 @@ const EM_ESTUDO = [
 function Habilidades() {
     const atualRef = useScrollReveal({ y: 20 });
     const estudoRef = useScrollReveal({ y: 20 });
+    const ctaRef = useScrollReveal({ y: 16 });
 
     return (
         <main>
             <header className="secao-aberta pagina-cabecalho">
                 <span className="eyebrow">Habilidades</span>
-                <h1 className="titulo">Stack e direção técnica</h1>
+                <h1 className="titulo">O que eu uso e onde já provei isso</h1>
                 <p className="section-subtitle">
                     O que eu já uso em projetos reais, separado do que estou estudando.
+                </p>
+                <p className="stack-resumo" data-testid="stack-resumo">
+                    <strong>{TOTAL_TECNOLOGIAS}</strong> tecnologias em uso ·{' '}
+                    <strong>{TOTAL_PROJETOS}</strong> projetos como evidência
                 </p>
             </header>
 
             <section className="secao-aberta" ref={atualRef} data-testid="stack-atual">
                 <h2 className="titulo">Stack atual</h2>
                 <p className="section-subtitle">
-                    Cada item aponta onde foi aplicado.
+                    Cada evidência leva ao projeto onde a tecnologia foi aplicada.
                 </p>
 
                 <div className="stack-grupos">
@@ -85,7 +89,7 @@ function Habilidades() {
                                             className="stack-item-evidencia"
                                             data-testid="stack-evidencia"
                                         >
-                                            {item.evidencia}
+                                            <Link to={`/projetos#${item.projeto}`}>{item.evidencia}</Link>
                                         </span>
                                     </li>
                                 ))}
@@ -120,6 +124,11 @@ function Habilidades() {
                         </div>
                     ))}
                 </dl>
+            </section>
+
+            <section className="secao-aberta home-cta" ref={ctaRef}>
+                <p className="home-cta-texto">Quer ver essa stack aplicada em código e em números?</p>
+                <Link to="/projetos" className="pagina-boton primario">Ver os projetos</Link>
             </section>
         </main>
     );

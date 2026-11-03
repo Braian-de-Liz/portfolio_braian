@@ -48,6 +48,7 @@ function Projetos() {
             <ProjetoCase
                 destaque
                 categoria="Plataforma full stack"
+                id="amotif"
                 titulo="AMOTIF"
                 resumo="Plataforma de colaboração musical assíncrona: cada contribuição entra como uma camada de áudio versionada, preservando autoria e histórico em vez de sobrescrever o trabalho anterior."
                 composicao={
@@ -85,6 +86,7 @@ function Projetos() {
             {/* ─── TypeMarks ─── */}
             <ProjetoCase
                 categoria="Pesquisa de performance"
+                id="typemarks"
                 titulo="TypeMarks"
                 resumo="Benchmark de 15 cenários combinando runtimes, frameworks e validadores para medir quanto a validação de contratos custa em throughput — e transformar a escolha de stack numa decisão com dado, não com intuição."
                 composicao={
@@ -109,6 +111,7 @@ function Projetos() {
             {/* ─── br_standards_with_zod ─── */}
             <ProjetoCase
                 categoria="Biblioteca open source"
+                id="br-standards-with-zod"
                 titulo="br_standards_with_zod"
                 resumo="Validação de documentos brasileiros que vai além de regex: o dígito verificador é calculado por módulo 11 e a entrada é normalizada antes de chegar ao schema, integrada ao ecossistema Zod."
                 composicao={
@@ -147,6 +150,7 @@ function Projetos() {
             {/* ─── Tchuu-Tchuu ─── */}
             <ProjetoCase
                 categoria="Monitoramento em tempo real"
+                id="tchuu-tchuu"
                 titulo="Tchuu-Tchuu"
                 resumo="Sistema de monitoramento ferroviário em que telemetria de sensores chega por WebSocket e alimenta um painel operacional, com três componentes que escalam e implantam de forma independente."
                 composicao={

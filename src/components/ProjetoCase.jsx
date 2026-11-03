@@ -26,6 +26,7 @@ function ProjetoCase({
     links = [],
     detalhes,
     destaque = false,
+    id,
 }) {
     const [aberto, setAberto] = useState(false);
     const idBase = useId().replace(/:/g, '');
@@ -37,6 +38,7 @@ function ProjetoCase({
 
     return (
         <article
+            id={id}
             className={`projeto-case${destaque ? ' projeto-case-destaque' : ''}`}
             ref={secaoRef}
         >

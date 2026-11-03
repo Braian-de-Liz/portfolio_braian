@@ -386,3 +386,39 @@ body {
 @media (prefers-reduced-motion: reduce) {
     .hero-nome-linha > span { animation: none; }
 }
+
+/* ---------- Habilidades ---------- */
+.stack-resumo {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-top: var(--space-3);
+}
+.stack-resumo strong { color: var(--accent); font-weight: 600; }
+
+.stack-grupos {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+}
+
+.stack-item {
+    background: none;
+    padding: var(--space-3) 0;
+    margin: 0;
+    border-radius: 0;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: transform var(--transition-base);
+}
+.stack-item:hover { background: none; transform: translateX(6px); }
+.stack-item-nome { font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: -0.01em; }
+.stack-item-evidencia a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+}
+.stack-item:hover .stack-item-evidencia a,
+.stack-item-evidencia a:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
+
+.pagina-cabecalho .titulo { font-size: clamp(2.4rem, 6vw, 4.4rem); max-width: 18ch; }
