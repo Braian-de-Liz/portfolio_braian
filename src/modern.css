@@ -147,9 +147,9 @@ body {
 .hero-cargo { font-size: clamp(1.1rem, 2vw, 1.5rem); }
 
 .hero-cta {
-    background: var(--accent-gradient);
+    background: var(--accent);
     color: var(--on-accent);
-    box-shadow: 0 10px 40px -10px rgba(139, 124, 255, 0.7);
+    box-shadow: 0 10px 40px -12px rgba(56, 232, 208, 0.55);
 }
 
 .hero-foto {
