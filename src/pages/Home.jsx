@@ -63,8 +63,6 @@ function Home() {
                             className="destaque-card"
                             key={projeto.titulo}
                             data-testid="preview-card"
-                            data-tilt
-                            style={{ '--i': indice }}
                         >
                             <span className="destaque-num" aria-hidden="true">0{indice + 1}</span>
                             <span className="destaque-categoria">{projeto.categoria}</span>
@@ -76,6 +74,7 @@ function Home() {
                             <span className="destaque-evidencia" data-testid="preview-evidencia">
                                 {projeto.evidencia}
                             </span>
+                            <span className="destaque-seta" aria-hidden="true">↗</span>
                         </Link>
                     ))}
                 </div>
