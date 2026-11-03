@@ -2617,3 +2617,11 @@ body {
     .cena-3d-stack { height: 440px; }
     .cena-3d-case { height: 260px; }
 }
+
+/* ---------- Em estudo: o que está em foco agora ---------- */
+.estudo-foco { margin: var(--space-4) 0 0; color: var(--text-secondary); max-width: var(--prose-width); }
+.estudo-foco strong { color: var(--accent); font-weight: 600; }
+.estudo-item[data-foco='true'] {
+    color: var(--accent);
+    font-weight: 600;
+}

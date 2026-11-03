@@ -25,7 +25,6 @@ export const STACK_ATUAL = [
         itens: [
             { nome: 'TypeScript', evidencia: 'Base do AMOTIF e da br_standards_with_zod', projetos: ['amotif', 'br-standards-with-zod'] },
             { nome: 'JavaScript', evidencia: 'Backend e frontend do Tchuu-Tchuu', projetos: ['tchuu-tchuu'] },
-            { nome: 'Go', evidencia: 'Microsserviço do AMOTIF e app desktop do DocuSprint', projetos: ['amotif', 'docusprint'] },
             { nome: 'Bun', evidencia: 'Runtime do AMOTIF, do ComandLiz, do DocuSprint, do OrcaLint e dos benchmarks', projetos: ['amotif', 'typemarks', 'comandliz', 'docusprint', 'orcalint'] },
             { nome: 'Node.js', evidencia: 'API do Tchuu-Tchuu e execução do TypeMarks', projetos: ['tchuu-tchuu', 'typemarks'] },
         ],
@@ -48,17 +47,15 @@ export const STACK_ATUAL = [
             { nome: 'JWT', evidencia: 'Sessões no AMOTIF, no Tchuu-Tchuu e no OrcaLint', projetos: ['amotif', 'tchuu-tchuu', 'orcalint'] },
             { nome: 'Argon2', evidencia: 'Hash de senhas no AMOTIF (Argon2id) e no DocuSprint', projetos: ['amotif', 'docusprint'] },
             { nome: 'Login com Google', evidencia: 'Autenticação do OrcaLint', projetos: ['orcalint'] },
-            { nome: 'Asaas', evidencia: 'Pagamento do DocuSprint', projetos: ['docusprint'] },
         ],
     },
     {
         grupo: 'Interfaces',
         itens: [
-            { nome: 'React', evidencia: 'Frontend do AMOTIF e do app desktop do DocuSprint', projetos: ['amotif', 'docusprint'] },
+            { nome: 'React', evidencia: 'Frontend do AMOTIF e do DocuSprint', projetos: ['amotif', 'docusprint'] },
             { nome: 'Next.js', evidencia: 'Frontend do ComandLiz', projetos: ['comandliz'] },
             { nome: 'Expo', evidencia: 'App do OrcaLint, com Expo Router', projetos: ['orcalint'] },
             { nome: 'Zustand', evidencia: 'Estado do app do OrcaLint', projetos: ['orcalint'] },
-            { nome: 'Wails', evidencia: 'App desktop do DocuSprint, com Go e React', projetos: ['docusprint'] },
             { nome: 'Chart.js', evidencia: 'Painel operacional do Tchuu-Tchuu', projetos: ['tchuu-tchuu'] },
         ],
     },

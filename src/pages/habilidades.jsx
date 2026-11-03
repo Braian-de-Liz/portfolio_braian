@@ -92,6 +92,11 @@ function Habilidades() {
                     a backend, arquitetura e infraestrutura. Ainda não são domínio consolidado.
                 </p>
 
+                <p className="estudo-foco" data-testid="estudo-foco">
+                    Em foco agora: <strong>Go com Fiber</strong>, depois LangChain em
+                    TypeScript integrado a MCP.
+                </p>
+
                 <dl className="estudo-lista">
                     {EM_ESTUDO.map((bloco) => (
                         <div className="estudo-bloco" key={bloco.area}>
@@ -100,6 +105,7 @@ function Habilidades() {
                                 {bloco.itens.map((item) => (
                                     <span
                                         className="estudo-item"
+                                        data-foco={item === 'Go (Fiber)' ? 'true' : undefined}
                                         key={item}
                                         data-testid="stack-estudo-item"
                                     >

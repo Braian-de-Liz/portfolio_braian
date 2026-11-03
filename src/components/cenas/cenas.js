@@ -268,92 +268,78 @@ function fibonacciEsfera(THREE, i, total, raio) {
 }
 
 /**
- * Grafo em duas camadas: os projetos ficam no miolo e cada tecnologia, na casca,
- * liga-se a todos os projetos em que foi usada. Passar o mouse sobre uma
- * tecnologia mostra onde ela apareceu; sobre um projeto, tudo que ele usa.
+ * Grafo de tecnologias: duas tecnologias se ligam quando já foram usadas no
+ * mesmo projeto. Os projetos não aparecem; só as ligações. Passar o mouse sobre
+ * uma tecnologia acende ela e tudo que andou junto com ela.
  */
 export function criarCenaConstelacao(tecnologias, projetos) {
     return function cenaConstelacao(THREE, { scene, camera, container, leve }) {
-        const baseCamera = new THREE.Vector3(0, 0, leve ? 11 : 10.4);
+        const baseCamera = new THREE.Vector3(0, 0, leve ? 11 : 9.4);
         camera.position.copy(baseCamera);
 
         const grupo = new THREE.Group();
         scene.add(grupo);
 
         const ids = Object.keys(projetos);
-        const estado = { ativos: new Set() };
+        const estado = { ativo: null };
         const legenda = document.createElement('span');
         legenda.className = 'cena-legenda';
         const LEGENDA_PADRAO = leve
-            ? 'Toque em um projeto para ver o que ele usa'
-            : 'Passe o mouse sobre uma tecnologia ou projeto para ver as ligações';
+            ? 'Cada ligação é um par de tecnologias que já andaram juntas. Toque em uma.'
+            : 'Cada ligação é um par de tecnologias que já andaram juntas. Passe o mouse sobre uma delas.';
         legenda.textContent = LEGENDA_PADRAO;
         container.appendChild(legenda);
 
-        const definir = (lista, texto) => {
-            estado.ativos = new Set(lista);
-            legenda.textContent = texto;
-        };
-        const limpar = () => definir([], LEGENDA_PADRAO);
-
-        // projetos no miolo
-        const noProjeto = {};
-        ids.forEach((id, i) => {
-            const cor = projetos[id].cor;
-            const esfera = new THREE.Mesh(
-                new THREE.SphereGeometry(0.2, 20, 20),
-                new THREE.MeshBasicMaterial({ color: cor, transparent: true }),
-            );
-            esfera.position.copy(fibonacciEsfera(THREE, i, ids.length, 1.9));
-            grupo.add(esfera);
-
-            const rotulo = criarRotulo(container, projetos[id].nome, 'cena-rotulo-projeto');
-            rotulo.style.setProperty('--cor', cor);
-            const usadas = tecnologias.filter((t) => t.projetos.includes(id)).length;
-            rotulo.addEventListener('pointerenter', () => {
-                const status = projetos[id].status ? ` · ${projetos[id].status}` : '';
-                definir([id], `${projetos[id].nome}${status} · ${usadas} tecnologias`);
-            });
-            rotulo.addEventListener('pointerleave', limpar);
-            noProjeto[id] = { esfera, rotulo, cor };
-        });
-
-        // tecnologias na casca, agrupadas perto do primeiro projeto que as usa
+        // agrupa perto do primeiro projeto que usou a tecnologia
         const ordenadas = [...tecnologias].sort(
             (a, b) => ids.indexOf(a.projetos[0]) - ids.indexOf(b.projetos[0]),
         );
+        const RAIO = 3.3;
         const nos = ordenadas.map((tec, i) => {
             const cor = projetos[tec.projetos[0]]?.cor ?? '#38E8D0';
             const esfera = new THREE.Mesh(
-                new THREE.SphereGeometry(0.085, 14, 14),
+                new THREE.SphereGeometry(0.1, 16, 16),
                 new THREE.MeshBasicMaterial({ color: cor, transparent: true }),
             );
-            esfera.position.copy(fibonacciEsfera(THREE, i, ordenadas.length, 3.6));
+            esfera.position.copy(fibonacciEsfera(THREE, i, ordenadas.length, RAIO));
             grupo.add(esfera);
-
             const rotulo = criarRotulo(container, tec.nome, 'cena-rotulo-tec');
-            // no celular só os projetos recebem toque; as tecnologias aparecem quando acesas
-            if (leve) rotulo.style.pointerEvents = 'none';
-            rotulo.addEventListener('pointerenter', () => {
-                const nomes = tec.projetos.map((p) => projetos[p].nome).join(', ');
-                definir(tec.projetos, `${tec.nome} · usada em ${nomes}`);
-            });
-            rotulo.addEventListener('pointerleave', limpar);
-            return { tec, esfera, rotulo };
+            return { tec, esfera, rotulo, cor, vizinhos: new Set(), arestas: [] };
         });
 
-        // ligações: cada tecnologia aos projetos que a usaram
-        const ligacoes = ids.map((id) => {
-            const pts = [];
-            nos.filter((n) => n.tec.projetos.includes(id)).forEach((n) => {
-                pts.push(noProjeto[id].esfera.position, n.esfera.position);
-            });
-            const linha = new THREE.LineSegments(
-                new THREE.BufferGeometry().setFromPoints(pts),
-                new THREE.LineBasicMaterial({ color: projetos[id].cor, transparent: true, opacity: 0.16 }),
+        // um par se liga quando divide pelo menos um projeto
+        const todas = [];
+        for (let a = 0; a < nos.length; a++) {
+            for (let b = a + 1; b < nos.length; b++) {
+                if (nos[a].tec.projetos.some((p) => nos[b].tec.projetos.includes(p))) {
+                    nos[a].vizinhos.add(b);
+                    nos[b].vizinhos.add(a);
+                    todas.push(nos[a].esfera.position, nos[b].esfera.position);
+                    nos[a].arestas.push(nos[a].esfera.position, nos[b].esfera.position);
+                    nos[b].arestas.push(nos[b].esfera.position, nos[a].esfera.position);
+                }
+            }
+        }
+        const fundo = new THREE.LineSegments(
+            new THREE.BufferGeometry().setFromPoints(todas),
+            new THREE.LineBasicMaterial({ color: '#8B7CFF', transparent: true, opacity: 0.14 }),
+        );
+        grupo.add(fundo);
+
+        nos.forEach((n, i) => {
+            n.destaque = new THREE.LineSegments(
+                new THREE.BufferGeometry().setFromPoints(n.arestas),
+                new THREE.LineBasicMaterial({ color: n.cor, transparent: true, opacity: 0 }),
             );
-            grupo.add(linha);
-            return { id, linha };
+            grupo.add(n.destaque);
+            n.rotulo.addEventListener('pointerenter', () => {
+                estado.ativo = i;
+                legenda.textContent = `${n.tec.nome} · ligada a ${n.vizinhos.size} tecnologias`;
+            });
+            n.rotulo.addEventListener('pointerleave', () => {
+                estado.ativo = null;
+                legenda.textContent = LEGENDA_PADRAO;
+            });
         });
 
         const ponto = new THREE.Vector3();
@@ -365,40 +351,26 @@ export function criarCenaConstelacao(tecnologias, projetos) {
             atualizar(t, mouse) {
                 ajustarDistancia(camera, baseCamera, leve ? 9 : 11);
                 // o giro pausa sobre um rótulo, para ele ficar parado sob o cursor
-                if (!estado.ativos.size) giro += t - anterior;
+                if (estado.ativo === null) giro += t - anterior;
                 anterior = t;
                 grupo.rotation.y = giro * 0.1 + mouse.x * 0.6;
                 grupo.rotation.x = mouse.y * 0.35;
                 grupo.updateMatrixWorld();
-                const ativo = estado.ativos.size > 0;
+                const ativo = estado.ativo !== null;
 
-                ligacoes.forEach(({ id, linha }) => {
-                    const alvo = !ativo ? 0.16 : estado.ativos.has(id) ? 0.95 : 0.03;
-                    linha.material.opacity = aproximar(linha.material.opacity, alvo);
-                });
-
-                ids.forEach((id) => {
-                    const n = noProjeto[id];
-                    const aceso = estado.ativos.has(id);
-                    const apagado = ativo && !aceso;
-                    n.esfera.scale.setScalar(aproximar(n.esfera.scale.x, aceso ? 1.5 : 1));
-                    n.esfera.material.opacity = apagado ? 0.2 : 1;
+                fundo.material.opacity = aproximar(fundo.material.opacity, ativo ? 0.04 : 0.14);
+                nos.forEach((n, i) => {
+                    const proprio = estado.ativo === i;
+                    const vizinho = ativo && nos[estado.ativo].vizinhos.has(i);
+                    const aceso = proprio || vizinho;
+                    n.destaque.material.opacity = aproximar(n.destaque.material.opacity, proprio ? 0.95 : 0);
+                    n.esfera.scale.setScalar(aproximar(n.esfera.scale.x, proprio ? 2 : vizinho ? 1.5 : 1));
+                    n.esfera.material.opacity = ativo && !aceso ? 0.15 : 1;
                     n.esfera.getWorldPosition(ponto);
-                    projetar(THREE, ponto, camera, container, n.rotulo, -20);
-                    n.rotulo.style.opacity = apagado ? 0.25 : 1;
-                    n.rotulo.dataset.ativo = aceso ? 'true' : 'false';
-                });
-
-                nos.forEach((n) => {
-                    const aceso = n.tec.projetos.some((p) => estado.ativos.has(p));
-                    const apagado = ativo && !aceso;
-                    n.esfera.scale.setScalar(aproximar(n.esfera.scale.x, aceso ? 1.7 : 1));
-                    n.esfera.material.opacity = apagado ? 0.15 : 1;
-                    n.esfera.getWorldPosition(ponto);
-                    const profundidade = (ponto.z / 3.6 + 1) / 2; // 0 atrás, 1 na frente
+                    const profundidade = (ponto.z / RAIO + 1) / 2; // 0 atrás, 1 na frente
                     projetar(THREE, ponto, camera, container, n.rotulo, -14);
-                    n.rotulo.style.opacity = leve ? (aceso ? 1 : 0) : apagado ? 0.12 : aceso ? 1 : 0.35 + profundidade * 0.6;
-                    n.rotulo.dataset.ativo = aceso ? 'true' : 'false';
+                    n.rotulo.style.opacity = ativo ? (aceso ? 1 : 0.12) : 0.4 + profundidade * 0.6;
+                    n.rotulo.dataset.ativo = proprio ? 'true' : 'false';
                 });
             },
         };
