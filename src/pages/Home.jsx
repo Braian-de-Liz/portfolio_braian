@@ -54,7 +54,7 @@ const DESTAQUES = [
         categoria: 'Plataforma full stack',
         problema: 'Músicos em locais diferentes não conseguem compor juntos sem sobrescrever o trabalho um do outro.',
         contribuicao: 'API Fastify sobre Bun com camadas de áudio versionadas, fluxo de aprovação e upload por streaming.',
-        evidencia: '40+ endpoints · 14 modelos · 15 migrações',
+        evidencia: '73 endpoints · 14 modelos · 15 migrações',
     },
     {
         titulo: 'TypeMarks',

@@ -70,7 +70,7 @@ function Projetos() {
                     </>
                 }
                 metricas={[
-                    { valor: '40+', rotulo: 'endpoints' },
+                    { valor: '73', rotulo: 'endpoints' },
                     { valor: '14', rotulo: 'modelos Prisma' },
                     { valor: '15', rotulo: 'migrações' },
                     { valor: '18', rotulo: 'arquivos de teste' },

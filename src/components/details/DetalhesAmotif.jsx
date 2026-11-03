@@ -10,7 +10,7 @@ function DetalhesAmotif() {
                 </p>
                 <div className="detalhes-highlights">
                     <div className="detalhes-highlight">
-                        <span className="detalhes-highlight-numero">40+</span>
+                        <span className="detalhes-highlight-numero">73</span>
                         <span className="detalhes-highlight-label">endpoints</span>
                     </div>
                     <div className="detalhes-highlight">

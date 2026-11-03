@@ -15,7 +15,7 @@ export const STACK_ATUAL = [
     {
         grupo: 'API e dados',
         itens: [
-            { nome: 'Fastify', evidencia: 'API de 40+ endpoints no AMOTIF', projeto: 'amotif' },
+            { nome: 'Fastify', evidencia: 'API de 73 endpoints no AMOTIF', projeto: 'amotif' },
             { nome: 'PostgreSQL', evidencia: '14 modelos e 15 migrações no AMOTIF', projeto: 'amotif' },
             { nome: 'Prisma', evidencia: 'Camada de acesso a dados do AMOTIF', projeto: 'amotif' },
         ],
