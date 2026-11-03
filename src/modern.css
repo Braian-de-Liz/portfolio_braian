@@ -422,3 +422,96 @@ body {
 .stack-item-evidencia a:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
 
 .pagina-cabecalho .titulo { font-size: clamp(2.4rem, 6vw, 4.4rem); max-width: 18ch; }
+
+/* A foto passa a ser desenhada dentro da cena 3D (no centro do globo).
+   A <img> continua no layout: dá o tamanho e serve de fallback sem WebGL. */
+.hero-foto[data-cena='ativa'] img { opacity: 0; box-shadow: none; }
+.hero-scene { z-index: 3; }
+
+/* ---------- Capturas de tela nos cases ---------- */
+.case-figura {
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border-medium);
+    background: #0d1219;
+    box-shadow: 0 40px 90px -40px rgba(139, 124, 255, 0.45);
+}
+.case-figura::before {
+    content: '';
+    display: block;
+    height: 34px;
+    background:
+        radial-gradient(circle at 18px 17px, #ff6b6b 4px, transparent 5px),
+        radial-gradient(circle at 36px 17px, #ffd166 4px, transparent 5px),
+        radial-gradient(circle at 54px 17px, #4ade80 4px, transparent 5px),
+        #131a24;
+    border-bottom: 1px solid var(--border-subtle);
+}
+.case-figura-quadro { overflow: hidden; }
+.case-figura img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform-origin: center;
+    scale: 1.12;
+}
+.case-figura figcaption {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-subtle);
+    background: #0d1219;
+}
+
+/* ---------- Contato ---------- */
+.contato {
+    max-width: var(--content-width);
+    width: 92%;
+    margin: var(--space-8) auto;
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--border-medium);
+}
+.contato-titulo {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 10vw, 8rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+    color: var(--text-strong);
+    margin: var(--space-3) 0 var(--space-4);
+}
+.contato-texto { max-width: 46ch; color: var(--text-secondary); font-size: var(--text-lg); }
+.contato-email {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 4.2vw, 3rem);
+    letter-spacing: -0.02em;
+    color: var(--text-strong);
+    text-decoration: none;
+    border-bottom: 2px solid var(--border-medium);
+    padding-bottom: 6px;
+    overflow-wrap: anywhere;
+    transition: color var(--transition-base), border-color var(--transition-base);
+}
+.contato-seta { color: var(--accent); transition: transform var(--transition-base); }
+.contato-email:hover { color: var(--accent); border-color: var(--accent); }
+.contato-email:hover .contato-seta { transform: translate(4px, -4px); }
+.contato-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
+    margin-top: var(--space-6);
+}
+.contato-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+.contato-links a:hover { color: var(--accent); border-color: var(--accent); }

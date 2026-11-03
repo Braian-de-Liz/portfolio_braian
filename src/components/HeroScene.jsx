@@ -94,6 +94,53 @@ function HeroScene() {
             anel2.rotation.set(Math.PI / 3, 0.6, 0);
             grupo.add(anel2);
 
+            // A foto vive DENTRO da cena, no centro do globo: as partículas
+            // do fundo ficam atrás dela e as da frente passam por cima,
+            // dando a impressão real de que ela está dentro da esfera.
+            const imgDom = container.parentElement?.querySelector('img');
+            const planoGeo = new THREE.PlaneGeometry(1, 1);
+            const planoMat = new THREE.MeshBasicMaterial({ transparent: false, alphaTest: 0.5 });
+            const plano = new THREE.Mesh(planoGeo, planoMat);
+            plano.visible = false;
+            scene.add(plano);
+            let textura = null;
+
+            const montarTextura = (imagem) => {
+                const L = 800;
+                const A = 1000;
+                const canvas = document.createElement('canvas');
+                canvas.width = L;
+                canvas.height = A;
+                const ctx = canvas.getContext('2d');
+                const raio = 70;
+                ctx.beginPath();
+                ctx.roundRect(0, 0, L, A, raio);
+                ctx.clip();
+                // equivale a object-fit: cover com object-position: center 18%
+                const escala = Math.max(L / imagem.naturalWidth, A / imagem.naturalHeight);
+                const w = imagem.naturalWidth * escala;
+                const h = imagem.naturalHeight * escala;
+                ctx.drawImage(imagem, (L - w) / 2, (A - h) * 0.18, w, h);
+                ctx.lineWidth = 6;
+                ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+                ctx.beginPath();
+                ctx.roundRect(3, 3, L - 6, A - 6, raio);
+                ctx.stroke();
+                textura = new THREE.CanvasTexture(canvas);
+                textura.colorSpace = THREE.SRGBColorSpace;
+                textura.anisotropy = 4;
+                planoMat.map = textura;
+                planoMat.needsUpdate = true;
+                plano.visible = true;
+                container.parentElement.dataset.cena = 'ativa';
+            };
+
+            if (imgDom) {
+                const carregar = () => { if (!disposed) montarTextura(imgDom); };
+                if (imgDom.complete && imgDom.naturalWidth) carregar();
+                else imgDom.addEventListener('load', carregar, { once: true });
+            }
+
             const mouse = { x: 0, y: 0 };
             const alvo = { x: 0, y: 0 };
             const onMouse = (e) => {
@@ -108,6 +155,12 @@ function HeroScene() {
                 renderer.setSize(w, h, false);
                 camera.aspect = w / h;
                 camera.updateProjectionMatrix();
+                // plano com o mesmo tamanho em pixels da foto no layout
+                if (imgDom && imgDom.clientWidth) {
+                    const alturaVisivel = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360);
+                    const porPixel = alturaVisivel / h;
+                    plano.scale.set(imgDom.clientWidth * porPixel, imgDom.clientHeight * porPixel, 1);
+                }
             };
             const ro = new ResizeObserver(resize);
             ro.observe(container);
@@ -138,6 +191,9 @@ function HeroScene() {
                 grupo.scale.setScalar(escala);
                 matParticulas.opacity = Math.max(0.9 - scroll * 0.9, 0);
 
+                plano.rotation.y = alvo.x * 0.18;
+                plano.rotation.x = alvo.y * 0.1;
+
                 renderer.render(scene, camera);
             };
             loop();
@@ -147,7 +203,9 @@ function HeroScene() {
                 window.removeEventListener('mousemove', onMouse);
                 ro.disconnect();
                 io.disconnect();
-                [geoParticulas, geoMalha, geoAnel, matParticulas, matMalha, matAnel, matAnel2].forEach((o) => o.dispose());
+                [geoParticulas, geoMalha, geoAnel, planoGeo, planoMat, matParticulas, matMalha, matAnel, matAnel2].forEach((o) => o.dispose());
+                textura?.dispose();
+                delete container.parentElement?.dataset.cena;
                 renderer.dispose();
                 renderer.domElement.remove();
             };

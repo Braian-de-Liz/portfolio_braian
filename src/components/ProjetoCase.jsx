@@ -1,5 +1,9 @@
-import { useId, useState } from 'react';
+import { useId, useLayoutEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useScrollReveal } from '../animations/useScrollReveal';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const MAX_STACK_VISIVEL = 6;
 
@@ -34,6 +38,24 @@ function ProjetoCase({
     const gatilhoId = `${idBase}-gatilho`;
 
     const secaoRef = useScrollReveal({ y: 20 });
+    const figuraRef = useRef(null);
+
+    // Parallax leve: a captura de tela desliza dentro da moldura ao rolar.
+    useLayoutEffect(() => {
+        const figura = figuraRef.current;
+        if (!figura) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const img = figura.querySelector('img');
+        if (!img) return;
+        const ctx = gsap.context(() => {
+            gsap.fromTo(img, { yPercent: -5 }, {
+                yPercent: 5,
+                ease: 'none',
+                scrollTrigger: { trigger: figura, start: 'top bottom', end: 'bottom top', scrub: true },
+            });
+        }, figura);
+        return () => ctx.revert();
+    }, [imagem?.src]);
     const stackVisivel = stack.slice(0, MAX_STACK_VISIVEL);
 
     return (
@@ -48,22 +70,24 @@ function ProjetoCase({
                 <p className="case-resumo">{resumo}</p>
             </header>
 
-            {composicao ? (
-                <div className="case-composicao">{composicao}</div>
-            ) : null}
-
             {imagem ? (
-                <figure className="case-figura">
-                    <img
-                        src={imagem.src}
-                        alt={imagem.alt}
-                        loading="lazy"
-                        decoding="async"
-                    />
+                <figure className="case-figura" ref={figuraRef}>
+                    <div className="case-figura-quadro">
+                        <img
+                            src={imagem.src}
+                            alt={imagem.alt}
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </div>
                     {imagem.legenda ? (
                         <figcaption>{imagem.legenda}</figcaption>
                     ) : null}
                 </figure>
+            ) : null}
+
+            {composicao ? (
+                <div className="case-composicao">{composicao}</div>
             ) : null}
 
             {metricas?.length ? (

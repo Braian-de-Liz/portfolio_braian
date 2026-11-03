@@ -50,6 +50,11 @@ function Projetos() {
                 categoria="Plataforma full stack"
                 id="amotif"
                 titulo="AMOTIF"
+                imagem={{
+                    src: '/ASSETS/imagens/amotif_home.webp',
+                    alt: 'Tela inicial do AMOTIF listando projetos musicais colaborativos, com busca, filtro por instrumento e botão para entrar no estúdio',
+                    legenda: 'Explorar projetos: busca, filtro por instrumento e entrada direta no estúdio de cada faixa',
+                }}
                 resumo="Plataforma de colaboração musical assíncrona: cada contribuição entra como uma camada de áudio versionada, preservando autoria e histórico em vez de sobrescrever o trabalho anterior."
                 composicao={
                     <FluxoTecnico
@@ -152,6 +157,11 @@ function Projetos() {
                 categoria="Monitoramento em tempo real"
                 id="tchuu-tchuu"
                 titulo="Tchuu-Tchuu"
+                imagem={{
+                    src: '/ASSETS/imagens/tchuu_dashboard.webp',
+                    alt: 'Painel do Tchuu-Tchuu com a linha Joinville a Cidade Várzea, horários de partida e chegada e fotos das composições',
+                    legenda: 'Painel operacional: trecho monitorado, horários e composições em circulação',
+                }}
                 resumo="Sistema de monitoramento ferroviário em que telemetria de sensores chega por WebSocket e alimenta um painel operacional, com três componentes que escalam e implantam de forma independente."
                 composicao={
                     <FluxoTecnico

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
 import { Marquee } from '../components/Marquee';
+import { Contato } from '../components/Contato';
 import { useScrollReveal } from '../animations/useScrollReveal';
 import { useTiltHover } from '../animations/useTiltHover';
 
@@ -92,6 +93,8 @@ function Home() {
                 </p>
                 <Link to="/sobre" className="pagina-boton">Ver perfil completo</Link>
             </section>
+
+            <Contato />
         </main>
     );
 }
