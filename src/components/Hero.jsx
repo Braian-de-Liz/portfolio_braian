@@ -1,7 +1,11 @@
 import { useRef, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { HeroScene } from './HeroScene';
 import { easing, duration } from '../animations/presets';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const TECNOLOGIAS = ['TypeScript', 'Node.js', 'Bun', 'Fastify', 'PostgreSQL'];
 
@@ -21,6 +25,22 @@ function Hero() {
         if (alvos.length === 0) return;
 
         const ctx = gsap.context(() => {
+            // Nome: cada linha sobe de dentro de uma máscara
+            gsap.fromTo(section.querySelectorAll('.hero-nome-linha > span'),
+                { yPercent: 115, rotate: 4 },
+                { yPercent: 0, rotate: 0, duration: 1.1, ease: easing.entry, stagger: 0.12, delay: 0.1 }
+            );
+
+            // Parallax: o texto sobe e esmaece enquanto a página rola
+            gsap.to(section.querySelector('.hero-content'), {
+                yPercent: -14, opacity: 0.15, ease: 'none',
+                scrollTrigger: { trigger: section, start: 'top top', end: 'bottom top', scrub: true },
+            });
+            gsap.to(fotoRef.current, {
+                yPercent: 10, ease: 'none',
+                scrollTrigger: { trigger: section, start: 'top top', end: 'bottom top', scrub: true },
+            });
+
             gsap.fromTo(alvos,
                 { opacity: 0, y: 14 },
                 {
@@ -133,7 +153,10 @@ function Hero() {
         <section className="hero" ref={sectionRef}>
             <div className="hero-content">
                 <p className="hero-ola" data-hero-item>Olá, eu sou</p>
-                <h1 className="hero-nome" data-hero-item>Braian de Liz</h1>
+                <h1 className="hero-nome" aria-label="Braian de Liz">
+                    <span className="hero-nome-linha" aria-hidden="true"><span>Braian</span></span>
+                    <span className="hero-nome-linha" aria-hidden="true"><span>de Liz</span></span>
+                </h1>
                 <h2 className="hero-cargo" data-hero-item>
                     Desenvolvedor de sistemas com foco em <strong>backend</strong>
                 </h2>
@@ -152,6 +175,7 @@ function Hero() {
                 </div>
             </div>
             <div className="hero-foto" ref={fotoRef}>
+                <HeroScene />
                 <img
                     src="/ASSETS/imagens/foto_braian.jpg"
                     alt="Retrato de Braian de Liz"

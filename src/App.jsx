@@ -3,7 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
+import { ScrollProgress } from './components/ScrollProgress';
+import { CursorGlow } from './components/CursorGlow';
+import { useSmoothScroll } from './hooks/useSmoothScroll';
 import './App.css';
+import './modern.css';
 
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })));
 const Projetos = lazy(() => import('./pages/projetos').then((m) => ({ default: m.Projetos })));
@@ -21,10 +25,14 @@ function PageFallback() {
 }
 
 function App() {
+    useSmoothScroll();
+
     return (
         <Router>
             <div className="App">
                 <ScrollToTop />
+                <ScrollProgress />
+                <CursorGlow />
 
                 <div className="github-floating">
                     <a

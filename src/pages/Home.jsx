@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
+import { Marquee } from '../components/Marquee';
 import { useScrollReveal } from '../animations/useScrollReveal';
 import { useTiltHover } from '../animations/useTiltHover';
 
@@ -46,6 +47,7 @@ function Home() {
     return (
         <main>
             <Hero />
+            <Marquee />
 
             <section className="secao-aberta projetos-destaque" ref={projetosRef}>
                 <span className="eyebrow">Trabalho selecionado</span>
@@ -55,14 +57,16 @@ function Home() {
                 </p>
 
                 <div className="destaque-grid" ref={setGridRefs}>
-                    {DESTAQUES.map((projeto) => (
+                    {DESTAQUES.map((projeto, indice) => (
                         <Link
                             to="/projetos"
                             className="destaque-card"
                             key={projeto.titulo}
                             data-testid="preview-card"
                             data-tilt
+                            style={{ '--i': indice }}
                         >
+                            <span className="destaque-num" aria-hidden="true">0{indice + 1}</span>
                             <span className="destaque-categoria">{projeto.categoria}</span>
                             <h3 data-testid="preview-titulo">{projeto.titulo}</h3>
                             <p className="destaque-problema" data-testid="preview-problema">
