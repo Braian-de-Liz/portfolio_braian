@@ -338,7 +338,42 @@ body {
 }
 .destaque-card:hover .destaque-seta { color: var(--accent); transform: translate(3px, -3px); }
 
+/* Prévia visual de cada projeto, abaixo do título */
+.destaque-card > .destaque-previa {
+    grid-column: 2;
+    grid-row: 3;
+    margin-top: var(--space-4);
+    display: block;
+    max-width: 380px;
+    border: 1px solid var(--border-medium);
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.025);
+    opacity: 0.85;
+    transition: opacity var(--transition-base), border-color var(--transition-base);
+}
+.destaque-card:hover > .destaque-previa { opacity: 1; border-color: var(--accent); }
+.destaque-previa-img { display: block; width: 100%; height: auto; }
+.destaque-previa-barras { display: grid; gap: 10px; padding: 14px 16px; }
+.destaque-barra { display: grid; gap: 4px; font-size: var(--text-xs); color: var(--text-secondary); }
+.destaque-barra i {
+    display: block;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--accent-gradient);
+}
+.destaque-previa-codigo {
+    margin: 0;
+    padding: 14px 16px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: 1.7;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+}
+
 @media (max-width: 860px) {
+    .destaque-card > .destaque-previa { grid-column: 2 / 4; grid-row: auto; max-width: none; }
     .destaque-card {
         grid-template-columns: 2rem 1fr auto;
         padding: var(--space-5) 0;

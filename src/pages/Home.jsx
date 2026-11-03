@@ -10,9 +10,51 @@ import { useTiltHover } from '../animations/useTiltHover';
  * "o que eu construí" e "qual evidência" — na ordem de força técnica.
  * Os números vêm do conteúdo já documentado em cada projeto.
  */
+/* Barras do TypeMarks: os três melhores cenários e o baseline em Node.js (mesmos números da página de projetos). */
+const BARRAS_TYPEMARKS = [
+    { rotulo: 'Bun · Hono · AJV', reqs: 28534 },
+    { rotulo: 'Bun · Elysia · TypeBox', reqs: 25915 },
+    { rotulo: 'Node · Fastify · AJV', reqs: 14998 },
+];
+
+function PreviaVisual({ tipo }) {
+    if (tipo === 'amotif') {
+        return (
+            <img
+                className="destaque-previa-img"
+                src="/ASSETS/imagens/amotif_home.webp"
+                alt=""
+                width="1400"
+                height="637"
+                loading="lazy"
+                decoding="async"
+            />
+        );
+    }
+    if (tipo === 'typemarks') {
+        const maximo = BARRAS_TYPEMARKS[0].reqs;
+        return (
+            <div className="destaque-previa-barras" aria-hidden="true">
+                {BARRAS_TYPEMARKS.map((b) => (
+                    <div className="destaque-barra" key={b.rotulo}>
+                        <span>{b.rotulo}</span>
+                        <i style={{ width: `${(b.reqs / maximo) * 100}%` }} />
+                    </div>
+                ))}
+            </div>
+        );
+    }
+    return (
+        <pre className="destaque-previa-codigo" aria-hidden="true">
+            <code>{`cpf: zbr.cpf(),\n"111.111.111-11"  // rejeitado`}</code>
+        </pre>
+    );
+}
+
 const DESTAQUES = [
     {
         titulo: 'AMOTIF',
+        previa: 'amotif',
         categoria: 'Plataforma full stack',
         problema: 'Músicos em locais diferentes não conseguem compor juntos sem sobrescrever o trabalho um do outro.',
         contribuicao: 'API Fastify sobre Bun com camadas de áudio versionadas, fluxo de aprovação e upload por streaming.',
@@ -20,6 +62,7 @@ const DESTAQUES = [
     },
     {
         titulo: 'TypeMarks',
+        previa: 'typemarks',
         categoria: 'Pesquisa de performance',
         problema: 'Escolher validador e runtime por intuição custa throughput em produção.',
         contribuicao: 'Benchmark de 15 cenários combinando runtimes, frameworks e validadores sob carga controlada.',
@@ -27,6 +70,7 @@ const DESTAQUES = [
     },
     {
         titulo: 'br_standards_with_zod',
+        previa: 'zbr',
         categoria: 'Biblioteca open source',
         problema: 'Validação de documentos brasileiros costuma parar em regex e aceita dados inválidos.',
         contribuicao: 'Validação por dígito verificador integrada ao Zod, publicada no NPM com build ESM e CJS.',
@@ -74,6 +118,9 @@ function Home() {
                             <span className="destaque-num" aria-hidden="true">0{indice + 1}</span>
                             <span className="destaque-categoria">{projeto.categoria}</span>
                             <h3 data-testid="preview-titulo" aria-label={projeto.titulo}>{comQuebras(projeto.titulo)}</h3>
+                            <span className="destaque-previa" aria-hidden="true">
+                                <PreviaVisual tipo={projeto.previa} />
+                            </span>
                             <p className="destaque-problema" data-testid="preview-problema">
                                 {projeto.problema}
                             </p>
