@@ -46,7 +46,6 @@ export const STACK_ATUAL = [
         itens: [
             { nome: 'JWT', evidencia: 'Sessões no AMOTIF, no Tchuu-Tchuu e no OrcaLint', projetos: ['amotif', 'tchuu-tchuu', 'orcalint'] },
             { nome: 'Argon2', evidencia: 'Hash de senhas no AMOTIF (Argon2id) e no DocuSprint', projetos: ['amotif', 'docusprint'] },
-            { nome: 'Login com Google', evidencia: 'Autenticação do OrcaLint', projetos: ['orcalint'] },
         ],
     },
     {
@@ -54,8 +53,6 @@ export const STACK_ATUAL = [
         itens: [
             { nome: 'React', evidencia: 'Frontend do AMOTIF e do DocuSprint', projetos: ['amotif', 'docusprint'] },
             { nome: 'Next.js', evidencia: 'Frontend do ComandLiz', projetos: ['comandliz'] },
-            { nome: 'Expo', evidencia: 'App do OrcaLint, com Expo Router', projetos: ['orcalint'] },
-            { nome: 'Zustand', evidencia: 'Estado do app do OrcaLint', projetos: ['orcalint'] },
             { nome: 'Chart.js', evidencia: 'Painel operacional do Tchuu-Tchuu', projetos: ['tchuu-tchuu'] },
         ],
     },
