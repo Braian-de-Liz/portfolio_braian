@@ -2139,6 +2139,46 @@ body {
     .hero-scene { width: 260%; opacity: 0.8; }
 }
 
+/* ---------- Marquee ---------- */
+.marquee {
+    overflow: hidden;
+    padding: var(--space-6) 0;
+    border-block: 1px solid var(--border-subtle);
+    margin: var(--space-5) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    user-select: none;
+}
+
+.marquee-linha { overflow: hidden; }
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 7vw, 5.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    color: var(--text-strong);
+}
+
+.marquee-track span { display: inline-flex; align-items: center; }
+.marquee-track i {
+    font-style: normal;
+    color: var(--accent);
+    font-size: 0.45em;
+    margin: 0 0.7em;
+}
+
+.marquee-linha.contorno .marquee-track {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.45);
+}
+.marquee-linha.contorno .marquee-track i { color: var(--accent-tertiary); -webkit-text-stroke: 0; }
+
 /* ---------- Projetos em destaque: lista editorial ---------- */
 .projetos-destaque {
     max-width: var(--content-width);

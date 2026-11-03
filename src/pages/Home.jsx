@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
 import { PlaygroundZbr } from '../components/PlaygroundZbr';
+import { Marquee } from '../components/Marquee';
 import { Contato } from '../components/Contato';
 import { useScrollReveal } from '../animations/useScrollReveal';
 import { useTiltHover } from '../animations/useTiltHover';
@@ -94,6 +95,7 @@ function Home() {
     return (
         <main>
             <Hero />
+            <Marquee />
 
             <section className="secao-aberta projetos-destaque" ref={projetosRef}>
                 <span className="eyebrow">Trabalho selecionado</span>
