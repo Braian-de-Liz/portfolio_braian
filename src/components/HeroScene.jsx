@@ -171,12 +171,12 @@ function HeroScene() {
             const io = new IntersectionObserver(([entry]) => { visivel = entry.isIntersecting; });
             io.observe(container);
 
-            const relogio = new THREE.Clock();
+            const inicio = performance.now();
             let raf = 0;
             const loop = () => {
                 raf = requestAnimationFrame(loop);
                 if (!visivel || document.hidden) return;
-                const t = relogio.getElapsedTime();
+                const t = (performance.now() - inicio) / 1000;
                 const scroll = window.scrollY / Math.max(window.innerHeight, 1);
 
                 alvo.x += (mouse.x - alvo.x) * 0.05;

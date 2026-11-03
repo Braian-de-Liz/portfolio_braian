@@ -9,6 +9,7 @@ Portfólio de Braian de Liz da Silva: projetos, formação e habilidades de um d
   - **AMOTIF**: colaboração musical assíncrona (captura de tela).
   - **TypeMarks**: benchmark de validadores e runtimes (barras com os números reais).
   - **br_standards_with_zod**: biblioteca de validação de documentos brasileiros, com um **playground** que roda a lib real do NPM no navegador.
+- **Cenas 3D por seção**, cada uma explicando o conteúdo: camadas de áudio do AMOTIF, colunas de throughput do TypeMarks, trilho com telemetria do Tchuu-Tchuu, constelação da stack em Habilidades e o globo que se desfaz na 404. Só existe uma cena montada por vez perto da tela, e todas somem sem WebGL, com "reduzir movimento" ou economia de dados.
 - Páginas de **Projetos** (cases com arquitetura e métricas), **Sobre** e **Habilidades**.
 
 ## Stack

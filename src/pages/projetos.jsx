@@ -5,20 +5,12 @@ import { BlocoCodigo } from '../components/BlocoCodigo';
 import { DetalhesZbr } from '../components/details/DetalhesZbr';
 import { DetalhesTchuu } from '../components/details/DetalhesTchuu';
 import { DetalhesAmotif } from '../components/details/DetalhesAmotif';
+import { CENARIOS_TYPEMARKS } from '../data/typemarks';
+import { Cena3D } from '../components/cenas/Cena3D';
+import { cenaCamadasAmotif, cenaTrilho, criarCenaBarras } from '../components/cenas/cenas';
 import { DetalhesTypeMarks } from '../components/details/DetalhesTypeMarks';
 
-/*
- * Os quatro melhores cenários do relatório de benchmark do TypeMarks,
- * seguidos do baseline em Node.js com a mesma combinação Fastify + AJV.
- * O contraste entre a 4ª e a 5ª linha isola o efeito do runtime.
- */
-const CENARIOS_TYPEMARKS = [
-    { runtime: 'Bun', framework: 'Hono', validador: 'AJV', reqs: 28534, latencia: '2,94 ms' },
-    { runtime: 'Bun', framework: 'Elysia', validador: 'TypeBox', reqs: 25915, latencia: '3,45 ms' },
-    { runtime: 'Bun', framework: 'Hono', validador: 'Schema-Shield', reqs: 25021, latencia: '3,61 ms' },
-    { runtime: 'Bun', framework: 'Fastify', validador: 'AJV', reqs: 22527, latencia: '3,93 ms' },
-    { runtime: 'Node', framework: 'Fastify', validador: 'AJV', reqs: 14998, latencia: '6,16 ms' },
-];
+const CENA_BARRAS = criarCenaBarras(CENARIOS_TYPEMARKS);
 
 const EXEMPLO_ZOD = `import { z } from 'zod';
 import { zbr } from 'br_standards_with_zod';
@@ -57,6 +49,8 @@ function Projetos() {
                 }}
                 resumo="Plataforma de colaboração musical assíncrona: cada contribuição entra como uma camada de áudio versionada, preservando autoria e histórico em vez de sobrescrever o trabalho anterior."
                 composicao={
+                    <>
+                    <Cena3D montar={cenaCamadasAmotif} className="cena-3d-case" />
                     <FluxoTecnico
                         titulo="amotif.arquitetura"
                         status="Em produção"
@@ -73,6 +67,7 @@ function Projetos() {
                         ]}
                         nota="Upload de áudio não passa pela memória da API: o binário é validado em até 40 MB e transmitido por streaming ao storage; só a URL final é persistida no banco."
                     />
+                    </>
                 }
                 metricas={[
                     { valor: '40+', rotulo: 'endpoints' },
@@ -95,10 +90,13 @@ function Projetos() {
                 titulo="TypeMarks"
                 resumo="Benchmark de 15 cenários combinando runtimes, frameworks e validadores para medir quanto a validação de contratos custa em throughput — e transformar a escolha de stack numa decisão com dado, não com intuição."
                 composicao={
-                    <BenchmarkChart
-                        cenarios={CENARIOS_TYPEMARKS}
-                        legenda="Requisições por segundo: os quatro melhores cenários, todos no Bun, comparados ao baseline de Fastify com AJV no Node.js"
-                    />
+                    <>
+                        <Cena3D montar={CENA_BARRAS} className="cena-3d-case" />
+                        <BenchmarkChart
+                            cenarios={CENARIOS_TYPEMARKS}
+                            legenda="Requisições por segundo: os quatro melhores cenários, todos no Bun, comparados ao baseline de Fastify com AJV no Node.js"
+                        />
+                    </>
                 }
                 metricas={[
                     { valor: '28.534', rotulo: 'req/s no melhor cenário' },
@@ -164,6 +162,8 @@ function Projetos() {
                 }}
                 resumo="Sistema de monitoramento ferroviário em que telemetria de sensores chega por WebSocket e alimenta um painel operacional, com três componentes que escalam e implantam de forma independente."
                 composicao={
+                    <>
+                    <Cena3D montar={cenaTrilho} className="cena-3d-case" />
                     <FluxoTecnico
                         titulo="tchuu.telemetria"
                         etapas={[
@@ -179,6 +179,7 @@ function Projetos() {
                         ]}
                         nota="Frontend em JavaScript puro foi uma escolha deliberada do projeto para exercitar fundamentos, e o CORS aceita apenas o domínio do próprio frontend."
                     />
+                    </>
                 }
                 metricas={[
                     { valor: '881', rotulo: 'commits' },

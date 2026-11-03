@@ -2553,3 +2553,51 @@ body {
 .playground-resultado[data-estado='erro'] strong { color: var(--accent-tertiary); }
 .playground-resultado code { font-family: var(--font-mono); color: var(--text-strong); }
 .playground-exemplos { display: flex; gap: 6px; flex-wrap: wrap; }
+
+
+/* ---------- Cenas 3D por seção ---------- */
+.cena-3d {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 14px;
+}
+.cena-3d canvas { width: 100%; height: 100%; display: block; }
+.cena-3d-case { height: clamp(240px, 36vw, 380px); margin-bottom: var(--space-5); }
+.cena-3d-stack { height: clamp(300px, 42vw, 460px); }
+.cena-3d-404 { height: clamp(200px, 30vw, 300px); margin-bottom: var(--space-4); }
+.cena-secao { margin-block: var(--space-5); }
+
+.cena-rotulo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+.cena-rotulo-nome { white-space: pre; text-align: center; line-height: 1.25; }
+.cena-rotulo-valor { color: var(--text-strong); font-family: var(--font-mono); }
+.cena-rotulo-tec {
+    pointer-events: auto;
+    cursor: default;
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: var(--text-strong);
+    background: rgba(7, 10, 16, 0.55);
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+.cena-rotulo-tec[data-ativo='true'] { background: var(--accent); color: var(--on-accent); }
+.cena-legenda {
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+}
+
+@media (max-width: 600px) {
+    .cena-rotulo { font-size: 0.68rem; }
+    .cena-3d-case { height: 260px; }
+}
