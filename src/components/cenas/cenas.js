@@ -47,7 +47,7 @@ function ajustarDistancia(camera, base, larguraMundo) {
 }
 
 /* ---------- AMOTIF: camadas de áudio versionadas ---------- */
-export function cenaCamadasAmotif(THREE, { scene, camera }) {
+export function cenaCamadasAmotif(THREE, { scene, camera, container }) {
     camera.position.set(0, 4, 8.4);
     camera.lookAt(0, 0.6, 0);
 
@@ -81,6 +81,11 @@ export function cenaCamadasAmotif(THREE, { scene, camera }) {
     const nova = criarCamada(BRANCO, 3.4);
     grupo.add(nova.camada);
     const TOPO = (cores.length - 1.5) * PASSO;
+
+    // rótulos: nomeiam as camadas e a contribuição que está chegando
+    const rotulos = camadas.map((c, i) => ({ c, el: criarRotulo(container, `camada ${i + 1}`, 'cena-rotulo-camada') }));
+    const rotuloNova = criarRotulo(container, 'nova contribuição', 'cena-rotulo-camada cena-rotulo-nova');
+    const ponta = new THREE.Vector3(2.85, 0, 0.9);
 
     return {
         atualizar(t, mouse) {
@@ -116,6 +121,13 @@ export function cenaCamadasAmotif(THREE, { scene, camera }) {
             grupo.rotation.y = -0.55 + Math.sin(t * 0.25) * 0.12 + mouse.x * 0.35;
             grupo.rotation.x = mouse.y * 0.12;
             camadas.forEach((c, i) => { c.camada.position.y = (i - 1.5) * PASSO + Math.sin(t * 0.8 + i) * 0.03; });
+
+            grupo.updateMatrixWorld(true);
+            rotulos.forEach(({ c, el }) => {
+                projetar(THREE, c.camada.localToWorld(ponta.clone()), camera, container, el);
+            });
+            projetar(THREE, nova.camada.localToWorld(ponta.clone()), camera, container, rotuloNova);
+            rotuloNova.style.opacity = opacidade;
         },
     };
 }

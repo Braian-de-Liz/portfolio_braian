@@ -2610,6 +2610,23 @@ body {
     color: var(--text-secondary);
 }
 .cena-rotulo-nome { white-space: pre; text-align: center; line-height: 1.25; }
+.cena-rotulo-camada {
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: rgba(7, 10, 16, 0.55);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    transform-origin: left center;
+}
+.cena-rotulo-nova { color: var(--text-strong); border: 1px solid rgba(244, 246, 248, 0.5); }
+.cena-explicacao {
+    max-width: var(--prose-width);
+    margin: calc(var(--space-3) * -1) 0 var(--space-5);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+}
+.cena-explicacao strong { color: var(--text-strong); font-weight: 600; }
 .cena-rotulo-valor { color: var(--text-strong); font-family: var(--font-mono); }
 .cena-rotulo-tec {
     pointer-events: auto;

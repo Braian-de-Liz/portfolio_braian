@@ -51,6 +51,12 @@ function Projetos() {
                 composicao={
                     <>
                     <Cena3D montar={cenaCamadasAmotif} className="cena-3d-case" />
+                    <p className="cena-explicacao" data-testid="amotif-camadas-explicacao">
+                        <strong>Como funcionam as camadas.</strong> Cada contribuição de áudio entra como
+                        uma camada nova no topo da pilha (a branca, que desce na animação). As anteriores
+                        continuam intactas, com autoria e histórico. O dono do projeto aprova ou rejeita
+                        a camada, e cada edição vira uma versão nova, sem apagar a anterior.
+                    </p>
                     <FluxoTecnico
                         titulo="amotif.arquitetura"
                         status="Em produção"
