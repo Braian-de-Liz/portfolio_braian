@@ -259,105 +259,146 @@ export function cenaTrilho(THREE, { scene, camera }) {
     };
 }
 
-/* ---------- Habilidades: tecnologias ligadas pelos projetos ---------- */
-const CORES_PROJETO = {
-    amotif: CIANO,
-    'tchuu-tchuu': VIOLETA,
-    typemarks: ROSA,
-    'br-standards-with-zod': BRANCO,
-};
-const NOMES_PROJETO = {
-    amotif: 'AMOTIF',
-    'tchuu-tchuu': 'Tchuu-Tchuu',
-    typemarks: 'TypeMarks',
-    'br-standards-with-zod': 'br_standards_with_zod',
-};
+/* ---------- Habilidades: tecnologias ligadas aos projetos onde foram usadas ---------- */
+function fibonacciEsfera(THREE, i, total, raio) {
+    const y = total === 1 ? 0 : 1 - (i / (total - 1)) * 2;
+    const r = Math.sqrt(Math.max(0, 1 - y * y));
+    const theta = Math.PI * (3 - Math.sqrt(5)) * i;
+    return new THREE.Vector3(Math.cos(theta) * r * raio, y * raio, Math.sin(theta) * r * raio);
+}
 
-export function criarCenaConstelacao(tecnologias) {
+/**
+ * Grafo em duas camadas: os projetos ficam no miolo e cada tecnologia, na casca,
+ * liga-se a todos os projetos em que foi usada. Passar o mouse sobre uma
+ * tecnologia mostra onde ela apareceu; sobre um projeto, tudo que ele usa.
+ */
+export function criarCenaConstelacao(tecnologias, projetos) {
     return function cenaConstelacao(THREE, { scene, camera, container, leve }) {
-        camera.position.set(0, 0, leve ? 8.6 : 7.4);
+        const baseCamera = new THREE.Vector3(0, 0, leve ? 11 : 10.4);
+        camera.position.copy(baseCamera);
 
         const grupo = new THREE.Group();
         scene.add(grupo);
 
-        const RAIO = 2.5;
-        const estado = { projeto: null };
+        const ids = Object.keys(projetos);
+        const estado = { ativos: new Set() };
         const legenda = document.createElement('span');
         legenda.className = 'cena-legenda';
-        const LEGENDA_PADRAO = 'Passe o mouse sobre uma tecnologia para ver o projeto';
+        const LEGENDA_PADRAO = leve
+            ? 'Toque em um projeto para ver o que ele usa'
+            : 'Passe o mouse sobre uma tecnologia ou projeto para ver as ligações';
         legenda.textContent = LEGENDA_PADRAO;
         container.appendChild(legenda);
 
-        const nos = tecnologias.map((tec, i) => {
-            const y = 1 - (i / (tecnologias.length - 1)) * 2;
-            const r = Math.sqrt(1 - y * y);
-            const theta = Math.PI * (3 - Math.sqrt(5)) * i;
-            const cor = CORES_PROJETO[tec.projeto] ?? CIANO;
+        const definir = (lista, texto) => {
+            estado.ativos = new Set(lista);
+            legenda.textContent = texto;
+        };
+        const limpar = () => definir([], LEGENDA_PADRAO);
+
+        // projetos no miolo
+        const noProjeto = {};
+        ids.forEach((id, i) => {
+            const cor = projetos[id].cor;
             const esfera = new THREE.Mesh(
-                new THREE.SphereGeometry(0.1, 16, 16),
+                new THREE.SphereGeometry(0.2, 20, 20),
                 new THREE.MeshBasicMaterial({ color: cor, transparent: true }),
             );
-            esfera.position.set(Math.cos(theta) * r * RAIO, y * RAIO, Math.sin(theta) * r * RAIO);
+            esfera.position.copy(fibonacciEsfera(THREE, i, ids.length, 1.9));
+            grupo.add(esfera);
+
+            const rotulo = criarRotulo(container, projetos[id].nome, 'cena-rotulo-projeto');
+            rotulo.style.setProperty('--cor', cor);
+            const usadas = tecnologias.filter((t) => t.projetos.includes(id)).length;
+            rotulo.addEventListener('pointerenter', () => {
+                const status = projetos[id].status ? ` · ${projetos[id].status}` : '';
+                definir([id], `${projetos[id].nome}${status} · ${usadas} tecnologias`);
+            });
+            rotulo.addEventListener('pointerleave', limpar);
+            noProjeto[id] = { esfera, rotulo, cor };
+        });
+
+        // tecnologias na casca, agrupadas perto do primeiro projeto que as usa
+        const ordenadas = [...tecnologias].sort(
+            (a, b) => ids.indexOf(a.projetos[0]) - ids.indexOf(b.projetos[0]),
+        );
+        const nos = ordenadas.map((tec, i) => {
+            const cor = projetos[tec.projetos[0]]?.cor ?? '#38E8D0';
+            const esfera = new THREE.Mesh(
+                new THREE.SphereGeometry(0.085, 14, 14),
+                new THREE.MeshBasicMaterial({ color: cor, transparent: true }),
+            );
+            esfera.position.copy(fibonacciEsfera(THREE, i, ordenadas.length, 3.6));
             grupo.add(esfera);
 
             const rotulo = criarRotulo(container, tec.nome, 'cena-rotulo-tec');
+            // no celular só os projetos recebem toque; as tecnologias aparecem quando acesas
+            if (leve) rotulo.style.pointerEvents = 'none';
             rotulo.addEventListener('pointerenter', () => {
-                estado.projeto = tec.projeto;
-                legenda.textContent = `${tec.nome} · usada em ${NOMES_PROJETO[tec.projeto] ?? tec.projeto}`;
+                const nomes = tec.projetos.map((p) => projetos[p].nome).join(', ');
+                definir(tec.projetos, `${tec.nome} · usada em ${nomes}`);
             });
-            rotulo.addEventListener('pointerleave', () => {
-                estado.projeto = null;
-                legenda.textContent = LEGENDA_PADRAO;
-            });
-            return { tec, esfera, rotulo, cor };
+            rotulo.addEventListener('pointerleave', limpar);
+            return { tec, esfera, rotulo };
         });
 
-        // liga as tecnologias que pertencem ao mesmo projeto
-        const ligacoes = [];
-        Object.keys(CORES_PROJETO).forEach((projeto) => {
-            const doProjeto = nos.filter((n) => n.tec.projeto === projeto);
-            if (doProjeto.length < 2) return;
+        // ligações: cada tecnologia aos projetos que a usaram
+        const ligacoes = ids.map((id) => {
             const pts = [];
-            for (let a = 0; a < doProjeto.length; a++) {
-                for (let b = a + 1; b < doProjeto.length; b++) {
-                    pts.push(doProjeto[a].esfera.position, doProjeto[b].esfera.position);
-                }
-            }
+            nos.filter((n) => n.tec.projetos.includes(id)).forEach((n) => {
+                pts.push(noProjeto[id].esfera.position, n.esfera.position);
+            });
             const linha = new THREE.LineSegments(
                 new THREE.BufferGeometry().setFromPoints(pts),
-                new THREE.LineBasicMaterial({ color: CORES_PROJETO[projeto], transparent: true, opacity: 0.22 }),
+                new THREE.LineBasicMaterial({ color: projetos[id].cor, transparent: true, opacity: 0.16 }),
             );
             grupo.add(linha);
-            ligacoes.push({ projeto, linha });
+            return { id, linha };
         });
 
         const ponto = new THREE.Vector3();
         let giro = 0;
         let anterior = 0;
+        const aproximar = (valor, alvo, k = 0.15) => valor + (alvo - valor) * k;
+
         return {
             atualizar(t, mouse) {
-                // o giro pausa sobre uma tecnologia, para o rótulo ficar parado sob o cursor
-                if (!estado.projeto) giro += t - anterior;
+                ajustarDistancia(camera, baseCamera, leve ? 9 : 11);
+                // o giro pausa sobre um rótulo, para ele ficar parado sob o cursor
+                if (!estado.ativos.size) giro += t - anterior;
                 anterior = t;
                 grupo.rotation.y = giro * 0.1 + mouse.x * 0.6;
                 grupo.rotation.x = mouse.y * 0.35;
                 grupo.updateMatrixWorld();
+                const ativo = estado.ativos.size > 0;
 
-                ligacoes.forEach(({ projeto, linha }) => {
-                    const alvoOpacidade = estado.projeto === projeto ? 0.95 : estado.projeto ? 0.05 : 0.22;
-                    linha.material.opacity += (alvoOpacidade - linha.material.opacity) * 0.15;
+                ligacoes.forEach(({ id, linha }) => {
+                    const alvo = !ativo ? 0.16 : estado.ativos.has(id) ? 0.95 : 0.03;
+                    linha.material.opacity = aproximar(linha.material.opacity, alvo);
                 });
-                nos.forEach((n) => {
-                    const ativo = estado.projeto === n.tec.projeto;
-                    const apagado = estado.projeto && !ativo;
-                    const escala = ativo ? 1.8 : 1;
-                    n.esfera.scale.setScalar(n.esfera.scale.x + (escala - n.esfera.scale.x) * 0.15);
-                    n.esfera.material.opacity = apagado ? 0.25 : 1;
+
+                ids.forEach((id) => {
+                    const n = noProjeto[id];
+                    const aceso = estado.ativos.has(id);
+                    const apagado = ativo && !aceso;
+                    n.esfera.scale.setScalar(aproximar(n.esfera.scale.x, aceso ? 1.5 : 1));
+                    n.esfera.material.opacity = apagado ? 0.2 : 1;
                     n.esfera.getWorldPosition(ponto);
-                    const profundidade = (ponto.z / RAIO + 1) / 2; // 0 atrás, 1 na frente
-                    projetar(THREE, ponto, camera, container, n.rotulo, -16);
-                    n.rotulo.style.opacity = apagado ? 0.25 : 0.45 + profundidade * 0.55;
-                    n.rotulo.dataset.ativo = ativo ? 'true' : 'false';
+                    projetar(THREE, ponto, camera, container, n.rotulo, -20);
+                    n.rotulo.style.opacity = apagado ? 0.25 : 1;
+                    n.rotulo.dataset.ativo = aceso ? 'true' : 'false';
+                });
+
+                nos.forEach((n) => {
+                    const aceso = n.tec.projetos.some((p) => estado.ativos.has(p));
+                    const apagado = ativo && !aceso;
+                    n.esfera.scale.setScalar(aproximar(n.esfera.scale.x, aceso ? 1.7 : 1));
+                    n.esfera.material.opacity = apagado ? 0.15 : 1;
+                    n.esfera.getWorldPosition(ponto);
+                    const profundidade = (ponto.z / 3.6 + 1) / 2; // 0 atrás, 1 na frente
+                    projetar(THREE, ponto, camera, container, n.rotulo, -14);
+                    n.rotulo.style.opacity = leve ? (aceso ? 1 : 0) : apagado ? 0.12 : aceso ? 1 : 0.35 + profundidade * 0.6;
+                    n.rotulo.dataset.ativo = aceso ? 'true' : 'false';
                 });
             },
         };

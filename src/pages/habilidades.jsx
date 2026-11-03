@@ -1,22 +1,28 @@
 import { Link } from 'react-router-dom';
-import { STACK_ATUAL } from '../data/stack';
+import { PROJETOS, STACK_ATUAL } from '../data/stack';
 import { Cena3D } from '../components/cenas/Cena3D';
 import { criarCenaConstelacao } from '../components/cenas/cenas';
 import { useScrollReveal } from '../animations/useScrollReveal';
 
-const CENA_STACK = criarCenaConstelacao(STACK_ATUAL.flatMap((g) => g.itens));
+const CENA_STACK = criarCenaConstelacao(STACK_ATUAL.flatMap((g) => g.itens), PROJETOS);
+
+/** Leva ao case do primeiro projeto que tem página; sem case, a evidência fica só como texto. */
+function linkDoCase(item) {
+    const id = item.projetos.find((projeto) => PROJETOS[projeto]?.pagina);
+    return id ? `/projetos#${id}` : null;
+}
 
 const TOTAL_TECNOLOGIAS = STACK_ATUAL.reduce((soma, g) => soma + g.itens.length, 0);
-const TOTAL_PROJETOS = new Set(STACK_ATUAL.flatMap((g) => g.itens.map((i) => i.projeto))).size;
+const TOTAL_PROJETOS = new Set(STACK_ATUAL.flatMap((g) => g.itens.flatMap((i) => i.projetos))).size;
 
 /**
  * Próximos estudos ficam em uma lista deliberadamente secundária:
  * sinalizam direção, não competência consolidada.
  */
 const EM_ESTUDO = [
-    { area: 'Backend', itens: ['Go (Fiber)', 'Hono', 'GraphQL', '.Net'] },
+    { area: 'Backend', itens: ['Go (Fiber)', 'Nest.js', 'FastAPI', 'Python', 'GraphQL', '.Net'] },
     { area: 'Infraestrutura', itens: ['Docker', 'CI/CD', 'Terraform', 'AWS'] },
-    { area: 'Dados', itens: ['Drizzle', 'MongoDB'] },
+    { area: 'Dados', itens: ['MongoDB'] },
     { area: 'Aplicações de IA', itens: ['LangChain', 'MCP', 'Agentes de IA'] },
 ];
 
@@ -65,7 +71,11 @@ function Habilidades() {
                                             className="stack-item-evidencia"
                                             data-testid="stack-evidencia"
                                         >
-                                            <Link to={`/projetos#${item.projeto}`}>{item.evidencia}</Link>
+                                            {linkDoCase(item) ? (
+                                                <Link to={linkDoCase(item)}>{item.evidencia}</Link>
+                                            ) : (
+                                                item.evidencia
+                                            )}
                                         </span>
                                     </li>
                                 ))}
