@@ -88,7 +88,7 @@ function Projetos() {
                 categoria="Pesquisa de performance"
                 id="typemarks"
                 titulo="TypeMarks"
-                resumo="Benchmark de 15 cenários combinando runtimes, frameworks e validadores para medir quanto a validação de contratos custa em throughput — e transformar a escolha de stack numa decisão com dado, não com intuição."
+                resumo="Benchmark de 15 cenários que combinam runtimes, frameworks e validadores para medir quanto a validação de contratos custa em throughput. Assim a escolha de stack passa a ter dado por trás."
                 composicao={
                     <>
                         <Cena3D montar={CENA_BARRAS} className="cena-3d-case" />
@@ -116,7 +116,7 @@ function Projetos() {
                 categoria="Biblioteca open source"
                 id="br-standards-with-zod"
                 titulo="br_standards_with_zod"
-                resumo="Validação de documentos brasileiros que vai além de regex: o dígito verificador é calculado por módulo 11 e a entrada é normalizada antes de chegar ao schema, integrada ao ecossistema Zod."
+                resumo="Validação de documentos brasileiros que vai além de regex: o dígito verificador é calculado por módulo 11 e a entrada é normalizada antes de chegar ao schema, integrada ao Zod."
                 composicao={
                     <>
                         <BlocoCodigo arquivo="cadastro.ts" codigo={EXEMPLO_ZOD} />

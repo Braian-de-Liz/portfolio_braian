@@ -22,19 +22,19 @@ const EXPERIENCIA = [
         tag: 'Desenvolvimento',
         titulo: 'Desenvolvedor full stack freelancer',
         periodo: 'Projetos pontuais',
-        desc: 'Planejamento, arquitetura, desenvolvimento e deploy de aplicações web para clientes reais.',
+        desc: 'Aplicações web para clientes reais, do planejamento ao deploy.',
     },
     {
         tag: 'Indústria',
         titulo: 'Tupy',
         periodo: 'Jovem aprendiz · Controle da qualidade',
-        desc: 'Auditoria técnica de fluxos de produção, acompanhando conformidade, padronização e tratamento de desvios.',
+        desc: 'Auditei fluxos de produção e acompanhei conformidade, padronização e o tratamento de desvios.',
     },
     {
         tag: 'Voluntariado',
         titulo: 'Torneios de robótica',
         periodo: '2023 — 2024',
-        desc: 'Apoio técnico às equipes competidoras, com resolução de problemas sob pressão e trabalho em equipe.',
+        desc: 'Apoio técnico às equipes competidoras, resolvendo problemas durante as competições.',
     },
 ];
 
@@ -63,7 +63,7 @@ const FORMACAO = [
 
 const PRINCIPIOS = [
     {
-        titulo: 'Performance medida, não presumida',
+        titulo: 'Medir antes de decidir',
         desc: 'Comparo alternativas sob carga antes de decidir. Foi assim que o TypeMarks nasceu: para saber quanto a validação de contratos realmente custa em throughput.',
     },
     {
@@ -105,15 +105,14 @@ function Sobre() {
                         e Desenvolvimento de Sistemas em andamento.
                     </p>
                     <p>
-                        Trabalho principalmente no ecossistema JavaScript e TypeScript,
-                        construindo APIs e serviços com atenção a arquitetura, integração
-                        entre serviços e consistência de dados. Meu interesse está em sistemas
-                        que precisam ser eficientes e sustentáveis de manter.
+                        Trabalho principalmente com JavaScript e TypeScript, construindo
+                        APIs e serviços. Me importo com a arquitetura, com a integração
+                        entre serviços e com a consistência dos dados, e gosto de sistemas
+                        que continuam fáceis de manter depois de prontos.
                     </p>
                     <p>
-                        Tenho experiência prática desde a estruturação da aplicação até o
-                        deploy, e gosto de fundamentar decisões técnicas em medição em vez
-                        de preferência.
+                        Já levei projetos do zero até o deploy e prefiro decidir com
+                        medição, não com preferência.
                     </p>
                 </div>
 

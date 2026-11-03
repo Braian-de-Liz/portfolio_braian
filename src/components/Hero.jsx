@@ -117,8 +117,8 @@ function Hero() {
                     Desenvolvedor de sistemas com foco em <strong>backend</strong>
                 </h2>
                 <p className="hero-desc" data-testid="hero-desc" data-hero-item>
-                    Construo APIs e serviços em JavaScript e TypeScript, com atenção
-                    a arquitetura, consistência de dados e custo de execução.
+                    Construo APIs e serviços em JavaScript e TypeScript e me preocupo
+                    com a arquitetura, com a consistência dos dados e com o custo de rodar tudo.
                 </p>
                 <div className="hero-tags" data-testid="hero-tags" data-hero-item>
                     {TECNOLOGIAS.map((tech) => (

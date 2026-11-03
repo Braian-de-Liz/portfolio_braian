@@ -6,7 +6,7 @@ function DetalhesAmotif() {
                 <p>
                     Deliberadamente não-MVC. Cada rota é um plugin Fastify que acessa o Prisma diretamente.
                     Schema-first com TypeBox: cada rota declara seu schema de validação, que o Fastify compila para AJV com JIT.
-                    Apenas 2 services existem no projeto inteiro   extraídos apenas quando chamados de múltiplas rotas.
+                    Só existem 2 services no projeto inteiro, extraídos quando mais de uma rota os chama.
                 </p>
                 <div className="detalhes-highlights">
                     <div className="detalhes-highlight">
@@ -89,7 +89,7 @@ function DetalhesAmotif() {
                 <h4>Autenticação em Camadas</h4>
                 <ul>
                     <li><strong>JWT:</strong> access token 4h (HttpOnly cookie + Bearer header)</li>
-                    <li><strong>Refresh Token:</strong> 7d com rotação ativa   uso atômico deleta o antigo, cria novo</li>
+                    <li><strong>Refresh Token:</strong> 7d com rotação ativa: o uso é atômico, deleta o antigo e cria um novo</li>
                     <li><strong>Reuse Detection:</strong> se um token já usado for apresentado, todos do usuário são deletados</li>
                     <li><strong>Argon2id:</strong> hash de senhas com memoryCost: 4096, timeCost: 2</li>
                     <li><strong>CPF:</strong> criptografado com AES-256-GCM, lookup determinístico</li>
@@ -102,7 +102,7 @@ function DetalhesAmotif() {
                 <ul>
                     <li>Cada edição de uma camada cria uma nova versão com snapshot completo</li>
                     <li>Numeração sequencial (v1, v2, v3...) com ponteiro <code>currentVersionId</code></li>
-                    <li>Rollback cria uma nova versão com dados de uma versão anterior   histórico nunca é deletado</li>
+                    <li>Rollback cria uma nova versão com os dados de uma anterior, então o histórico nunca é deletado</li>
                     <li>Paginação por cursor no histórico de versões</li>
                     <li>Aprovação/rejeição de camadas pelo dono do projeto</li>
                 </ul>

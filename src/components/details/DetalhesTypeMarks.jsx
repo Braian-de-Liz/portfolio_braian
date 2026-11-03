@@ -2,7 +2,7 @@ function DetalhesTypeMarks() {
     return (
         <div className="detalhes-arquitetura">
             <div className="detalhes-secao">
-                <h4>Metodologia Científica</h4>
+                <h4>Metodologia</h4>
                 <ul>
                     <li>100 conexões simultâneas por teste</li>
                     <li>10 segundos de duração por rodada</li>
@@ -136,9 +136,9 @@ function DetalhesTypeMarks() {
                 <ul>
                     <li><strong>Bun é +45-52% mais rápido</strong> que Node.js para validadores compilados (AJV, Typia, Schema-Shield, Zod)</li>
                     <li><strong>Ordem de performance idêntica</strong> em ambos runtimes: AJV &gt; Typia &gt; Schema-Shield &gt; Zod &gt; Yup</li>
-                    <li><strong>Node.js tem curva de warm-up:</strong> +10-23% entre rodada 1 e 5; Bun opera no pico desde a rodada 1   crítico para serverless</li>
+                    <li><strong>Node.js tem curva de warm-up:</strong> +10-23% entre rodada 1 e 5; Bun opera no pico desde a rodada 1, o que pesa em serverless</li>
                     <li><strong>Validação custa ~61%</strong> do throughput bruto (58k req/s rota vazia vs 22k com schema complexo)</li>
-                    <li><strong>AJV vence até no Bun</strong> apesar de code generation dinâmico   JSC JIT lidou bem após compilação</li>
+                    <li><strong>AJV vence até no Bun</strong> apesar do code generation dinâmico: o JIT do JSC lidou bem depois da compilação</li>
                 </ul>
             </div>
 
@@ -147,7 +147,7 @@ function DetalhesTypeMarks() {
                 <ul>
                     <li><strong>Microservices / Edge / Serverless:</strong> Hono + AJV no Bun (28.534 req/s)</li>
                     <li><strong>APIs / Monólitos / Corporate:</strong> Fastify + AJV no Bun (22.527 req/s) ou Node (14.998 req/s)</li>
-                    <li><strong>Aplicações grandes:</strong> Fastify recomendado sobre Elysia por ecossistema de plugins maduro</li>
+                    <li><strong>Aplicações grandes:</strong> Fastify recomendado no lugar de Elysia, pelos plugins maduros</li>
                     <li><strong>Edge com cold start crítico:</strong> Schema-Shield (compilação mais leve que AJV)</li>
                 </ul>
             </div>

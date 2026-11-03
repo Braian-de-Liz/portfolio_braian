@@ -2,10 +2,10 @@ function DetalhesZbr() {
     return (
         <div className="detalhes-arquitetura">
             <div className="detalhes-secao">
-                <h4>Validação Matemática Real</h4>
+                <h4>Dígito verificador por módulo 11</h4>
                 <p>
-                    Cada método calcula dígitos verificadores via módulo 11, seguindo os padrões oficiais do governo brasileiro.
-                    Não é regex   é matemática. Sequências inválidas como <code>00000000000</code> ou <code>11111111111</code> são bloqueadas.
+                    Cada método calcula os dígitos verificadores por módulo 11, seguindo os padrões oficiais do governo brasileiro,
+                    e bloqueia sequências inválidas como <code>00000000000</code> ou <code>11111111111</code>.
                 </p>
             </div>
 
@@ -54,7 +54,7 @@ function DetalhesZbr() {
             <div className="detalhes-secao">
                 <h4>Destaques Técnicos</h4>
                 <ul>
-                    <li>Zero dependências runtime   tudo embutido na lib</li>
+                    <li>Zero dependências em runtime</li>
                     <li>Dual build: ESM + CommonJS + declarações de tipo (.d.ts)</li>
                     <li>Normalização automática: máscaras como <code>123.456.789-09</code> são limpas no output</li>
                     <li>Mensagens de erro opcionais em cada método</li>
