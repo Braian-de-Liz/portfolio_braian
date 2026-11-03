@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
-import { Marquee } from '../components/Marquee';
+import { PlaygroundZbr } from '../components/PlaygroundZbr';
 import { Contato } from '../components/Contato';
 import { useScrollReveal } from '../animations/useScrollReveal';
 import { useTiltHover } from '../animations/useTiltHover';
@@ -44,11 +44,7 @@ function PreviaVisual({ tipo }) {
             </div>
         );
     }
-    return (
-        <pre className="destaque-previa-codigo" aria-hidden="true">
-            <code>{`cpf: zbr.cpf(),\n"111.111.111-11"  // rejeitado`}</code>
-        </pre>
-    );
+    return null;
 }
 
 const DESTAQUES = [
@@ -98,7 +94,6 @@ function Home() {
     return (
         <main>
             <Hero />
-            <Marquee />
 
             <section className="secao-aberta projetos-destaque" ref={projetosRef}>
                 <span className="eyebrow">Trabalho selecionado</span>
@@ -109,18 +104,27 @@ function Home() {
 
                 <div className="destaque-grid" ref={setGridRefs}>
                     {DESTAQUES.map((projeto, indice) => (
-                        <Link
-                            to="/projetos"
+                        <article
                             className="destaque-card"
                             key={projeto.titulo}
                             data-testid="preview-card"
                         >
                             <span className="destaque-num" aria-hidden="true">0{indice + 1}</span>
                             <span className="destaque-categoria">{projeto.categoria}</span>
-                            <h3 data-testid="preview-titulo" aria-label={projeto.titulo}>{comQuebras(projeto.titulo)}</h3>
-                            <span className="destaque-previa" aria-hidden="true">
-                                <PreviaVisual tipo={projeto.previa} />
-                            </span>
+                            <h3 data-testid="preview-titulo">
+                                <Link to="/projetos" className="destaque-link">
+                                    {comQuebras(projeto.titulo)}
+                                </Link>
+                            </h3>
+                            {projeto.previa === 'zbr' ? (
+                                <div className="destaque-previa destaque-playground">
+                                    <PlaygroundZbr />
+                                </div>
+                            ) : (
+                                <span className="destaque-previa" aria-hidden="true">
+                                    <PreviaVisual tipo={projeto.previa} />
+                                </span>
+                            )}
                             <p className="destaque-problema" data-testid="preview-problema">
                                 {projeto.problema}
                             </p>
@@ -129,7 +133,7 @@ function Home() {
                                 {projeto.evidencia}
                             </span>
                             <span className="destaque-seta" aria-hidden="true">↗</span>
-                        </Link>
+                        </article>
                     ))}
                 </div>
 

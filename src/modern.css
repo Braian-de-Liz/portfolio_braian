@@ -192,46 +192,6 @@ body {
     .hero-scene { width: 260%; opacity: 0.8; }
 }
 
-/* ---------- Marquee ---------- */
-.marquee {
-    overflow: hidden;
-    padding: var(--space-6) 0;
-    border-block: 1px solid var(--border-subtle);
-    margin: var(--space-5) 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    user-select: none;
-}
-
-.marquee-linha { overflow: hidden; }
-
-.marquee-track {
-    display: flex;
-    width: max-content;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(2.4rem, 7vw, 5.5rem);
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    white-space: nowrap;
-    color: var(--text-strong);
-}
-
-.marquee-track span { display: inline-flex; align-items: center; }
-.marquee-track i {
-    font-style: normal;
-    color: var(--accent);
-    font-size: 0.45em;
-    margin: 0 0.7em;
-}
-
-.marquee-linha.contorno .marquee-track {
-    color: transparent;
-    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.45);
-}
-.marquee-linha.contorno .marquee-track i { color: var(--accent-tertiary); -webkit-text-stroke: 0; }
-
 /* ---------- Projetos em destaque: lista editorial ---------- */
 .projetos-destaque {
     max-width: var(--content-width);
@@ -264,6 +224,11 @@ body {
 }
 
 .destaque-card::before { display: none; }
+
+.destaque-link { color: inherit; text-decoration: none; }
+.destaque-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+.destaque-link:focus-visible { outline: none; }
+.destaque-card:has(.destaque-link:focus-visible) { outline: 2px solid var(--accent); outline-offset: 4px; }
 
 .destaque-card:hover {
     background: linear-gradient(90deg, rgba(56, 232, 208, 0.06), transparent 70%);
@@ -588,3 +553,65 @@ body {
     transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 .contato-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+
+/* ---------- Playground da br_standards_with_zod ---------- */
+.destaque-card > .destaque-playground {
+    position: relative;
+    z-index: 2;            /* acima do link que cobre o card */
+    max-width: 440px;
+    opacity: 1;
+    overflow: visible;
+    padding: var(--space-4);
+}
+.playground { display: grid; gap: var(--space-3); }
+.playground-tipos { display: flex; flex-wrap: wrap; gap: 6px; }
+.playground button {
+    font: inherit;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border-medium);
+    border-radius: 999px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+.playground button:hover { color: var(--text-strong); border-color: var(--accent); }
+.playground button[aria-pressed='true'] {
+    color: var(--on-accent);
+    background: var(--accent);
+    border-color: var(--accent);
+}
+.playground button:focus-visible,
+.playground-campo:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.playground-rotulo { font-size: var(--text-sm); color: var(--text-secondary); }
+.playground-campo {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    color: var(--text-strong);
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+.playground-codigo { margin: 0; font-size: var(--text-xs); color: var(--text-muted); overflow-wrap: anywhere; }
+.playground-codigo code { font-family: var(--font-mono); }
+.playground-codigo span { color: var(--accent-secondary); }
+.playground-resultado {
+    display: grid;
+    gap: 2px;
+    font-size: var(--text-sm);
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-medium);
+    min-height: 3.6em;
+    color: var(--text-secondary);
+}
+.playground-resultado[data-estado='ok'] { border-color: var(--accent); }
+.playground-resultado[data-estado='ok'] strong { color: var(--accent); }
+.playground-resultado[data-estado='erro'] { border-color: var(--accent-tertiary); }
+.playground-resultado[data-estado='erro'] strong { color: var(--accent-tertiary); }
+.playground-resultado code { font-family: var(--font-mono); color: var(--text-strong); }
+.playground-exemplos { display: flex; gap: 6px; flex-wrap: wrap; }
