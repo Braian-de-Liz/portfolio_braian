@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
-import { ScrollProgress } from './components/ScrollProgress';
 import { CursorGlow } from './components/CursorGlow';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import './App.css';
@@ -31,7 +30,6 @@ function App() {
         <Router>
             <div className="App">
                 <ScrollToTop />
-                <ScrollProgress />
                 <CursorGlow />
 
                 <div className="github-floating">

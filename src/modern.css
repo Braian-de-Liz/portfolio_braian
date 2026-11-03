@@ -25,18 +25,7 @@ body {
     background-attachment: fixed;
 }
 
-/* ---------- Barra de progresso e halo do cursor ---------- */
-.scroll-progress {
-    position: fixed;
-    inset: 0 0 auto 0;
-    height: 3px;
-    background: var(--accent-gradient);
-    transform-origin: left center;
-    transform: scaleX(0);
-    z-index: 200;
-    pointer-events: none;
-}
-
+/* ---------- Halo do cursor ---------- */
 .cursor-glow {
     position: fixed;
     top: 0;
