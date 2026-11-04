@@ -10,6 +10,7 @@ import { Cena3D } from '../components/cenas/Cena3D';
 import { cenaCamadasAmotif, cenaTrilho, criarCenaBarras } from '../components/cenas/cenas';
 import { DetalhesTypeMarks } from '../components/details/DetalhesTypeMarks';
 import { PlaygroundZbr } from '../components/PlaygroundZbr';
+import { ExploradorTypeMarks } from '../components/ExploradorTypeMarks';
 
 const CENA_BARRAS = criarCenaBarras(CENARIOS_TYPEMARKS);
 
@@ -105,6 +106,7 @@ function Projetos() {
                             cenarios={CENARIOS_TYPEMARKS}
                             legenda="Requisições por segundo: os quatro melhores cenários, todos no Bun, comparados ao baseline de Fastify com AJV no Node.js"
                         />
+                        <ExploradorTypeMarks />
                     </>
                 }
                 metricas={[

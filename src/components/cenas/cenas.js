@@ -184,6 +184,105 @@ export function criarCenaBarras(cenarios) {
     };
 }
 
+/* ---------- TypeMarks: explorador dos 15 cenários ---------- */
+const PADRAO_EXPLORADOR = 'Passe o mouse (ou toque) em um número para ver o cenário.';
+
+/**
+ * Todos os cenários do relatório em três fileiras, da mais rápida (ao fundo) à mais lenta.
+ * `estado` é um objeto mutável compartilhado com o componente: { runtime, ativo }.
+ */
+export function criarEstadoExplorador() {
+    return {
+        runtime: 'todos',
+        ativo: null,
+        filtrar(valor) { this.runtime = valor; },
+    };
+}
+
+export function criarCenaExploradora(cenarios, estado) {
+    return function cenaExploradora(THREE, { scene, camera, container }) {
+        const baseCamera = new THREE.Vector3(0, 6.6, 11.4);
+        camera.position.copy(baseCamera);
+        camera.lookAt(0, 1.1, 0);
+
+        const grupo = new THREE.Group();
+        scene.add(grupo);
+
+        const chao = new THREE.GridHelper(12, 12, '#8B7CFF', '#8B7CFF');
+        chao.material.transparent = true;
+        chao.material.opacity = 0.16;
+        grupo.add(chao);
+
+        const COLUNAS = 5;
+        const ESPACO = 2.1;
+        const FUNDO = 2.7;
+        const ALTURA = 3.4;
+        const maximo = Math.max(...cenarios.map((c) => c.reqs));
+
+        const legenda = document.createElement('span');
+        legenda.className = 'cena-legenda cena-legenda-larga';
+        legenda.textContent = PADRAO_EXPLORADOR;
+        container.appendChild(legenda);
+
+        const colunas = cenarios.map((c, i) => {
+            const cor = c.runtime === 'Bun' ? CIANO : ROSA;
+            const { grupo: caixa, fill, borda } = caixaComBorda(THREE, 0.9, 1, 0.9, cor, 0.3);
+            const x = ((i % COLUNAS) - (COLUNAS - 1) / 2) * ESPACO;
+            const z = (Math.floor(i / COLUNAS) - 1) * FUNDO;
+            caixa.position.set(x, 0, z);
+            grupo.add(caixa);
+
+            const rotulo = criarRotulo(container, `#${c.rank}`, 'cena-rotulo-rank');
+            rotulo.addEventListener('pointerenter', () => { estado.ativo = i; });
+            rotulo.addEventListener('pointerleave', () => { if (estado.ativo === i) estado.ativo = null; });
+            return { c, caixa, fill, borda, rotulo, x, z, h: (c.reqs / maximo) * ALTURA, vis: 1 };
+        });
+
+        const ponto = new THREE.Vector3();
+        let girox = 0;
+        let giroy = 0;
+        let textoAtual = PADRAO_EXPLORADOR;
+        return {
+            atualizar(t, mouse) {
+                ajustarDistancia(camera, baseCamera, 13);
+                camera.lookAt(0, 1.1, 0);
+                // com um cenário em foco o grupo para, senão o rótulo foge do cursor
+                if (estado.ativo === null) { girox = mouse.x; giroy = mouse.y; }
+                grupo.rotation.y = Math.sin(t * 0.3) * 0.05 + girox * 0.22;
+                grupo.rotation.x = giroy * 0.04;
+                grupo.updateMatrixWorld();
+
+                colunas.forEach((col, i) => {
+                    const { c } = col;
+                    const alvoVis = estado.runtime === 'todos' || estado.runtime === c.runtime ? 1 : 0.12;
+                    col.vis += (alvoVis - col.vis) * 0.14;
+                    const foco = estado.ativo === i;
+                    const p = suave((t - 0.2 - i * 0.08) / 1.0);
+                    const altura = Math.max(col.h * p, 0.001);
+                    col.caixa.scale.y = altura;
+                    col.caixa.position.y = altura / 2;
+                    col.fill.material.opacity = (foco ? 0.62 : 0.3) * col.vis;
+                    col.borda.material.opacity = (foco ? 1 : 0.9) * col.vis;
+
+                    ponto.set(col.x, altura + 0.3, col.z).applyMatrix4(grupo.matrixWorld);
+                    projetar(THREE, ponto, camera, container, col.rotulo);
+                    col.rotulo.style.opacity = p * (0.25 + 0.75 * col.vis);
+                    col.rotulo.dataset.ativo = foco ? 'true' : 'false';
+                });
+
+                const foco = estado.ativo === null ? null : colunas[estado.ativo].c;
+                const texto = foco
+                    ? `#${foco.rank} · ${foco.runtime} · ${foco.framework} · ${foco.validador} · ${Math.round(foco.reqs).toLocaleString('pt-BR')} req/s · ${foco.latencia} (P99 ${foco.p99})${foco.delta ? ` · ${foco.delta} vs topo` : ''}`
+                    : PADRAO_EXPLORADOR;
+                if (texto !== textoAtual) {
+                    legenda.textContent = texto;
+                    textoAtual = texto;
+                }
+            },
+        };
+    };
+}
+
 /* ---------- Tchuu-Tchuu: trilho com telemetria ---------- */
 export function cenaTrilho(THREE, { scene, camera, container }) {
     const baseCamera = new THREE.Vector3(0, 4.6, 6.4);

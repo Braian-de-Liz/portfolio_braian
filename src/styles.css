@@ -2350,6 +2350,7 @@ body {
 .cena-rotulo-projeto[data-ativo='true'] { background: var(--cor, var(--accent)); color: #070a10; }
 .cena-legenda {
     position: absolute;
+    right: 0;
     left: 0;
     bottom: 4px;
     font-size: var(--text-sm);
@@ -2434,3 +2435,43 @@ section[id], .hero { scroll-margin-top: 84px; }
 }
 
 main { overflow-x: clip; }
+
+/* ---------- TypeMarks: explorador dos 15 cenários ---------- */
+.explorador { margin-top: var(--space-5); display: grid; gap: var(--space-4); justify-items: start; }
+.explorador-painel { width: 100%; display: grid; gap: var(--space-3); }
+.explorador-controles { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.explorador-controles button {
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border-medium);
+    background: transparent;
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: var(--text-sm);
+    cursor: pointer;
+}
+.explorador-controles button:hover { color: var(--text-strong); border-color: var(--accent); }
+.explorador-controles button[aria-pressed='true'] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.explorador-controles button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.explorador-chave { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-xs); color: var(--text-muted); }
+.explorador-chave i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.explorador-chave i[data-runtime='Bun'] { background: #38E8D0; }
+.explorador-chave i[data-runtime='Node'] { background: #FF7AC6; margin-left: 8px; }
+.explorador-nota { font-size: var(--text-sm); color: var(--text-muted); }
+.cena-3d-explorador { height: clamp(380px, 52vw, 540px); }
+.cena-rotulo-rank {
+    pointer-events: auto;
+    cursor: default;
+    padding: 1px 7px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    color: var(--text-strong);
+    background: rgba(7, 10, 16, 0.6);
+    border: 1px solid var(--border-medium);
+}
+.cena-rotulo-rank[data-ativo='true'] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.cena-legenda-larga { white-space: normal; line-height: 1.5; color: var(--text-secondary); }
+@media (max-width: 600px) {
+    .cena-3d-explorador { height: 420px; }
+    .cena-rotulo-rank { font-size: 0.62rem; padding: 0 5px; }
+}

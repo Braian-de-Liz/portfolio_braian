@@ -1,3 +1,7 @@
+import { TODOS_CENARIOS_TYPEMARKS } from '../../data/typemarks';
+
+const formatador = new Intl.NumberFormat('pt-BR');
+
 function DetalhesTypeMarks() {
     return (
         <div className="detalhes-arquitetura">
@@ -27,54 +31,23 @@ function DetalhesTypeMarks() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Bun</td>
-                            <td>Hono</td>
-                            <td>AJV</td>
-                            <td><div className="detalhes-highlight"><span className="detalhes-highlight-numero">28.534</span><span className="detalhes-highlight-label">req/s</span></div></td>
-                            <td>2,94ms</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Bun</td>
-                            <td>Elysia</td>
-                            <td>TypeBox</td>
-                            <td>25.915</td>
-                            <td>3,45ms</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Bun</td>
-                            <td>Hono</td>
-                            <td>Schema-Shield</td>
-                            <td>25.021</td>
-                            <td>3,61ms</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Bun</td>
-                            <td>Fastify</td>
-                            <td>AJV</td>
-                            <td>22.527</td>
-                            <td>3,93ms</td>
-                        </tr>
-                        <tr>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-                            <td>...</td>
-                        </tr>
-                        <tr>
-                            <td>15</td>
-                            <td>Node</td>
-                            <td>Fastify</td>
-                            <td>Yup</td>
-                            <td>5.974</td>
-                            <td>16,35ms</td>
-                        </tr>
+                        {TODOS_CENARIOS_TYPEMARKS.map((c) => (
+                            <tr key={c.rank}>
+                                <td>{c.rank}</td>
+                                <td>{c.runtime}</td>
+                                <td>{c.framework}</td>
+                                <td>{c.validador}</td>
+                                <td>
+                                    {c.rank === 1 ? (
+                                        <div className="detalhes-highlight">
+                                            <span className="detalhes-highlight-numero">{formatador.format(Math.round(c.reqs))}</span>
+                                            <span className="detalhes-highlight-label">req/s</span>
+                                        </div>
+                                    ) : formatador.format(Math.round(c.reqs))}
+                                </td>
+                                <td>{c.latencia.replace(' ms', 'ms')}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 </div>

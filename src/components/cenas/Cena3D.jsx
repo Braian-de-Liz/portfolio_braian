@@ -1,13 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-
-/** Mesmas condições do globo do hero: WebGL2, sem "reduzir movimento" e sem economia de dados. */
-function suportaCena3D() {
-    if (typeof window === 'undefined') return false;
-    if (typeof window.WebGL2RenderingContext === 'undefined') return false;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
-    if (navigator.connection?.saveData) return false;
-    return true;
-}
+import { suportaCena as suportaCena3D } from '../suportaCena';
 
 /**
  * Monta a cena, liga o loop de render e devolve a função que desmonta tudo.
