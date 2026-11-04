@@ -9,7 +9,7 @@ const CENA_STACK = criarCenaConstelacao(STACK_ATUAL.flatMap((g) => g.itens), PRO
 /** Leva ao case do primeiro projeto que tem página; sem case, a evidência fica só como texto. */
 function linkDoCase(item) {
     const id = item.projetos.find((projeto) => PROJETOS[projeto]?.pagina);
-    return id ? `/projetos#${id}` : null;
+    return id ? `/#${id}` : null;
 }
 
 const TOTAL_TECNOLOGIAS = STACK_ATUAL.reduce((soma, g) => soma + g.itens.length, 0);
@@ -29,13 +29,12 @@ const EM_ESTUDO = [
 function Habilidades() {
     const atualRef = useScrollReveal({ y: 20 });
     const estudoRef = useScrollReveal({ y: 20 });
-    const ctaRef = useScrollReveal({ y: 16 });
 
     return (
-        <main>
+        <section id="habilidades" aria-labelledby="habilidades-titulo">
             <header className="secao-aberta pagina-cabecalho">
                 <span className="eyebrow">Habilidades</span>
-                <h1 className="titulo">O que eu uso e onde já provei isso</h1>
+                <h2 className="titulo" id="habilidades-titulo">O que eu uso e onde já provei isso</h2>
                 <p className="section-subtitle">
                     O que eu já uso em projetos reais, separado do que estou estudando.
                 </p>
@@ -117,12 +116,7 @@ function Habilidades() {
                     ))}
                 </dl>
             </section>
-
-            <section className="secao-aberta home-cta" ref={ctaRef}>
-                <p className="home-cta-texto">Quer ver essa stack aplicada em código e em números?</p>
-                <Link to="/projetos" className="pagina-boton primario">Ver os projetos</Link>
-            </section>
-        </main>
+        </section>
     );
 }
 

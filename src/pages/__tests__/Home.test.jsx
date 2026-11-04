@@ -3,63 +3,35 @@ import { screen } from '@testing-library/react';
 import { Home } from '../Home';
 import { renderWithRouter } from '../../test/helpers';
 
-describe('Home', () => {
-    it('prioriza AMOTIF, TypeMarks e a biblioteca open source nesta ordem', () => {
+describe('Home (página única)', () => {
+    it('abre com o hero e carrega as seções na ordem de leitura', async () => {
         renderWithRouter(<Home />);
 
-        const titulos = screen
-            .getAllByTestId('preview-titulo')
-            .map((el) => el.textContent);
+        expect(screen.getByRole('heading', { level: 1, name: /Braian de Liz/i })).toBeInTheDocument();
+        await screen.findByTestId('contato', {}, { timeout: 8000 });
 
-        expect(titulos).toEqual(['AMOTIF', 'TypeMarks', 'br_standards_with_zod']);
+        const ids = Array.from(document.querySelectorAll('main > section[id], main > .hero'))
+            .map((el) => el.id);
+        expect(ids).toEqual(['inicio', 'projetos', 'habilidades', 'sobre', 'contato']);
     });
 
-    it('apresenta cada destaque com problema e evidência', () => {
+    it('não exibe a foto de perfil (ela fica na seção Sobre)', async () => {
         renderWithRouter(<Home />);
-
-        const previews = screen.getAllByTestId('preview-card');
-        expect(previews).toHaveLength(3);
-
-        for (const card of previews) {
-            expect(card.querySelector('[data-testid="preview-problema"]')).not.toBeNull();
-            expect(card.querySelector('[data-testid="preview-evidencia"]')).not.toBeNull();
-        }
-    });
-
-    it('usa a evidência real de throughput do TypeMarks', () => {
-        renderWithRouter(<Home />);
-
-        const typemarks = screen
-            .getAllByTestId('preview-card')
-            .find((card) => card.textContent.includes('TypeMarks'));
-
-        expect(typemarks.textContent).toContain('28.534');
-    });
-
-    it('não exibe a foto de perfil (ela fica na página Sobre)', () => {
-        renderWithRouter(<Home />);
+        await screen.findByTestId('contato', {}, { timeout: 8000 });
 
         const retratos = screen
-            .queryAllByRole('img')
+            .getAllByRole('img')
             .filter((img) => img.getAttribute('src')?.includes('foto_braian'));
 
-        expect(retratos).toHaveLength(0);
+        expect(retratos).toHaveLength(1);
+        expect(retratos[0].closest('#sobre')).not.toBeNull();
     });
 
-    it('oferece caminhos para a lista completa e para o perfil', () => {
+    it('traz o playground da biblioteca dentro do case dela', async () => {
         renderWithRouter(<Home />);
+        await screen.findByTestId('contato', {}, { timeout: 8000 });
 
-        expect(screen.getByRole('link', { name: /todos os projetos/i })).toHaveAttribute('href', '/projetos');
-        expect(screen.getByRole('link', { name: /perfil completo/i })).toHaveAttribute('href', '/sobre');
-    });
-
-    it('não repete o mesmo rótulo de link na página', () => {
-        renderWithRouter(<Home />);
-
-        const rotulos = screen
-            .getAllByRole('link')
-            .map((link) => link.textContent.trim().toLowerCase());
-
-        expect(new Set(rotulos).size).toBe(rotulos.length);
+        const caso = document.getElementById('br-standards-with-zod');
+        expect(caso.querySelector('.playground')).not.toBeNull();
     });
 });

@@ -8,24 +8,6 @@ function DetalhesAmotif() {
                     Schema-first com TypeBox: cada rota declara seu schema de validação, que o Fastify compila para AJV com JIT.
                     Só existem 2 services no projeto inteiro, extraídos quando mais de uma rota os chama.
                 </p>
-                <div className="detalhes-highlights">
-                    <div className="detalhes-highlight">
-                        <span className="detalhes-highlight-numero">73</span>
-                        <span className="detalhes-highlight-label">endpoints</span>
-                    </div>
-                    <div className="detalhes-highlight">
-                        <span className="detalhes-highlight-numero">14</span>
-                        <span className="detalhes-highlight-label">models Prisma</span>
-                    </div>
-                    <div className="detalhes-highlight">
-                        <span className="detalhes-highlight-numero">15</span>
-                        <span className="detalhes-highlight-label">migrações</span>
-                    </div>
-                    <div className="detalhes-highlight">
-                        <span className="detalhes-highlight-numero">18</span>
-                        <span className="detalhes-highlight-label">arquivos de teste</span>
-                    </div>
-                </div>
             </div>
 
             <div className="detalhes-secao">

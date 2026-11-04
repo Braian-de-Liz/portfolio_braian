@@ -29,22 +29,13 @@ describe('Hero', () => {
     it('leva para os projetos pela ação principal', () => {
         renderWithRouter(<Hero />);
 
-        expect(screen.getByRole('link', { name: /projetos/i })).toHaveAttribute('href', '/projetos');
+        expect(screen.getByRole('link', { name: /projetos/i })).toHaveAttribute('href', '/#projetos');
     });
 
     it('não traz a foto: o retrato fica na página Sobre', () => {
         renderWithRouter(<Hero />);
 
         expect(screen.queryAllByRole('img')).toHaveLength(0);
-    });
-
-    it('expõe as tecnologias centrais do backend', () => {
-        renderWithRouter(<Hero />);
-
-        const tags = screen.getByTestId('hero-tags').textContent;
-        for (const tech of ['TypeScript', 'Node.js', 'Fastify', 'PostgreSQL']) {
-            expect(tags).toContain(tech);
-        }
     });
 });
 

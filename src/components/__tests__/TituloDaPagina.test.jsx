@@ -9,9 +9,8 @@ function titulo(rota) {
 }
 
 describe('TituloDaPagina', () => {
-    it('usa um título por rota', () => {
-        expect(titulo('/projetos')).toBe('Projetos | Braian de Liz');
-        expect(titulo('/sobre/')).toBe('Sobre | Braian de Liz');
+    it('usa o título principal na página única', () => {
+        expect(titulo('/')).toBe('Braian de Liz | Desenvolvedor de Sistemas');
     });
 
     it('avisa quando a rota não existe', () => {

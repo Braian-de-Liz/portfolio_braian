@@ -13,6 +13,7 @@ describe('Projetos', () => {
             .map((h) => h.textContent);
 
         expect(titulos).toEqual([
+            'Decisões técnicas e resultados',
             'AMOTIF',
             'TypeMarks',
             'br_standards_with_zod',

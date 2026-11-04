@@ -1,13 +1,42 @@
 import { useRef, useLayoutEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HouseIcon, CodeIcon, BookOpenIcon, ZapIcon } from './Icons';
+import { useSecaoAtiva } from '../hooks/useSecaoAtiva';
+import { rolarParaElemento } from '../hooks/rolagem';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const SECOES = [
+    { id: 'inicio', rotulo: 'Início', icone: <HouseIcon /> },
+    { id: 'projetos', rotulo: 'Projetos', icone: <CodeIcon /> },
+    { id: 'habilidades', rotulo: 'Habilidades', icone: <ZapIcon /> },
+    { id: 'sobre', rotulo: 'Sobre', icone: <BookOpenIcon /> },
+];
+const IDS = SECOES.map((s) => s.id);
+
+/** Link para uma seção da página única: rola mesmo quando o hash já é o mesmo. */
+function LinkSecao({ id, ativa, children }) {
+    const aoClicar = () => rolarParaElemento(document.getElementById(id));
+    return (
+        <Link
+            to={{ pathname: '/', hash: id === 'inicio' ? '' : `#${id}` }}
+            className={ativa ? 'active' : undefined}
+            aria-current={ativa ? 'location' : undefined}
+            onClick={aoClicar}
+        >
+            {children}
+        </Link>
+    );
+}
+
 function Nav() {
     const navRef = useRef(null);
+    const { pathname, hash } = useLocation();
+    const inicial = pathname === '/' && IDS.includes(hash.slice(1)) ? hash.slice(1) : 'inicio';
+    const ativa = useSecaoAtiva(IDS, inicial);
+    const secaoMarcada = pathname === '/' ? ativa : null;
 
     useLayoutEffect(() => {
         const nav = navRef.current;
@@ -49,30 +78,21 @@ function Nav() {
         <>
             <nav id="barrasup" ref={navRef} aria-label="Navegação principal">
                 <ul className="nav-links">
-                    <li><NavLink to="/" end>Início</NavLink></li>
-                    <li><NavLink to="/projetos">Projetos</NavLink></li>
-                    <li><NavLink to="/sobre">Sobre</NavLink></li>
-                    <li><NavLink to="/habilidades">Habilidades</NavLink></li>
+                    {SECOES.map(({ id, rotulo }) => (
+                        <li key={id}>
+                            <LinkSecao id={id} ativa={secaoMarcada === id}>{rotulo}</LinkSecao>
+                        </li>
+                    ))}
                 </ul>
             </nav>
 
             <nav id="rodanav" aria-label="Navegação mobile">
-                <NavLink to="/" end>
-                    <HouseIcon />
-                    <span>Início</span>
-                </NavLink>
-                <NavLink to="/projetos">
-                    <CodeIcon />
-                    <span>Projetos</span>
-                </NavLink>
-                <NavLink to="/sobre">
-                    <BookOpenIcon />
-                    <span>Sobre</span>
-                </NavLink>
-                <NavLink to="/habilidades">
-                    <ZapIcon />
-                    <span>Habilidades</span>
-                </NavLink>
+                {SECOES.map(({ id, rotulo, icone }) => (
+                    <LinkSecao id={id} ativa={secaoMarcada === id} key={id}>
+                        {icone}
+                        <span>{rotulo}</span>
+                    </LinkSecao>
+                ))}
             </nav>
         </>
     );

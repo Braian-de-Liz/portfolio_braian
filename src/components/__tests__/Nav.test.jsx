@@ -11,30 +11,29 @@ describe('Nav', () => {
         expect(screen.getByRole('navigation', { name: /mobile/i })).toBeInTheDocument();
     });
 
-    it('lista todas as rotas do portfólio em cada navegação', () => {
+    it('leva a cada seção da página única em ambas as navegações', () => {
         renderWithRouter(<Nav />);
 
-        for (const nome of ['Início', 'Projetos', 'Sobre', 'Habilidades']) {
-            expect(screen.getAllByRole('link', { name: nome })).toHaveLength(2);
+        const destinos = { 'Início': '/', Projetos: '/#projetos', Habilidades: '/#habilidades', Sobre: '/#sobre' };
+        for (const [nome, href] of Object.entries(destinos)) {
+            const links = screen.getAllByRole('link', { name: nome });
+            expect(links).toHaveLength(2);
+            for (const link of links) expect(link).toHaveAttribute('href', href);
         }
     });
 
-    it('marca apenas a rota atual como página ativa', () => {
-        renderWithRouter(<Nav />, { route: '/projetos' });
+    it('marca a seção da âncora como atual', () => {
+        renderWithRouter(<Nav />, { route: '/#sobre' });
 
-        const ativos = screen.getAllByRole('link', { current: 'page' });
+        const ativos = screen.getAllByRole('link', { current: 'location' });
         expect(ativos).toHaveLength(2);
-        for (const link of ativos) {
-            expect(link).toHaveAccessibleName('Projetos');
-        }
+        for (const link of ativos) expect(link).toHaveAccessibleName('Sobre');
     });
 
-    it('não marca Início como ativo quando está em outra rota', () => {
-        renderWithRouter(<Nav />, { route: '/sobre' });
+    it('começa em Início sem âncora', () => {
+        renderWithRouter(<Nav />);
 
-        const inicio = screen.getAllByRole('link', { name: 'Início' });
-        for (const link of inicio) {
-            expect(link).not.toHaveAttribute('aria-current');
-        }
+        const ativos = screen.getAllByRole('link', { current: 'location' });
+        for (const link of ativos) expect(link).toHaveAccessibleName('Início');
     });
 });

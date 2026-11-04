@@ -32,11 +32,13 @@ describe('App', () => {
         expect(screen.getByRole('navigation', { name: /mobile/i })).toBeInTheDocument();
     });
 
-    it('exibe os contatos do rodapé', async () => {
+    it('carrega as seções da página única e o contato', async () => {
         render(<App />);
 
-        await waitFor(() => {
-            expect(screen.getByRole('contentinfo')).toHaveTextContent(/delizbraian@gmail\.com/);
-        });
+        expect(await screen.findByTestId('contato', {}, { timeout: 8000 })).toBeInTheDocument();
+        for (const id of ['inicio', 'projetos', 'habilidades', 'sobre']) {
+            expect(document.getElementById(id)).not.toBeNull();
+        }
+        expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
     });
 });

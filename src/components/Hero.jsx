@@ -8,8 +8,6 @@ import { easing, duration } from '../animations/presets';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TECNOLOGIAS = ['TypeScript', 'Node.js', 'Bun', 'Fastify', 'PostgreSQL'];
-
 function Hero() {
     const sectionRef = useRef(null);
     const fotoRef = useRef(null);
@@ -106,7 +104,7 @@ function Hero() {
     }, []);
 
     return (
-        <section className="hero" ref={sectionRef}>
+        <section className="hero" id="inicio" ref={sectionRef}>
             <div className="hero-content">
                 <p className="hero-ola" data-hero-item>Olá, eu sou</p>
                 <h1 className="hero-nome" aria-label="Braian de Liz">
@@ -120,14 +118,9 @@ function Hero() {
                     Construo APIs e serviços em JavaScript e TypeScript e me preocupo
                     com a arquitetura, com a consistência dos dados e com o custo de rodar tudo.
                 </p>
-                <div className="hero-tags" data-testid="hero-tags" data-hero-item>
-                    {TECNOLOGIAS.map((tech) => (
-                        <span className="hero-tag" key={tech}>{tech}</span>
-                    ))}
-                </div>
                 <div className="hero-acoes" data-hero-item>
-                    <Link to="/projetos" className="hero-cta" ref={ctaRef}>Ver projetos</Link>
-                    <Link to="/sobre" className="hero-link-secundario">Sobre meu trabalho</Link>
+                    <Link to="/#projetos" className="hero-cta" ref={ctaRef}>Ver projetos</Link>
+                    <Link to="/#sobre" className="hero-link-secundario">Sobre meu trabalho</Link>
                 </div>
             </div>
             {comCena ? (

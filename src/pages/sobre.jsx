@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-import { Contato } from '../components/Contato';
 import { RetratoSobre } from '../components/RetratoSobre';
 import { useScrollReveal } from '../animations/useScrollReveal';
 
@@ -83,13 +81,12 @@ function Sobre() {
     const formacaoRef = useScrollReveal({ y: 20 });
     const principiosRef = useScrollReveal({ y: 20 });
     const numerosRef = useScrollReveal({ y: 16 });
-    const estudoRef = useScrollReveal({ y: 16 });
 
     return (
-        <main>
+        <section id="sobre" aria-labelledby="sobre-titulo">
             <header className="secao-aberta pagina-cabecalho">
                 <span className="eyebrow">Sobre</span>
-                <h1 className="titulo">Por trás do código</h1>
+                <h2 className="titulo" id="sobre-titulo">Por trás do código</h2>
                 <p className="section-subtitle">
                     Construo sistemas pensando no que acontece por baixo deles.
                 </p>
@@ -213,24 +210,8 @@ function Sobre() {
                         </article>
                     ))}
                 </div>
-
-                <div className="sobre-cta-wrap">
-                    <Link to="/habilidades" className="pagina-boton primario">
-                        Ver habilidades técnicas
-                    </Link>
-                </div>
             </section>
-
-            <section className="secao-aberta sobre-estudo" ref={estudoRef}>
-                <span className="eyebrow">Em estudo agora</span>
-                <p className="sobre-estudo-texto" data-testid="sobre-estudo">
-                    <strong>Go com Fiber</strong>, depois <strong>LangChain</strong> em
-                    TypeScript integrado a <strong>MCP</strong>.
-                </p>
-            </section>
-
-            <Contato />
-        </main>
+        </section>
     );
 }
 

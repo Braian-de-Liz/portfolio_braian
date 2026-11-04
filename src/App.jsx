@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -9,10 +9,13 @@ import { useSmoothScroll } from './hooks/useSmoothScroll';
 import './styles.css';
 
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })));
-const Projetos = lazy(() => import('./pages/projetos').then((m) => ({ default: m.Projetos })));
-const Sobre = lazy(() => import('./pages/sobre').then((m) => ({ default: m.Sobre })));
-const Habilidades = lazy(() => import('./pages/habilidades').then((m) => ({ default: m.Habilidades })));
 const NotFound = lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })));
+
+/** Links antigos (/projetos, /sobre, /habilidades) levam à seção equivalente da página única. */
+function ParaSecao({ id }) {
+    const { hash } = useLocation();
+    return <Navigate to={{ pathname: '/', hash: hash || `#${id}` }} replace />;
+}
 
 function PageFallback() {
     return (
@@ -65,9 +68,9 @@ function App() {
                 <Suspense fallback={<PageFallback />}>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/projetos" element={<Projetos />} />
-                        <Route path="/sobre" element={<Sobre />} />
-                        <Route path="/habilidades" element={<Habilidades />} />
+                        <Route path="/projetos" element={<ParaSecao id="projetos" />} />
+                        <Route path="/habilidades" element={<ParaSecao id="habilidades" />} />
+                        <Route path="/sobre" element={<ParaSecao id="sobre" />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Suspense>

@@ -76,6 +76,8 @@ function ProjetoCase({
                         <img
                             src={imagem.src}
                             alt={imagem.alt}
+                            width={imagem.largura}
+                            height={imagem.altura}
                             loading="lazy"
                             decoding="async"
                         />

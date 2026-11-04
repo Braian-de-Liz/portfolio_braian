@@ -9,6 +9,7 @@ import { CENARIOS_TYPEMARKS } from '../data/typemarks';
 import { Cena3D } from '../components/cenas/Cena3D';
 import { cenaCamadasAmotif, cenaTrilho, criarCenaBarras } from '../components/cenas/cenas';
 import { DetalhesTypeMarks } from '../components/details/DetalhesTypeMarks';
+import { PlaygroundZbr } from '../components/PlaygroundZbr';
 
 const CENA_BARRAS = criarCenaBarras(CENARIOS_TYPEMARKS);
 
@@ -26,10 +27,10 @@ const cadastro = z.object({
 
 function Projetos() {
     return (
-        <main>
+        <section id="projetos" aria-labelledby="projetos-titulo">
             <header className="secao-aberta pagina-cabecalho">
                 <span className="eyebrow">Projetos</span>
-                <h1 className="titulo">Decisões técnicas e resultados</h1>
+                <h2 className="titulo" id="projetos-titulo">Decisões técnicas e resultados</h2>
                 <p className="section-subtitle">
                     Cada case começa pelo problema e pela evidência. Os detalhes de
                     arquitetura, metodologia e trade-offs ficam a um clique.
@@ -44,6 +45,8 @@ function Projetos() {
                 titulo="AMOTIF"
                 imagem={{
                     src: '/ASSETS/imagens/amotif_home.webp',
+                    largura: 1400,
+                    altura: 637,
                     alt: 'Tela inicial do AMOTIF listando projetos musicais colaborativos, com busca, filtro por instrumento e botão para entrar no estúdio',
                     legenda: 'Explorar projetos: busca, filtro por instrumento e entrada direta no estúdio de cada faixa',
                 }}
@@ -126,6 +129,9 @@ function Projetos() {
                 composicao={
                     <>
                         <BlocoCodigo arquivo="cadastro.ts" codigo={EXEMPLO_ZOD} />
+                        <div className="case-playground">
+                            <PlaygroundZbr />
+                        </div>
                         <FluxoTecnico
                             titulo="zbr.pipeline"
                             etapas={[
@@ -163,6 +169,8 @@ function Projetos() {
                 titulo="Tchuu-Tchuu"
                 imagem={{
                     src: '/ASSETS/imagens/tchuu_dashboard.webp',
+                    largura: 1600,
+                    altura: 900,
                     alt: 'Painel do Tchuu-Tchuu com a linha Joinville a Cidade Várzea, horários de partida e chegada e fotos das composições',
                     legenda: 'Painel operacional: trecho monitorado, horários e composições em circulação',
                 }}
@@ -203,7 +211,7 @@ function Projetos() {
                 ]}
                 detalhes={<DetalhesTchuu />}
             />
-        </main>
+        </section>
     );
 }
 

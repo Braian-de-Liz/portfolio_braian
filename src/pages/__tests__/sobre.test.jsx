@@ -14,26 +14,18 @@ describe('Sobre', () => {
         expect(retratos[0]).toHaveAttribute('height');
     });
 
-    it('resume o trabalho em números reais e informa o que está em estudo', () => {
+    it('resume o trabalho em números reais', () => {
         renderWithRouter(<Sobre />);
 
         const numeros = screen.getByTestId('sobre-numeros').textContent;
         for (const n of ['73', '881', '15']) expect(numeros).toContain(n);
-        expect(screen.getByTestId('sobre-estudo').textContent).toMatch(/Go com Fiber/);
     });
 
-    it('fecha com o contato', () => {
+    it('abre a seção com um h2 e organiza o conteúdo em h2', () => {
         renderWithRouter(<Sobre />);
 
-        expect(screen.getByTestId('contato')).toBeInTheDocument();
-        expect(screen.getByRole('link', { name: /delizbraian@gmail\.com/i })).toHaveAttribute('href', 'mailto:delizbraian@gmail.com');
-    });
-
-    it('usa um único h1 e organiza as seções em h2', () => {
-        renderWithRouter(<Sobre />);
-
-        expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
-        expect(screen.getAllByRole('heading', { level: 2 }).length).toBeGreaterThan(2);
+        expect(screen.queryAllByRole('heading', { level: 1 })).toHaveLength(0);
+        expect(screen.getByRole('heading', { level: 2, name: /por trás do código/i })).toBeInTheDocument();
     });
 
     it('mantém trajetória, experiência e formação', () => {
@@ -42,21 +34,6 @@ describe('Sobre', () => {
         expect(screen.getByRole('heading', { name: /evolução técnica/i })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: /experiência/i })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: /formação/i })).toBeInTheDocument();
-    });
-
-    it('oferece currículo e histórico com links seguros', () => {
-        renderWithRouter(<Sobre />);
-
-        const curriculo = screen.getByRole('link', { name: /currículo/i });
-        expect(decodeURIComponent(curriculo.getAttribute('href'))).toContain('/ASSETS/documentos/');
-        expect(curriculo).toHaveAttribute('download');
-    });
-
-    it('leva para habilidades técnicas', () => {
-        renderWithRouter(<Sobre />);
-
-        expect(screen.getByRole('link', { name: /habilidades/i }))
-            .toHaveAttribute('href', '/habilidades');
     });
 
     it('descreve o posicionamento em backend', () => {
