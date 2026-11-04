@@ -2475,3 +2475,6 @@ main { overflow-x: clip; }
     .cena-3d-explorador { height: 420px; }
     .cena-rotulo-rank { font-size: 0.62rem; padding: 0 5px; }
 }
+
+.conteudo { display: contents; }
+.case-metrica-valor, .sobre-numero-valor { font-variant-numeric: tabular-nums; }

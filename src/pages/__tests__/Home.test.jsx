@@ -10,7 +10,7 @@ describe('Home (página única)', () => {
         expect(screen.getByRole('heading', { level: 1, name: /Braian de Liz/i })).toBeInTheDocument();
         await screen.findByTestId('contato', {}, { timeout: 8000 });
 
-        const ids = Array.from(document.querySelectorAll('main > section[id], main > .hero'))
+        const ids = Array.from(document.querySelectorAll('main section[id]'))
             .map((el) => el.id);
         expect(ids).toEqual(['inicio', 'projetos', 'habilidades', 'sobre', 'contato']);
     });

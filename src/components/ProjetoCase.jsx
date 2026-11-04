@@ -1,7 +1,6 @@
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useScrollReveal } from '../animations/useScrollReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,7 +36,6 @@ function ProjetoCase({
     const painelId = `${idBase}-detalhes`;
     const gatilhoId = `${idBase}-gatilho`;
 
-    const secaoRef = useScrollReveal({ y: 20 });
     const figuraRef = useRef(null);
 
     // Parallax leve: a captura de tela desliza dentro da moldura ao rolar.
@@ -62,7 +60,6 @@ function ProjetoCase({
         <article
             id={id}
             className={`projeto-case${destaque ? ' projeto-case-destaque' : ''}`}
-            ref={secaoRef}
         >
             <header className="case-cabecalho">
                 <span className="eyebrow">{categoria}</span>

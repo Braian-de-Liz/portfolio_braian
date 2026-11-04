@@ -1,5 +1,4 @@
 import { RetratoSobre } from '../components/RetratoSobre';
-import { useScrollReveal } from '../animations/useScrollReveal';
 
 const NUMEROS = [
     { valor: '73', rotulo: 'endpoints no AMOTIF' },
@@ -75,12 +74,6 @@ const PRINCIPIOS = [
 ];
 
 function Sobre() {
-    const perfilRef = useScrollReveal({ y: 20 });
-    const trajetoriaRef = useScrollReveal({ y: 20 });
-    const expRef = useScrollReveal({ y: 20 });
-    const formacaoRef = useScrollReveal({ y: 20 });
-    const principiosRef = useScrollReveal({ y: 20 });
-    const numerosRef = useScrollReveal({ y: 16 });
 
     return (
         <section id="sobre" aria-labelledby="sobre-titulo">
@@ -92,7 +85,7 @@ function Sobre() {
                 </p>
             </header>
 
-            <section className="secao-aberta sobre-perfil-secao" ref={perfilRef}>
+            <section className="secao-aberta sobre-perfil-secao">
                 <RetratoSobre />
                 <div className="sobre-perfil-texto">
                 <div className="sobre-prosa">
@@ -134,7 +127,7 @@ function Sobre() {
                 </div>
             </section>
 
-            <section className="secao-aberta" ref={numerosRef} aria-label="Números do trabalho">
+            <section className="secao-aberta" aria-label="Números do trabalho">
                 <ul className="sobre-numeros" data-testid="sobre-numeros">
                     {NUMEROS.map((n) => (
                         <li className="sobre-numero" key={n.rotulo}>
@@ -145,7 +138,7 @@ function Sobre() {
                 </ul>
             </section>
 
-            <section className="secao-aberta" ref={trajetoriaRef}>
+            <section className="secao-aberta">
                 <h2 className="titulo">Evolução técnica</h2>
                 <ol className="timeline">
                     {TRAJETORIA.map((etapa) => (
@@ -160,7 +153,7 @@ function Sobre() {
                 </ol>
             </section>
 
-            <section className="secao-aberta" ref={expRef}>
+            <section className="secao-aberta">
                 <h2 className="titulo">Experiência</h2>
                 <div className="sobre-exp-items">
                     {EXPERIENCIA.map((item) => (
@@ -174,7 +167,7 @@ function Sobre() {
                 </div>
             </section>
 
-            <section className="secao-aberta" ref={formacaoRef}>
+            <section className="secao-aberta">
                 <h2 className="titulo">Formação</h2>
                 <div className="sobre-formacao-items">
                     {FORMACAO.map((item) => (
@@ -200,7 +193,7 @@ function Sobre() {
                 </div>
             </section>
 
-            <section className="secao-aberta" ref={principiosRef}>
+            <section className="secao-aberta">
                 <h2 className="titulo">Como eu decido</h2>
                 <div className="sobre-principios">
                     {PRINCIPIOS.map((principio) => (

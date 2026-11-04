@@ -1,5 +1,3 @@
-import { useScrollReveal } from '../animations/useScrollReveal';
-
 const EMAIL = 'delizbraian@gmail.com';
 
 const LINKS = [
@@ -15,10 +13,8 @@ const LINKS = [
 
 /** Fechamento da página: uma ação principal (e-mail) e caminhos secundários. */
 function Contato() {
-    const ref = useScrollReveal({ y: 24 });
-
     return (
-        <section className="secao-aberta contato" ref={ref} id="contato" data-testid="contato">
+        <section className="secao-aberta contato" id="contato" data-testid="contato">
             <span className="eyebrow">Contato</span>
             <h2 className="contato-titulo">Vamos conversar?</h2>
             <p className="contato-texto">

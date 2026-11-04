@@ -8,6 +8,7 @@ Portfólio de Braian de Liz da Silva: projetos, formação e habilidades de um d
 - **Página única** com navegação por scroll: hero, **Projetos**, **Habilidades**, **Sobre** e **Contato**, nessa ordem. O menu destaca a seção em leitura e leva a cada uma por âncora (`/#projetos`). Os links antigos `/projetos`, `/habilidades` e `/sobre` redirecionam para a seção equivalente. Tudo abaixo do hero vem em um bloco carregado sob demanda.
 - **Cases de projeto** (AMOTIF, TypeMarks, br_standards_with_zod, Tchuu-Tchuu) com arquitetura, métricas e detalhes recolhidos. O case da biblioteca traz um **playground** que roda a lib real do NPM no navegador.
 - **Cenas 3D por seção**, cada uma explicando o conteúdo: camadas de áudio do AMOTIF, colunas de throughput do TypeMarks (com um explorador dos 15 cenários do relatório, filtrável por runtime), trilho com telemetria do Tchuu-Tchuu, constelação da stack em Habilidades e o globo que se desfaz na 404. Só existe uma cena montada por vez perto da tela, e todas somem sem WebGL, com "reduzir movimento" ou economia de dados.
+- **Animações de scroll** (GSAP + ScrollTrigger) coreografadas em um só hook: cabeçalhos entram em sequência com o título em máscara, mídia dos cases abre de dentro para fora, grupos entram em cascata e os números sobem até o valor final. Nada que já está visível ao carregar é escondido, e tudo é desligado com "reduzir movimento".
 - **Hero** com esfera 3D (Three.js): partículas, malha e anéis orbitais. A foto fica na seção Sobre.
 
 ## Stack

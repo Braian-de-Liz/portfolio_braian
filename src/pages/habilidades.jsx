@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { PROJETOS, STACK_ATUAL } from '../data/stack';
 import { Cena3D } from '../components/cenas/Cena3D';
 import { criarCenaConstelacao } from '../components/cenas/cenas';
-import { useScrollReveal } from '../animations/useScrollReveal';
 
 const CENA_STACK = criarCenaConstelacao(STACK_ATUAL.flatMap((g) => g.itens), PROJETOS);
 
@@ -27,8 +26,6 @@ const EM_ESTUDO = [
 ];
 
 function Habilidades() {
-    const atualRef = useScrollReveal({ y: 20 });
-    const estudoRef = useScrollReveal({ y: 20 });
 
     return (
         <section id="habilidades" aria-labelledby="habilidades-titulo">
@@ -48,7 +45,7 @@ function Habilidades() {
                 <Cena3D montar={CENA_STACK} className="cena-3d-stack" />
             </section>
 
-            <section className="secao-aberta" ref={atualRef} data-testid="stack-atual">
+            <section className="secao-aberta" data-testid="stack-atual">
                 <h2 className="titulo">Stack atual</h2>
                 <p className="section-subtitle">
                     Cada evidência leva ao projeto onde a tecnologia foi aplicada.
@@ -84,7 +81,7 @@ function Habilidades() {
                 </div>
             </section>
 
-            <section className="secao-aberta stack-estudo" ref={estudoRef} data-testid="stack-estudo">
+            <section className="secao-aberta stack-estudo" data-testid="stack-estudo">
                 <h2 className="titulo">Em estudo</h2>
                 <p className="section-subtitle">
                     Tecnologias que estou explorando ou pretendo aprofundar, alinhadas
