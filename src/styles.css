@@ -2478,3 +2478,132 @@ main { overflow-x: clip; }
 
 .conteudo { display: contents; }
 .case-metrica-valor, .sobre-numero-valor { font-variant-numeric: tabular-nums; }
+
+/* ---------- Graph Visuals: tour pela interface ---------- */
+.tour-ide { margin: 0 0 var(--space-5); }
+.tour-ide-quadro { position: relative; }
+.tour-ide-recorte {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid var(--border-medium);
+    background: #050506;
+    box-shadow: 0 40px 90px -40px rgba(213, 182, 106, 0.35);
+}
+.tour-ide-recorte img { display: block; width: 100%; height: auto; }
+.tour-ide-area {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 6px;
+    opacity: 0;
+    outline: 2px solid #d5b66a;
+    outline-offset: -2px;
+    box-shadow: 0 0 0 200vmax rgba(3, 5, 9, 0.62);
+    transition: opacity 0.25s ease;
+}
+.tour-ide-area[data-ativo='true'] { opacity: 1; }
+.tour-ide-marca {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin: -14px 0 0 -14px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 227, 161, 0.85);
+    background: rgba(10, 12, 18, 0.82);
+    color: #ffe3a1;
+    font: 600 var(--text-xs) / 1 var(--font-mono);
+    cursor: pointer;
+    box-shadow: 0 0 0 0 rgba(213, 182, 106, 0.55);
+    animation: tour-pulso 2.6s ease-out infinite;
+    transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+.tour-ide-marca:hover,
+.tour-ide-marca:focus-visible,
+.tour-ide-marca[aria-pressed='true'] { background: #d5b66a; color: #0a0c12; transform: scale(1.12); animation: none; }
+@keyframes tour-pulso {
+    0% { box-shadow: 0 0 0 0 rgba(213, 182, 106, 0.55); }
+    70%, 100% { box-shadow: 0 0 0 12px rgba(213, 182, 106, 0); }
+}
+.tour-ide-ampliar {
+    display: inline-block;
+    margin-top: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+}
+.tour-ide-ampliar:hover { color: var(--text-strong); }
+.tour-ide-legenda {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-2);
+}
+.tour-ide-item {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: var(--space-3);
+    text-align: left;
+    font: inherit;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+.tour-ide-item:hover,
+.tour-ide-item:focus-visible,
+.tour-ide-item[aria-pressed='true'] { border-color: rgba(213, 182, 106, 0.6); background: rgba(213, 182, 106, 0.06); }
+.tour-ide-item strong { display: block; color: var(--text-strong); font-weight: 600; font-size: var(--text-sm); }
+.tour-ide-texto { display: block; margin-top: 2px; font-size: var(--text-sm); line-height: 1.55; }
+.tour-ide-numero {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(213, 182, 106, 0.7);
+    color: #ffe3a1;
+    font: 600 var(--text-xs) / 1 var(--font-mono);
+}
+
+/* ---------- Graph Visuals: Graphify 2D x Graph Visuals 3D ---------- */
+.comparativo-grafo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+.comparativo-grafo figure { margin: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.comparativo-grafo-quadro {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    background: #0b0e14;
+}
+.comparativo-grafo-quadro img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.comparativo-grafo figcaption { font-size: var(--text-sm); color: var(--text-muted); line-height: 1.5; }
+.comparativo-grafo figcaption strong { color: var(--text-strong); font-weight: 600; }
+.comparativo-grafo-nota { grid-column: 1 / -1; margin: 0; font-size: var(--text-xs); color: var(--text-muted); }
+
+.cena-rotulo-gravado { border-color: rgba(255, 227, 161, 0.8); color: #ffe3a1; }
+.cena-rotulo-vizinhos { color: #ff8a8e; }
+
+@media (max-width: 600px) {
+    .tour-ide-marca { width: 20px; height: 20px; margin: -10px 0 0 -10px; font-size: 0.62rem; }
+    .comparativo-grafo { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .tour-ide-marca { animation: none; }
+    .tour-ide-area { transition: none; }
+}

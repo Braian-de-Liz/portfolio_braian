@@ -14,6 +14,7 @@ describe('Projetos', () => {
 
         expect(titulos).toEqual([
             'Decisões técnicas e resultados',
+            'Graph Visuals',
             'AMOTIF',
             'TypeMarks',
             'br_standards_with_zod',
@@ -25,7 +26,7 @@ describe('Projetos', () => {
         renderWithRouter(<Projetos />);
 
         const gatilhos = screen.getAllByRole('button', { name: /arquitetura e detalhes/i });
-        expect(gatilhos).toHaveLength(4);
+        expect(gatilhos).toHaveLength(5);
 
         for (const gatilho of gatilhos) {
             expect(gatilho).toHaveAttribute('aria-expanded', 'false');
@@ -116,5 +117,38 @@ describe('Projetos', () => {
         const texto = document.body.textContent;
         expect(texto).toMatch(/100 conex/i);
         expect(texto).toMatch(/5 rodadas/i);
+    });
+
+    it('apresenta a interface do Graph Visuals com um tour legível sem hover', () => {
+        renderWithRouter(<Projetos />);
+
+        const tour = screen.getByTestId('tour-ide');
+        const marcas = tour.querySelectorAll('.tour-ide-marca');
+        const itens = tour.querySelectorAll('.tour-ide-legenda li');
+        expect(marcas.length).toBe(itens.length);
+        expect(itens.length).toBeGreaterThanOrEqual(4);
+        expect(tour.textContent).toMatch(/Grafo 3D do projeto/);
+        expect(tour.querySelector('img')).toHaveAttribute('width', '1919');
+    });
+
+    it('acende a área da interface ao focar um item da legenda', async () => {
+        const user = userEvent.setup();
+        renderWithRouter(<Projetos />);
+
+        const tour = screen.getByTestId('tour-ide');
+        const item = tour.querySelector('.tour-ide-item');
+        await user.click(item);
+
+        expect(item).toHaveAttribute('aria-pressed', 'true');
+        expect(tour.querySelector('.tour-ide-area[data-ativo="true"]')).not.toBeNull();
+    });
+
+    it('compara o Graphify em 2D com o mesmo projeto no Graph Visuals', () => {
+        renderWithRouter(<Projetos />);
+
+        const comparativo = screen.getByTestId('comparativo-grafo');
+        expect(comparativo.querySelectorAll('img')).toHaveLength(2);
+        expect(comparativo.textContent).toMatch(/mesmo projeto/i);
+        expect(screen.getByTestId('graph-visuals-cena-explicacao')).toBeInTheDocument();
     });
 });

@@ -7,10 +7,12 @@ import { DetalhesTchuu } from '../components/details/DetalhesTchuu';
 import { DetalhesAmotif } from '../components/details/DetalhesAmotif';
 import { CENARIOS_TYPEMARKS } from '../data/typemarks';
 import { Cena3D } from '../components/cenas/Cena3D';
-import { cenaCamadasAmotif, cenaTrilho, criarCenaBarras } from '../components/cenas/cenas';
+import { cenaCamadasAmotif, cenaGrafoAtividade, cenaTrilho, criarCenaBarras } from '../components/cenas/cenas';
 import { DetalhesTypeMarks } from '../components/details/DetalhesTypeMarks';
 import { PlaygroundZbr } from '../components/PlaygroundZbr';
 import { ExploradorTypeMarks } from '../components/ExploradorTypeMarks';
+import { TourIDE } from '../components/TourIDE';
+import { DetalhesGraphVisuals } from '../components/details/DetalhesGraphVisuals';
 
 const CENA_BARRAS = criarCenaBarras(CENARIOS_TYPEMARKS);
 
@@ -37,6 +39,84 @@ function Projetos() {
                     arquitetura, metodologia e trade-offs ficam a um clique.
                 </p>
             </header>
+
+            {/* ─── Graph Visuals ─── */}
+            <ProjetoCase
+                categoria="IDE desktop · open source"
+                id="graph-visuals"
+                titulo="Graph Visuals"
+                resumo="IDE leve em que o código vira um grafo 3D e os agentes de IA (Claude Code, Copilot, Codex, OpenCode, Kiro, Antigravity) rodam ao lado, nos próprios CLIs, sem nenhuma intermediação. Quando um agente grava um arquivo, o pedaço do grafo correspondente acende."
+                composicao={
+                    <>
+                        <TourIDE />
+                        <div className="comparativo-grafo" data-testid="comparativo-grafo">
+                            <figure>
+                                <div className="comparativo-grafo-quadro">
+                                    <img
+                                        src="/ASSETS/imagens/graph_visuals_graphify2d.webp"
+                                        alt="Visualizador 2D padrão do Graphify: cerca de 2.000 nós sobrepostos num único emaranhado colorido"
+                                        width={1230}
+                                        height={1060}
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                </div>
+                                <figcaption><strong>Graphify sozinho.</strong> O visualizador 2D que vem com a ferramenta.</figcaption>
+                            </figure>
+                            <figure>
+                                <div className="comparativo-grafo-quadro">
+                                    <img
+                                        src="/ASSETS/imagens/graph_visuals_grafo.webp"
+                                        alt="O mesmo projeto no Graph Visuals: 2.012 nós e 114 comunidades separadas em aglomerados coloridos no espaço 3D"
+                                        width={880}
+                                        height={624}
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                </div>
+                                <figcaption><strong>No Graph Visuals.</strong> Os mesmos dados em 3D: 2.012 nós em 114 comunidades separadas.</figcaption>
+                            </figure>
+                            <p className="comparativo-grafo-nota">
+                                Mesmo projeto (AutoHerness-3D) em momentos diferentes, por isso os números variam um pouco.
+                            </p>
+                        </div>
+                        <Cena3D montar={cenaGrafoAtividade} className="cena-3d-case" />
+                        <p className="cena-explicacao" data-testid="graph-visuals-cena-explicacao">
+                            <strong>Como o grafo acende.</strong> Cada ponto é um arquivo, função ou conceito
+                            do projeto, agrupado por comunidade. Quando um agente grava um arquivo, o File
+                            Watcher avisa a IDE: o nó acende em dourado e os nós ligados a ele, em vermelho.
+                            No app o brilho dura 45 segundos; aqui ele foi acelerado.
+                        </p>
+                        <FluxoTecnico
+                            titulo="graph-visuals.pipeline"
+                            status="Alpha 0.1.0"
+                            etapas={[
+                                { titulo: 'Graphify', itens: ['graph.json'] },
+                                {
+                                    titulo: 'Núcleo Rust',
+                                    itens: ['Tauri 2', 'File Watcher', 'PTY'],
+                                    destaque: true,
+                                    conexao: 'converte',
+                                },
+                                { titulo: 'Layout', itens: ['Web Worker', 'Forças por comunidade'], conexao: 'IPC' },
+                                { titulo: 'Cena', itens: ['three.js', 'Shader próprio'], conexao: 'posições' },
+                            ]}
+                            nota="Os agentes rodam como processos próprios em terminais reais. A IDE nunca injeta prompt, argumento ou variável de ambiente: ela só observa o que vai para o disco."
+                        />
+                    </>
+                }
+                metricas={[
+                    { valor: '2.012', rotulo: 'nós num projeto real' },
+                    { valor: '114', rotulo: 'comunidades' },
+                    { valor: '6', rotulo: 'CLIs de agentes detectados' },
+                    { valor: '~5 MB', rotulo: 'executável, sem Electron' },
+                ]}
+                stack={['Rust', 'Tauri 2', 'React 19', 'TypeScript', 'three.js', 'xterm.js']}
+                links={[
+                    { href: 'https://github.com/Braian-de-Liz/Graph-Visuals', label: 'Ver código' },
+                ]}
+                detalhes={<DetalhesGraphVisuals />}
+            />
 
             {/* ─── AMOTIF ─── */}
             <ProjetoCase

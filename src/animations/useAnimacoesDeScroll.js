@@ -31,6 +31,8 @@ const GRUPOS = [
     '.stack-item',
     '.estudo-bloco',
     '.contato-links li',
+    '.tour-ide-legenda > li',
+    '.comparativo-grafo > figure',
 ];
 
 const CABECALHOS = '.pagina-cabecalho, .case-cabecalho, .contato';

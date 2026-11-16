@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const LINHAS = [
-    ['TypeScript', 'Bun', 'Fastify', 'Hono', 'PostgreSQL', 'Drizzle', 'Prisma', 'TypeBox', 'Zod', 'Node.js'],
+    ['TypeScript', 'Rust', 'Bun', 'Fastify', 'Hono', 'PostgreSQL', 'Drizzle', 'Prisma', 'TypeBox', 'Zod', 'Node.js', 'Tauri'],
     ['Arquitetura', 'Performance', 'APIs', 'Benchmarks', 'Dados', 'Open source'],
 ];
 

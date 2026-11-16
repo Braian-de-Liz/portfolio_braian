@@ -550,3 +550,224 @@ export function cenaGloboPerdido(THREE, { scene, camera, leve }) {
         },
     };
 }
+
+/* ---------- Graph Visuals: um agente grava um arquivo e o grafo acende ---------- */
+const OURO = '#D5B66A';
+const VERMELHO = '#E5484D';
+const AZUL = '#4A8FE7';
+const CINZA = '#7D8799';
+
+/** Gerador determinístico: o grafo sai igual a cada montagem. */
+function aleatorio(semente) {
+    let s = semente >>> 0;
+    return () => {
+        s = (s + 0x6d2b79f5) >>> 0;
+        let t = s;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+}
+
+const ARQUIVOS_GV = ['agents.rs', 'GraphScene.ts', 'watcher.rs', 'pty.rs', 'layout.worker.ts', 'fs_ops.rs', 'App.tsx', 'graph.rs'];
+const PERIODO_ATIVIDADE = 3.4;
+
+/**
+ * Versão pequena do grafo do Graph Visuals: comunidades espalhadas e achatadas
+ * (nem esfera, nem disco), ligadas por arestas. A cada poucos segundos um
+ * "agente grava um arquivo": o nó acende em dourado e os vizinhos em vermelho,
+ * como no app (lá o brilho dura 45 s; aqui é acelerado).
+ */
+export function cenaGrafoAtividade(THREE, { scene, camera, container, leve }) {
+    const baseCamera = new THREE.Vector3(0, 5.4, 9.6);
+    camera.position.copy(baseCamera);
+    camera.lookAt(0, 0, 0);
+
+    const rnd = aleatorio(20261116);
+    const grupo = new THREE.Group();
+    scene.add(grupo);
+
+    const coresComunidade = [OURO, AZUL, VERMELHO, AZUL, OURO, CINZA, VERMELHO, AZUL, OURO, CINZA, AZUL];
+    const nComunidades = leve ? 8 : 11;
+    const fator = leve ? 0.7 : 1;
+
+    const posicoes = [];
+    const tamanhos = [];
+    const coresBase = [];
+    const vizinhos = [];
+    const arestas = [];
+    const hubs = [];
+    const fundo = new THREE.Color('#0a0e15');
+    const cor = new THREE.Color();
+
+    const ligar = (a, b) => {
+        if (a === b) return;
+        arestas.push(a, b);
+        vizinhos[a].push(b);
+        vizinhos[b].push(a);
+    };
+    const novoNo = (p, c, tamanho) => {
+        posicoes.push(p.x, p.y, p.z);
+        tamanhos.push(tamanho);
+        cor.set(c).lerp(fundo, 0.25);
+        coresBase.push(cor.r, cor.g, cor.b);
+        vizinhos.push([]);
+        return vizinhos.length - 1;
+    };
+
+    for (let c = 0; c < nComunidades; c++) {
+        // a primeira comunidade fica no centro, maior; as outras ao redor
+        const angulo = (c / nComunidades) * Math.PI * 2 + rnd() * 0.6;
+        const raio = c === 0 ? 0 : 2.2 + rnd() * 2.6;
+        const centro = new THREE.Vector3(Math.cos(angulo) * raio * 1.3, (rnd() - 0.5) * 1.4, Math.sin(angulo) * raio * 0.85);
+        const tamanho = Math.round((c === 0 ? 46 : 12 + rnd() * 22) * fator);
+        const espalho = 0.35 + Math.cbrt(tamanho) * 0.17;
+        const corC = coresComunidade[c % coresComunidade.length];
+
+        const hub = novoNo(centro, corC, 2.4);
+        hubs.push(hub);
+        const membros = [hub];
+        for (let i = 1; i < tamanho; i++) {
+            const dir = new THREE.Vector3(rnd() - 0.5, (rnd() - 0.5) * 0.6, rnd() - 0.5).normalize();
+            const p = centro.clone().addScaledVector(dir, espalho * Math.cbrt(rnd()));
+            const no = novoNo(p, corC, 0.8 + rnd() * 0.6);
+            ligar(no, rnd() < 0.65 ? hub : membros[Math.floor(rnd() * membros.length)]);
+            membros.push(no);
+        }
+    }
+    // ligações entre comunidades: o centro se liga a quase todas, as outras entre si
+    hubs.forEach((h, i) => { if (i > 0 && rnd() < 0.8) ligar(hubs[0], h); });
+    for (let i = 0; i < nComunidades; i++) {
+        const a = hubs[Math.floor(rnd() * hubs.length)];
+        const b = hubs[Math.floor(rnd() * hubs.length)];
+        if (a !== b) ligar(a, b);
+    }
+    const totalNos = vizinhos.length;
+
+    // poeira: pontos soltos ao redor, sem ligações
+    for (let i = 0; i < (leve ? 90 : 180); i++) {
+        novoNo(new THREE.Vector3((rnd() - 0.5) * 16, (rnd() - 0.5) * 3, (rnd() - 0.5) * 10), CINZA, 0.45);
+        coresBase.splice(coresBase.length - 3, 3, 0.16, 0.18, 0.22);
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(posicoes, 3));
+    const atribCor = new THREE.Float32BufferAttribute(coresBase.slice(), 3);
+    const atribTamanho = new THREE.Float32BufferAttribute(tamanhos.slice(), 1);
+    geo.setAttribute('cor', atribCor);
+    geo.setAttribute('tamanho', atribTamanho);
+
+    const uniforms = { escala: { value: 40 } };
+    const material = new THREE.ShaderMaterial({
+        uniforms,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: `
+            attribute vec3 cor;
+            attribute float tamanho;
+            uniform float escala;
+            varying vec3 vCor;
+            void main() {
+                vCor = cor;
+                vec4 mv = modelViewMatrix * vec4(position, 1.0);
+                gl_PointSize = tamanho * escala / -mv.z;
+                gl_Position = projectionMatrix * mv;
+            }`,
+        fragmentShader: `
+            varying vec3 vCor;
+            void main() {
+                float d = length(gl_PointCoord - 0.5);
+                if (d > 0.5) discard;
+                gl_FragColor = vec4(vCor, smoothstep(0.5, 0.12, d));
+            }`,
+    });
+    grupo.add(new THREE.Points(geo, material));
+
+    const geoArestas = new THREE.BufferGeometry();
+    const pontosArestas = arestas.flatMap((i) => [posicoes[i * 3], posicoes[i * 3 + 1], posicoes[i * 3 + 2]]);
+    geoArestas.setAttribute('position', new THREE.Float32BufferAttribute(pontosArestas, 3));
+    grupo.add(new THREE.LineSegments(
+        geoArestas,
+        new THREE.LineBasicMaterial({ color: '#56637a', transparent: true, opacity: 0.14, depthWrite: false }),
+    ));
+
+    // arestas do arquivo gravado, redesenhadas a cada evento
+    const maxVizinhos = Math.max(...vizinhos.slice(0, totalNos).map((v) => v.length));
+    const geoAtivas = new THREE.BufferGeometry();
+    const bufAtivas = new Float32Array(maxVizinhos * 6);
+    geoAtivas.setAttribute('position', new THREE.BufferAttribute(bufAtivas, 3));
+    const matAtivas = new THREE.LineBasicMaterial({
+        color: OURO, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending,
+    });
+    grupo.add(new THREE.LineSegments(geoAtivas, matAtivas));
+
+    // candidatos: nós com pelo menos dois vizinhos, para o brilho se espalhar
+    const candidatos = [];
+    for (let i = 0; i < totalNos; i++) if (vizinhos[i].length >= 2) candidatos.push(i);
+
+    const rotuloArquivo = criarRotulo(container, '', 'cena-rotulo-camada cena-rotulo-nova cena-rotulo-gravado');
+    const rotuloVizinhos = criarRotulo(container, 'vizinhos', 'cena-rotulo-camada cena-rotulo-vizinhos');
+    const ouroVivo = new THREE.Color('#FFE3A1');
+    const vermelhoVivo = new THREE.Color(VERMELHO).multiplyScalar(1.25);
+    const ponto = new THREE.Vector3();
+    const media = new THREE.Vector3();
+    let eventoAtual = -1;
+    let ativo = candidatos[0];
+    let tocados = [];
+
+    const posDe = (i, alvo) => alvo.set(posicoes[i * 3], posicoes[i * 3 + 1], posicoes[i * 3 + 2]);
+
+    const pintar = (i, base, alvoCor, k, aumento) => {
+        cor.setRGB(coresBase[i * 3], coresBase[i * 3 + 1], coresBase[i * 3 + 2]).lerp(alvoCor, k);
+        atribCor.setXYZ(i, cor.r, cor.g, cor.b);
+        atribTamanho.setX(i, base * (1 + aumento * k));
+    };
+
+    return {
+        atualizar(t, mouse) {
+            ajustarDistancia(camera, baseCamera, 15);
+            camera.lookAt(0, -0.4, 0);
+            uniforms.escala.value = container.clientHeight * Math.min(window.devicePixelRatio || 1, 2) * 0.17;
+
+            const evento = Math.floor(t / PERIODO_ATIVIDADE);
+            if (evento !== eventoAtual) {
+                eventoAtual = evento;
+                tocados.forEach((i) => {
+                    atribCor.setXYZ(i, coresBase[i * 3], coresBase[i * 3 + 1], coresBase[i * 3 + 2]);
+                    atribTamanho.setX(i, tamanhos[i]);
+                });
+                ativo = candidatos[Math.floor(aleatorio(evento + 3)() * candidatos.length)];
+                tocados = [ativo, ...vizinhos[ativo]];
+                rotuloArquivo.textContent = `${ARQUIVOS_GV[evento % ARQUIVOS_GV.length]} · gravado`;
+                posDe(ativo, ponto);
+                vizinhos[ativo].forEach((v, j) => {
+                    bufAtivas.set([ponto.x, ponto.y, ponto.z, posicoes[v * 3], posicoes[v * 3 + 1], posicoes[v * 3 + 2]], j * 6);
+                });
+                geoAtivas.setDrawRange(0, vizinhos[ativo].length * 2);
+                geoAtivas.attributes.position.needsUpdate = true;
+            }
+
+            const fase = (t % PERIODO_ATIVIDADE) / PERIODO_ATIVIDADE;
+            const k = fase < 0.1 ? suave(fase / 0.1) : 1 - suave((fase - 0.1) / 0.9);
+            const kVizinhos = Math.max(0, Math.min(1, (fase - 0.06) / 0.12)) * (1 - suave((fase - 0.1) / 0.9));
+            pintar(ativo, tamanhos[ativo], ouroVivo, k, 2.2);
+            vizinhos[ativo].forEach((v) => pintar(v, tamanhos[v], vermelhoVivo, kVizinhos, 0.9));
+            atribCor.needsUpdate = true;
+            atribTamanho.needsUpdate = true;
+            matAtivas.opacity = kVizinhos * 0.7;
+
+            grupo.rotation.y = t * 0.06 + mouse.x * 0.35;
+            grupo.rotation.x = mouse.y * 0.08;
+            grupo.updateMatrixWorld(true);
+
+            projetar(THREE, grupo.localToWorld(posDe(ativo, ponto)), camera, container, rotuloArquivo, -22);
+            rotuloArquivo.style.opacity = Math.min(1, k * 1.4);
+            media.set(0, 0, 0);
+            vizinhos[ativo].forEach((v) => media.add(posDe(v, ponto)));
+            media.divideScalar(vizinhos[ativo].length);
+            projetar(THREE, grupo.localToWorld(media), camera, container, rotuloVizinhos, 20);
+            rotuloVizinhos.style.opacity = Math.min(1, kVizinhos * 1.4);
+        },
+    };
+}
