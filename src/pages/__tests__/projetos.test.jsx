@@ -151,4 +151,11 @@ describe('Projetos', () => {
         expect(comparativo.textContent).toMatch(/mesmo projeto/i);
         expect(screen.getByTestId('graph-visuals-cena-explicacao')).toBeInTheDocument();
     });
+
+    it('oferece o instalador do Graph Visuals pela última release', () => {
+        renderWithRouter(<Projetos />);
+
+        const baixar = screen.getByRole('link', { name: 'Baixar para Windows' });
+        expect(baixar).toHaveAttribute('href', 'https://github.com/Braian-de-Liz/Graph-Visuals/releases/latest');
+    });
 });

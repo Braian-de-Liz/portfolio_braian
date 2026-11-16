@@ -113,6 +113,7 @@ function Projetos() {
                 ]}
                 stack={['Rust', 'Tauri 2', 'React 19', 'TypeScript', 'three.js', 'xterm.js']}
                 links={[
+                    { href: 'https://github.com/Braian-de-Liz/Graph-Visuals/releases/latest', label: 'Baixar para Windows' },
                     { href: 'https://github.com/Braian-de-Liz/Graph-Visuals', label: 'Ver código' },
                 ]}
                 detalhes={<DetalhesGraphVisuals />}
